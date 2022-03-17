@@ -1,0 +1,140 @@
+// Diagram for loading:
+// Key:
+// # = chamber number,
+// ^ = next chamber to be fired,
+// v = next chamber to be loaded,
+// - = chamber waiting to be fired, 
+// b = bullet,
+// s = spent. 
+//-------------//
+//Reloading:  Always resets the chamber to 0 (shifts bullets to the beginning).
+//-------------//
+// 0 1 2 3 4 5 //
+// b b b b s s //
+// - - - ^ - - //
+//-------------//
+// 0 1 2 3 4 5 //
+// b b b b e e //
+// - - - ^ - - //
+//-------------//
+// 0 1 2 3 4 5 //
+// b b b b b e //
+// - - - - ^ - //
+//-------------//
+
+extend class HDRERevolver
+{
+
+	virtual void A_HDWRevolverLoadAmmo(bool use355)
+	{
+		// Cycles the cylinder.
+		
+		if(!__cylinder[__reload_i])
+			{
+				if(use355)
+					__cylinder[__reload_i] = REV_355;
+				else
+					__cylinder[__reload_i] = REV_9MM;
+				
+				A_StartSound("weapons/deinocyl",8);
+				A_StartSound("weapons/deinoload",8,CHANF_OVERLAP);
+				
+				__reload_i = (__reload_i + REV_CYCLE) % (REV_SIZE);
+				__cylinder_i = __reload_i - 1;
+			}
+	}
+	
+	
+	virtual void A_HDWRevolverLoadFinish()
+	{
+		__unloaded = false;
+		A_StartSound("weapons/deinoclose",8);
+	}
+	
+	
+	// Mimics the revolver's unloading state. 
+	virtual void A_HDWRevolverUnloadAmmo()
+	{
+		// forcibly uncocks.
+		if(__cocked)
+			A_HDWRevolvercockHammer();
+		
+		A_StartSound("weapons/deinoload",8,CHANF_OVERLAP);
+		
+		bool emptied    = false;
+		bool loosed     = true;
+		bool replaced   = false;
+		int  replace_i  = 0;
+		
+		// loose round actor pointer.
+		actor aaa;
+		double cosp;
+		// shoots some casings (a little). 
+		for(int i = 0; i < REV_SIZE; i++)
+		{
+			// Empties rounds.
+			switch(__cylinder[i])
+			{
+				case REV_9MM_SPENT:
+					cosp=cos(pitch);
+					aaa=spawn("HDSpent9mm",
+					(pos.xy,pos.z+height-10)
+					+(cosp*cos(angle),cosp*sin(angle),sin(pitch))*7,
+					ALLOW_REPLACE);
+					aaa.vel=vel+(frandom(-1,1),frandom(-1,1),-1);
+					aaa.angle=angle;
+					emptied = true;
+					break;
+				case REV_355_SPENT:
+					cosp=cos(pitch);
+					aaa=spawn("HDSpent355",
+					(pos.xy,pos.z+height-10)
+					+(cosp*cos(angle),cosp*sin(angle),sin(pitch))*7,
+					ALLOW_REPLACE);
+					aaa.vel=vel+(frandom(-1,1),frandom(-1,1),-1);
+					aaa.angle=angle;
+					emptied = true;
+					break;
+			}
+			if(emptied)
+				{
+					__cylinder[i] = 0;
+					loosed = true;
+					emptied = false;
+				}
+			else
+			{
+				// Cycles bullets to the front. 
+				switch(__cylinder[i])
+				{
+					case REV_9MM:
+						__cylinder[replace_i] = REV_9MM;
+						replace_i++;
+						break;
+					case REV_355:
+						__cylinder[replace_i] = REV_355;
+						replace_i++;
+						break;
+					default:
+						__cylinder[i] = REV_EMPTY;
+						break;
+				}
+			}
+		}
+		if(loosed)
+			A_StartSound("weapons/deinoeject",8,CHANF_OVERLAP);
+		// Prepare for a reload.
+		if(replace_i)
+		{
+			__reload_i = replace_i;
+			__cylinder_i = replace_i - 1;
+		}
+		else
+		{
+			__reload_i = 0;
+			__cylinder_i = 0;
+		}
+		__unloaded   = true;
+
+	}
+}

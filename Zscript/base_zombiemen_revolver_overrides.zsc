@@ -1,0 +1,89 @@
+extend class HDRERevolver
+{
+
+
+	// Initalizes private variables. 
+	override void postbeginplay()
+	{
+		super.postbeginplay();
+		__cylinder_i = 0;
+		__reload_i   = 0;
+		__unloaded   = false;
+		__cocked     = false;
+	}
+	
+	
+	
+	void A_DropAmmo(class<actor> ammoname, int mindrop, int maxdrop)
+	{
+		let aaa = HDRevolverAmmo(Actor.Spawn(ammoname, pos + (0,0,5)));
+		if(aaa)
+			aaa.amount += random(mindrop, maxdrop);
+	}
+	
+	override void deathdrop()
+	{
+		// Only drops a weapon once. 
+		if(!bhasdropped)
+		{
+			// Spawns a brand new revolver. 
+			let www=DropNewWeapon("HDRevolver");
+			int j = (__cylinder_i + 1) % (REV_SIZE);
+			for(int i = 1; i < REV_SIZE + 1; i++)
+			{
+				// Assigns weapon status #'s (see wep_revolver in HD
+				// for details)
+				switch(__cylinder[j])
+				{
+					case REV_9MM:
+						www.weaponstatus[i] = 2;
+						break;
+					case REV_355:
+						www.weaponstatus[i] = 4;
+						break;
+					case REV_9MM_SPENT:
+						www.weaponstatus[i] = 1;
+						break;
+					case REV_355_SPENT:
+						www.weaponstatus[i] = 3;
+						break;
+					default:
+						www.weaponstatus[i] = 0;
+						break;
+				}
+				
+				// Moves to next round.
+				if(j != REV_SIZE - 1)
+					j = (j + REV_CYCLE);
+				else
+					j = 0;
+			}
+			
+			// Drops random ammo from freshly killed zombies. 
+			if(!random(0,6))
+			{
+				if(pref355)
+				{
+					A_DropAmmo('HDRevolverAmmo', 10, 24);
+				}
+				else
+				{
+					A_DropAmmo('HDPistolAmmo', 10, 24);
+				}
+			}
+		}
+		// Always gives ammo for resurrected zombies. 
+		else if(bhasdropped)
+		{
+			if(pref355)
+			{
+				A_DropAmmo('HDRevolverAmmo', 10, 24);
+			}
+			else
+			{
+				A_DropAmmo('HDPistolAmmo', 10, 24);
+			}
+		}
+		Super.Deathdrop();
+	}
+}

@@ -1,0 +1,3 @@
+#include "zscript/squ_evnt_squires.zsc"
+#include "zscript/squ_proj_squirefire.zsc"
+#include "zscript/squ_mob_hellsquire.zsc"

@@ -1,0 +1,43 @@
+// Why enums? They're a bit less intensive to compare with vs. strings,
+// assuming you spawn 1000 revolver zombies, this may matter.
+enum FakeRevolverNumbers : int
+{
+	REV_EMPTY=0,
+	REV_9MM=1,
+	REV_355=2,
+	REV_9MM_SPENT=3,
+	REV_355_SPENT=4,
+}
+
+
+
+enum FakeRevolverMods : int
+{
+	REV_SPEND=2,
+	REV_SIZE=6,
+	REV_CYCLE=1,
+}
+
+
+
+class HDRERevolver : HDREZombieman
+{
+	// Holds """ammo"""
+	int __cylinder[REV_SIZE];
+	// This rotates, not the array. 
+	int  __cylinder_i;
+	// Always cued for a reload. 
+	int  __reload_i;
+	// Toggled when reloading.
+	bool __unloaded;
+	// Required when firing (otherwise cocks as a state in revolverzombieman).
+	bool __cocked;
+	bool pref355;
+	
+}
+
+#include "zscript/base_zombiemen_revolver_overrides.zsc"
+#include "zscript/base_zombiemen_revolver_randomizeammo.zsc"
+#include "zscript/base_zombiemen_revolver_misc.zsc"
+#include "zscript/base_zombiemen_revolver_shooting.zsc"
+#include "zscript/base_zombiemen_revolver_reloading.zsc"

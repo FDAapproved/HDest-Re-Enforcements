@@ -1,0 +1,79 @@
+// Utility functions and overrides for zombieman-replacing classes. 
+// Inheritance means that ACS SHOULD be able to recognize all of these as zombies.
+class HDREZombieman : ZombieStormtrooper
+{
+
+	// 'ammo' themed accumulators and unload flags.
+	// These are standardized versions of HD's zombie counters. 
+	// primary, secondary, battery (can really be used for anything, though).
+	int      ammo_p;
+	bool   unload_p;
+	
+	int      ammo_s;
+	bool   unload_s;
+	
+	int      ammo_b;
+	bool   unload_b;
+	
+	// # of shots in the current burst. Accessed directly by actors. 
+	int    burstNumber;
+	
+	// Accumulator for burst fire. Accessed directly by actors. 
+	int    burst_i;
+	
+	// Accumulator for 'held' aim frames. 
+	int    aim_i;
+	
+	// Property for A_HDTurn. Can be manually accessed (usually is not).  
+	double turnamount;
+	
+	
+	
+// Toggles and phseudo-constants. Set these via default{}.
+//------------------------------------------------------------------------------
+
+	// The amount of frames subtracted (or added, if you make this negative)
+	// from an enemy when they're focused on something. 
+	int    focusFactor;
+	property focusFactor: focusFactor;
+	
+	// Easily set-able constants for aiming.
+	int    aimTimeNormal;
+	property aimTimeNormal: aimTimeNormal;
+	
+	int    aimTimePained;
+	property aimTimePained: aimTimePained;
+	
+	
+	// Whether or not this enemy will lose focus (always lost by HDForget()).
+	bool canFlinch;
+	property canFlinch: canFlinch;
+	
+// "Private" variables for this class's functions. Do not touch these unless 
+// you're making a child base class.
+//------------------------------------------------------------------------------
+	// Whether or not this enemy is focused on a target.
+	bool   __isFocused;
+	
+	// The current time the enemy has spent hunting. 
+	bool    __isPained;
+	
+	
+	// Defaults. 
+	default
+	{
+
+		HDREZombieman.aimTimeNormal   10;
+		HDREZombieman.aimTimePained   20;
+		
+		HDREZombieman.focusFactor  5;
+		HDREZombieman.canFlinch   true;
+	}
+}
+
+// Other includes for specific functions/categories of class changes. 
+#include "zscript/base_zombiemen_overrides.zsc"
+#include "zscript/base_zombiemen_a_hdaim.zsc"
+#include "zscript/base_zombiemen_a_hdforget.zsc"
+#include "zscript/base_zombiemen_a_hdturn.zsc"
+#include "zscript/base_zombiemen_a_hddie.zsc"
