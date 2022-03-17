@@ -1,0 +1,10 @@
+OptionMenu HDestReEnforcements
+{
+	Title "HDest Re-Enforcements Options"
+	StaticText "Monster Module Options", "cyan"
+}
+
+AddOptionMenu "OptionsMenu"
+{
+	Submenu "HDest Re-Enforcements Options", "HDestReEnforcements"
+}

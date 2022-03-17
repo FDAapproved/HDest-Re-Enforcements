@@ -1,0 +1,1 @@
+alias squ_reset_cvars "resetcvar squ_regulars_spawn_bias; resetcvar squ_fireballers_spawn_bias; resetcvar squ_healers_spawn_bias; resetcvar squ_persistent_spawning;"

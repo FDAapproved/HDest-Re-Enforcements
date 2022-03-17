@@ -1,0 +1,7 @@
+// brl o fun that'll make you run. 
+server int  brl_barrel_spawn_bias  = 49;
+server int  brl_barrel_bale_bias   = -2;
+server int  brl_firecan_spawn_bias = 49;
+server int  brl_firecan_fire_bias  = -2;
+server bool brl_persistent_spawning = false;
+server bool brl_obviousness         = false;

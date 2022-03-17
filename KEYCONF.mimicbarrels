@@ -1,0 +1,1 @@
+alias brl_reset_cvars "resetcvar  brl_barrel_spawn_bias; resetcvar  brl_barrel_bale_bias; resetcvar  brl_firecan_spawn_bias; resetcvar  brl_firecan_fire_bias; resetcvar brl_persistent_spawning; resetcvar brl_obviousness;"

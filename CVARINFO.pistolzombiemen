@@ -1,0 +1,7 @@
+// Pistol Zombies are a thing already? Aw, psz... 
+server int  psz_autos_spawn_bias     = 9;
+server int  psz_semis_spawn_bias     = 4;
+server int  psz_smgs_spawn_bias      = 9;
+server int  psz_corpse_spawn_bias    = 9;
+server int  psz_firemode_chance_bias = 49;
+server bool psz_persistent_spawning  = false;

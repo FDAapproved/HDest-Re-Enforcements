@@ -1,0 +1,88 @@
+OptionMenu RealKillerBarrels
+{
+
+	Title "Mimic Barrel Options"
+   	StaticText "Notice:", 1
+    StaticText  "Setting 'spawn rate' to Replace All will supress    ", "white"
+    StaticText  "normal barrel spawns.                               ", "white"
+   	StaticText ""
+	StaticText ""
+	StaticText "Behavior Options", "cyan"
+    StaticText  "Control whether mimic barrels are obvious to spot.", "white"
+	Option "Obvious Mimics: ", "brl_obviousness", "OnOff"
+	SafeCommand "Reset behavior options", "resetcvar brl_obviousness"
+   	StaticText ""
+	StaticText ""
+	StaticText "Barrel Spawn Options", "cyan"
+    StaticText  "Control the spawn rate of Mimic Barrels.", "white"
+	Option "Spawn Rate: ", "brl_barrel_spawn_bias", "SpawnBias"
+	SafeCommand "Reset b.spawn options", "resetcvar brl_barrel_spawn_bias"
+   	StaticText ""
+    StaticText  "Control the spawn rate of bale-firing mimic barrels.", "white"
+	Option "Bale Spawn Rate: ", "brl_barrel_bale_bias", "BaleSpawnBias"
+	SafeCommand "Reset b.bale spawn options", "resetcvar brl_barrel_bale_bias"
+    StaticText ""
+	StaticText ""
+	StaticText "Firecan Spawn Options", "cyan"
+    StaticText  "Control the spawn rate of Mimic Firecans.", "white"
+	Option "Spawn Rate: ", "brl_firecan_spawn_bias", "SpawnBias"
+	SafeCommand "Reset c.spawn options", "resetcvar brl_firecan_spawn_bias"
+   	StaticText ""
+    StaticText  "Control the spawn rate of fire-firing mimic firecans.", "white"
+	Option "Fire Spawn Rate: ", "brl_firecan_fire_bias", "BaleSpawnBias"
+	SafeCommand "Reset c.fire spawn options", "resetcvar brl_firecan_fire_bias"
+	StaticText ""
+    StaticText  "Control whether replacements happen after a mapload.", "white"
+	Option "Persistent Spawns: ", "brl_persistent_spawning", "OnOff"
+	SafeCommand "Reset persistence  options", "resetcvar brl_persistent_spawning"
+ 	StaticText ""
+   	StaticText ""
+	StaticText "Reset Options", "cyan"
+	SafeCommand "Reset all options    ", "brl_reset_cvars"
+}
+
+
+
+
+OptionValue "BaleSpawnBias"
+{
+	-1,    "Disabled"
+	-2,    "Vanilla"
+	 0,    "Replace All"
+	 2,    "1 in 3"
+	 4,    "1 in 5"
+	 9,    "1 in 10"
+	 14,   "1 in 15"
+	 19,   "1 in 20"
+	 24,   "1 in 25"
+	 49,   "1 in 50"
+	 99,   "1 in 100"
+	 149,  "1 in 150"
+	 199,  "1 in 200"
+}
+
+
+
+
+OptionValue "SpawnBias"
+{
+	-1,    "Disabled"
+	 0,    "Replace All"
+	 2,    "1 in 3"
+	 4,    "1 in 5"
+	 9,    "1 in 10"
+	 14,   "1 in 15"
+	 19,   "1 in 20"
+	 24,   "1 in 25"
+	 49,   "1 in 50"
+	 99,   "1 in 100"
+	 149,  "1 in 150"
+	 199,  "1 in 200"
+}
+
+
+
+AddOptionMenu "HDestReEnforcements"
+{
+	Submenu "Mimic Barrel Options", "RealKillerBarrels"
+}
