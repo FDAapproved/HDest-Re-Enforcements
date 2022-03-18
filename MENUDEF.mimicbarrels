@@ -84,5 +84,6 @@ OptionValue "SpawnBias"
 
 AddOptionMenu "HDestReEnforcements"
 {
-	Submenu "Mimic Barrel Options", "RealKillerBarrels"
+	StaticText ""
+	Submenu "Mimic Barrels", "RealKillerBarrels"
 }

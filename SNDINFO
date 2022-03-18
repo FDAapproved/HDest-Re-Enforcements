@@ -1,3 +1,25 @@
+// Hell Squire Sounds
+squire/sight  DSSQRSIT
+squire/death  DSSQRDTH
+squire/active DSDMACT
+squire/pain   DSDMPAIN
+squire/melee  DSCLAW
+
+// Hell Squire Fireball Sounds
+fireball/fire dsfirmfi
+fireball/hit dsfirex3
+
+
+// Pistol Zombie Sounds
+zpistol/sight   dsposit
+zpistol/active  dsposact
+zpistol/pain    dspopain
+zpistol/death1  dspodth1
+zpistol/death2  dspodth2
+zpistol/death3  dspodth3
+$random zpistol/death {zpistol/death1 zpistol/death2 zpistol/death3}
+
+
 // Revolver Zombie Sounds
 zocelot/sight   dsposit
 zocelot/active  dsposact
@@ -7,10 +29,5 @@ zocelot/death2  dspodth2
 zocelot/death3  dspodth3
 $random zocelot/death {zocelot/death1 zocelot/death2 zocelot/death3}
 
-// Hell Squire Sounds
-squire/sight DSSQRSIT
-squire/death DSSQRDTH
-
-// Hell Squire Fireball Sounds
-fireball/fire dsfirmfi
-fireball/hit dsfirex3
+// Mimic Barrel Sounds
+bmimic/pain dsbspact

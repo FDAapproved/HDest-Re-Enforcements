@@ -69,5 +69,6 @@ OptionValue "SpawnBias"
 
 AddOptionMenu "HDestReEnforcements"
 {
-	Submenu "Pistol Zombies Options", "PistolZombies"
+	StaticText ""
+	Submenu "Pistol Zombies", "PistolZombies"
 }

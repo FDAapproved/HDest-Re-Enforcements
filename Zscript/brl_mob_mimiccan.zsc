@@ -318,7 +318,6 @@ class MimicCan : MimicBarrel
 		}
 		BEXP C 0 A_BarrelBlast();
 		BEXP D 2 bright{
-			if(painsound!="barrel/pain")A_SpawnItemEx("BFGNecroShard",0,0,24,0,0,8,0,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS,64);
 			A_SpawnChunks("HDSmokeChunk",random(2,5),7,16);
 			A_Scream();
 			DistantQuaker.Quake(self,6,42,512,10);

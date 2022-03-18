@@ -13,7 +13,7 @@ extend class HDRERevolver
 	}
 	
 	
-	
+	// For dropping an ammunition type. 
 	void A_DropAmmo(class<actor> ammoname, int mindrop, int maxdrop)
 	{
 		let aaa = HDRevolverAmmo(Actor.Spawn(ammoname, pos + (0,0,5)));

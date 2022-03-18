@@ -50,5 +50,6 @@ OptionValue "SpawnBias"
 
 AddOptionMenu "HDestReEnforcements"
 {
-	Submenu "Hell Squire Options", "HellSquires"
+	StaticText ""
+	Submenu "Hell Squires", "HellSquires"
 }

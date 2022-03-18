@@ -1,3 +1,7 @@
+//------------------------------------------------------------------------------
+// See, you hold pistol like -this-
+//------------------------------------------------------------------------------
+
 // Dead corpse, because corpse variety is neat. 
 class PistolZombiemanCorpse: PistolZombieman
 {
@@ -36,6 +40,27 @@ class PistolZombieman : HDREZombieman
 	{
 		user_weapon = int(value) + 1;
 	}
+
+	//defaults
+	default{
+		//$Category "Monsters/Hideous Destructor"
+		//$Title "Pistol Zombie"
+		//$Sprite "POSSA1"
+
+		seesound "zpistol/sight";
+		painsound "zpistol/pain";
+		deathsound "zpistol/death";
+		activesound "zpistol/active";
+		tag "Zombieman (Pistol)";
+
+		radius 10;
+		speed 12;
+		mass 100;
+		painchance 200;
+		obituary "%o couldn't hit a pistol zombie.";
+		hitobituary "%o was whipped by a pistol zombie.";
+	}
+
 
 	override void postbeginplay()
 	{
@@ -201,27 +226,7 @@ class PistolZombieman : HDREZombieman
 		A_StartSound("weapons/pismagclick",8);
 		return true;
 	}
-
-
-	//defaults and states
-	default{
-		//$Category "Monsters/Hideous Destructor"
-		//$Title "Pistol Zombie"
-		//$Sprite "POSSA1"
-
-		seesound "grunt/sight";
-		painsound "grunt/pain";
-		deathsound "grunt/death";
-		activesound "grunt/active";
-		tag "$Zombieman (Pistol)";
-
-		radius 10;
-		speed 12;
-		mass 100;
-		painchance 200;
-		obituary "%o couldn't hit a pistol zombie.";
-		hitobituary "%o was whipped by a pistol zombie.";
-	}
+	
 	states
 	{
 	
@@ -271,7 +276,7 @@ class PistolZombieman : HDREZombieman
 			A_SetTics(random(30,80));
 			if(!random(0,7))
 			{
-				A_Vocalize("grunt/active");
+				A_Vocalize("zpistol/active");
 			}
 		}
 		goto SpawnIdle;

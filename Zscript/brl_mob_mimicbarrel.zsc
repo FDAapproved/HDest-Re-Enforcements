@@ -63,7 +63,7 @@ class MimicBarrel : HDBarrel
 			meleethreshold 20;
 			deathsound "world/barrelx";
 			translation "176:191=96:111","64:79=104:111";
-			painsound "barrel/pain";
+			painsound "bmimic/pain";
 			bloodcolor "ba ff 86";bloodtype "NotQuiteBloodSplat";
 			obituary "%o got cream of canned!";
 			
@@ -92,7 +92,7 @@ class MimicBarrel : HDBarrel
 	// Only ever is fully called whenever lastshouted is 0;
 	if(!lastshouted && health > 0 && vel != (0,0,0) && !(random(0, 150)))
 	{
-		A_StartSound("barrel/pain",CHAN_BODY);
+		A_StartSound("bmimic/pain",CHAN_BODY);
 		lastshouted = 106;
 	}
 	
@@ -344,7 +344,6 @@ class MimicBarrel : HDBarrel
 		}
 		BEXP C 0 A_BarrelBlast();
 		BEXP D 2 bright{
-			if(painsound!="barrel/pain")A_SpawnItemEx("BFGNecroShard",0,0,24,0,0,8,0,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS,64);
 			A_SpawnChunks("HDSmokeChunk",random(2,5),7,16);
 			A_Scream();
 			DistantQuaker.Quake(self,6,42,512,10);

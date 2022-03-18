@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// Shield Little Knightmares!
+// Shielded Little Knightmares!
 // -----------------------------------------------------------------------------
 
 // Copy of PAINMONSTER
@@ -51,9 +51,10 @@ class HellSquire : minipainmonster
 		health     150;
 		
 		seesound    "squire/sight";
-		activesound "knight/active";
-		painsound   "knight/pain";
-		deathsound "squire/death";
+		meleesound  "squire/melee";
+		activesound "squire/active";
+		painsound   "squire/pain";
+		deathsound  "squire/death";
 		obituary    "%o was fired by a'squired.";
 		hitobituary "%o ate shield and died.";
 		tag "Hell Squire";
@@ -110,7 +111,7 @@ class HellSquire : minipainmonster
 			if(bambush)setstatelabel("spawn");
 			else{
 				A_SetTics(random(1,3));
-				if(!random(0,5))A_StartSound("knight/active",CHAN_VOICE);
+				if(!random(0,5))A_StartSound("squire/active",CHAN_VOICE);
 				if(!random(0,5))setstatelabel("spwander");
 			}
 		}loop;
@@ -244,7 +245,7 @@ class HellSquire : minipainmonster
 		BOS6 E 6 A_FaceTarget();
 		BOS6 F 2;
 		BOS6 G 6{
-			A_CustomMeleeAttack(random(20,40),"baron/melee","","claws",true);
+			A_CustomMeleeAttack(random(20,40),"squire/melee","","claws",true);
 			if(!random(0,3))return;
 			actor aaa;int bbb;
 			[bbb,aaa]=A_SpawnItemEx("SquireFireBall",

@@ -1,0 +1,6 @@
+AddOptionMenu "HDestReEnforcements"
+{
+	StaticText ""
+	StaticText ""
+	SafeCommand "Reset all options", "hdre_reset_cvars"
+}
