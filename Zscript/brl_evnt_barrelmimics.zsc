@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//
+// You thought fire was bad? You sweet, wooden barrel. 
 //------------------------------------------------------------------------------
 
 class RealKillerBarrelEvent : eventhandler
@@ -64,7 +64,7 @@ class RealKillerBarrelEvent : eventhandler
 		if(giverandom(chance))
 		{
 
-			let aaa = MimicBarrel(e.thing.spawn("MimicBarrel", e.thing.pos));
+			let aaa = MimicBarrel(e.thing.Spawn("MimicBarrel", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
 			if(giverandom(balechance))
 			{
 				aaa.musthavegremlin = 1;
@@ -89,8 +89,7 @@ class RealKillerBarrelEvent : eventhandler
 	{
 		if(giverandom(chance))
 		{
-
-			let aaa = MimicCan(e.thing.spawn("MimicCan", e.thing.pos));
+			let aaa = MimicCan(e.thing.Spawn("MimicCan", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
 			if(giverandom(balechance))
 			{
 				aaa.musthavegremlin = 1;

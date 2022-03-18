@@ -56,8 +56,14 @@ class HellSquireEvent : eventhandler
 	{
 		if(giverandom(chance))
 		{
-			e.thing.A_SpawnItemEx("HDHellSquire", flags:SXF_NOCHECKPOSITION);
-			e.thing.destroy();
+			let sss = HDHellSquire(e.thing.Spawn("HDHellSquire", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
+			if(sss)
+			{
+				
+				e.thing.destroy();
+			}
+			
+
 
 		}
 	}

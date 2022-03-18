@@ -1,5 +1,0 @@
-// squ-suq-squat are you talking about???
-server int  squ_regulars_spawn_bias    = 49;
-server int  squ_fireballers_spawn_bias = 9;
-server int  squ_healers_spawn_bias     = 19;
-server bool squ_persistent_spawning    = false;

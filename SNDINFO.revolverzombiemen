@@ -1,8 +1,0 @@
-// In case anyone wants to define custom sounds.
-zocelot/sight   dsposit
-zocelot/active  dsposact
-zocelot/pain    dspopain
-zocelot/death1  dspodth1
-zocelot/death2  dspodth2
-zocelot/death3  dspodth3
-$random zocelot/death {zocelot/death1 zocelot/death2 zocelot/death3}

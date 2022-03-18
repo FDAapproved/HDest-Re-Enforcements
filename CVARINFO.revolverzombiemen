@@ -1,7 +1,0 @@
-// I may... rvz... these names later.
-server int  rvz_autos_spawn_bias    = 9;
-server int  rvz_semis_spawn_bias    = 4;
-server int  rvz_smgs_spawn_bias     = 9;
-server int  rvz_corpse_spawn_bias   = 9;
-server int  rvz_355_chance_bias     = 49;
-server bool rvz_persistent_spawning = false;

@@ -1,0 +1,94 @@
+Hell Squire Credits
+--------------------------------------------------------------------------------
+ Zscript by FDA,
+ original idea by FDA on the HDDiscord,
+ GLDEFS by Woolie Wool,
+ Based on code taken from Hideous Destructor's mob_painbringer.zs.
+--------------------------------------------------------------------------------
+================================================================================
+Sprite Credits
+--------------------------------------------------------------------------------
+	HellSquire
+--------------------------------------------------------------------------------
+	BOS6 A...V:
+	- Id Software, Woolie Wool, Vader, Jekyll Grim Payne.
+	- Unchanged. 
+	- https://www.realm667.com/index.php/en/beastiary-mainmenu-136-69621/doom-style-mainmenu-105-73113/733-squire
+--------------------------------------------------------------------------------
+	Squire Fire Ball
+--------------------------------------------------------------------------------
+	HHFX A...G:
+	- Raven Software, Woolie Wool, Vader, Jekyll Grim Payne.
+	- Unchanged. 
+	- https://www.realm667.com/index.php/en/beastiary-mainmenu-136-69621/doom-style-mainmenu-105-73113/733-squire
+--------------------------------------------------------------------------------
+	Squire Smoke
+--------------------------------------------------------------------------------
+	SMK1 A...J:
+	- Vader.
+	- Unchanged. 
+	- https://www.realm667.com/index.php/en/beastiary-mainmenu-136-69621/doom-style-mainmenu-105-73113/733-squire
+--------------------------------------------------------------------------------
+================================================================================
+Sounds by: Id Software, Perkistian, Woolie Wool. 
+--------------------------------------------------------------------------------
+
+
+
+Mimic Barrel Credits
+--------------------------------------------------------------------------------
+ Zscript by FDA,
+ original idea by FDA on the HDDiscord,
+ original monster concept from SunMadCat's insanely varied ZD monster pack. 
+ Based on code taken from Hideous Destructor's mob_barrels.zs.
+--------------------------------------------------------------------------------
+================================================================================
+Sprite Credits
+--------------------------------------------------------------------------------
+	Mimic Barrels
+--------------------------------------------------------------------------------
+	BALE A...E:
+	- Id Software, SunMadCat
+	- Added sprite E, altered sprite C to mimic barrel graphic alternations.
+	- https://zandronum.com/forum/viewtopic.php?t=4445
+	BALF A...E:
+	- Id Software, SunMadCat, FDA
+	- Spliced BALEA...E's legs onto firecan graphics from Doom and Doom 2. 
+	- https://zandronum.com/forum/viewtopic.php?t=4445
+--------------------------------------------------------------------------------
+
+
+
+Pistol Zombie Credits
+--------------------------------------------------------------------------------
+ Original idea by Poetobloke on the HDDiscord. 
+ Zscript by FDA, Matt (Hideous Destructor, mob_pistolzombie.zsc).
+--------------------------------------------------------------------------------
+================================================================================
+Sprite Credits
+--------------------------------------------------------------------------------
+	Pistol Zombie
+--------------------------------------------------------------------------------
+ZMPS A...U:
+	- JoeyTD (rotations), NeoDoom (original), Potetobloke (helmet).
+	- Unchanged. 
+--------------------------------------------------------------------------------
+
+
+
+Revolver Zombie Credits
+--------------------------------------------------------------------------------
+ Zscript by FDA,
+ original idea by the HDDiscord,
+ Based on code taken from Hideous Destructor's mob_ai.zs, wep_revolver.zs.
+--------------------------------------------------------------------------------
+================================================================================
+Sprite Credits
+--------------------------------------------------------------------------------
+	Revolver Zombie
+--------------------------------------------------------------------------------
+	HARY A...W:
+	- Dirty Harry skin by Mike12, used in shut up and bleed: 
+	  https://forum.zdoom.org/viewtopic.php?t=47302
+	- Recolored revolver to match HD's blued sprites.
+--------------------------------------------------------------------------------

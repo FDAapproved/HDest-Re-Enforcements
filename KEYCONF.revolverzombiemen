@@ -1,1 +1,0 @@
-alias rvz_reset_cvars "resetcvar rvz_persistent_spawning; resetcvar rvz_corpse_spawn_bias; resetcvar rvz_corpse_spawn_bias; resetcvar rvz_smgs_spawn_bias; resetcvar rvz_semis_spawn_bias; resetcvar rvz_autos_spawn_bias; resetcvar rvz_autos_spawn_bias; resetcvar rvz_firemode_chance_bias;"

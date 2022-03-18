@@ -1,0 +1,16 @@
+// Revolver Zombie Sounds
+zocelot/sight   dsposit
+zocelot/active  dsposact
+zocelot/pain    dspopain
+zocelot/death1  dspodth1
+zocelot/death2  dspodth2
+zocelot/death3  dspodth3
+$random zocelot/death {zocelot/death1 zocelot/death2 zocelot/death3}
+
+// Hell Squire Sounds
+squire/sight DSSQRSIT
+squire/death DSSQRDTH
+
+// Hell Squire Fireball Sounds
+fireball/fire dsfirmfi
+fireball/hit dsfirex3

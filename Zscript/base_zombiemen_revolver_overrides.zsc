@@ -29,34 +29,37 @@ extend class HDRERevolver
 			// Spawns a brand new revolver. 
 			let www=DropNewWeapon("HDRevolver");
 			int j = (__cylinder_i + 1) % (REV_SIZE);
-			for(int i = 1; i < REV_SIZE + 1; i++)
+			if(www)
 			{
-				// Assigns weapon status #'s (see wep_revolver in HD
-				// for details)
-				switch(__cylinder[j])
+				for(int i = 1; i < REV_SIZE + 1; i++)
 				{
-					case REV_9MM:
-						www.weaponstatus[i] = 2;
-						break;
-					case REV_355:
-						www.weaponstatus[i] = 4;
-						break;
-					case REV_9MM_SPENT:
-						www.weaponstatus[i] = 1;
-						break;
-					case REV_355_SPENT:
-						www.weaponstatus[i] = 3;
-						break;
-					default:
-						www.weaponstatus[i] = 0;
-						break;
+					// Assigns weapon status #'s (see wep_revolver in HD
+					// for details)
+					switch(__cylinder[j])
+					{
+						case REV_9MM:
+							www.weaponstatus[i] = 2;
+							break;
+						case REV_355:
+							www.weaponstatus[i] = 4;
+							break;
+						case REV_9MM_SPENT:
+							www.weaponstatus[i] = 1;
+							break;
+						case REV_355_SPENT:
+							www.weaponstatus[i] = 3;
+							break;
+						default:
+							www.weaponstatus[i] = 0;
+							break;
+					}
+					
+					// Moves to next round.
+					if(j != REV_SIZE - 1)
+						j = (j + REV_CYCLE);
+					else
+						j = 0;
 				}
-				
-				// Moves to next round.
-				if(j != REV_SIZE - 1)
-					j = (j + REV_CYCLE);
-				else
-					j = 0;
 			}
 			
 			// Drops random ammo from freshly killed zombies. 

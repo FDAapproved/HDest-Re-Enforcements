@@ -1,3 +1,0 @@
-#include "zscript/brl_mob_mimicbarrel.zsc"
-#include "zscript/brl_mob_mimiccan.zsc"
-#include "zscript/brl_evnt_barrelmimics.zsc"

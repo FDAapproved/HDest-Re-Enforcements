@@ -75,6 +75,7 @@ void trycreatecorpse(worldevent e, int chance)
 				{
 					zzz.A_setfiremode(false);
 				}
+				
 				// Remove the original mob. 
 				e.thing.destroy();
 
@@ -100,6 +101,9 @@ void trycreatecorpse(worldevent e, int chance)
 				{
 					zzz.A_setfiremode(false);
 				}
+				// Copy the original actor's angle.
+				zzz.angle = e.thing.angle;
+				
 				// Remove the original mob. 
 				e.thing.destroy();
 

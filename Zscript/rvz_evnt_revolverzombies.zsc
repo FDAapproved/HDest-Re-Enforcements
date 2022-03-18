@@ -63,7 +63,7 @@ void trycreatecorpse(worldevent e, int chance)
 	{
 		if(giverandom(chance))
 		{
-			let zzz = RevolverZombieman(e.thing.spawn("revolverzombiemancorpse", e.thing.pos));
+			let zzz = RevolverZombieman(e.thing.Spawn("RevolverZombiemanCorpse", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
 			
 			if(zzz)
 			{
@@ -76,6 +76,8 @@ void trycreatecorpse(worldevent e, int chance)
 					zzz.A_setpreference(false);
 				}
 				zzz.A_HDWRevolverRandomizeAmmo();
+				// Copy the original actor's angle.
+				zzz.angle = e.thing.angle;
 				// Remove the original mob. 
 				e.thing.destroy();
 
@@ -88,7 +90,7 @@ void trycreatecorpse(worldevent e, int chance)
 	{
 		if(giverandom(chance))
 		{
-			let zzz = RevolverZombieman(e.thing.spawn("revolverzombieman", e.thing.pos));
+			let zzz = RevolverZombieman(e.thing.Spawn("RevolverZombieman", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
 			
 			if(zzz)
 			{
@@ -101,6 +103,8 @@ void trycreatecorpse(worldevent e, int chance)
 					zzz.A_setpreference(false);
 				}
 				zzz.A_HDWRevolverRandomizeAmmo();
+				// Copy the original actor's angle.
+				zzz.angle = e.thing.angle;
 				// Remove the original mob. 
 				e.thing.destroy();
 
