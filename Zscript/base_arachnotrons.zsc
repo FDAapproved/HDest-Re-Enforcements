@@ -1,0 +1,19 @@
+// -----------------------------------------------------------------------------
+// Inherits Technospider behaviors. 
+// -----------------------------------------------------------------------------
+class HDREArachnotron : TechnoSpider
+{
+	override void deathdrop()
+	{
+		if(!bhasdropped)
+		{
+			bhasdropped = true;
+			let mmm = HDMagAmmo.SpawnMag(self,"HDBattery",battery);
+			if(mmm)
+			{
+				mmm.vel=vel+(frandom(-1,1),frandom(-1,1),1);
+			}
+			if(!random(0,31))A_DropItem("Putto");
+		}
+	}
+}

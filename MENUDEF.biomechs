@@ -1,0 +1,57 @@
+OptionMenu BioMechs
+{
+
+	Title "Biomechanoids Options"
+   	StaticText "Notice:", 1
+    StaticText  "Setting 'spawn rate' to Replace All will supress    ", "white"
+    StaticText  "all arachnotron spawns.                             ", "white"
+ 	StaticText ""
+   	StaticText ""
+	StaticText "Spawn Options", "cyan"
+   	StaticText ""
+	StaticText "Minor Biomechs", 1
+    StaticText  "Control the spawn rate of Biomechs (minor).        ", "white"
+	Option " Minor Spawn Rate: ", "bio_spawn_bias", "SpawnBias"
+	SafeCommand "Reset rev.auto  options", "resetcvar bio_spawn_bias"
+	StaticText ""
+	StaticText "Major Biomechs", 1
+    StaticText  "Control the spawn rate of Biomechs (major).        ", "white"
+	Option " Minor Spawn Rate: ", "bio_major_spawn_bias", "SpawnBias"
+	SafeCommand "Reset rev.auto  options", "resetcvar bio_major_spawn_bias"
+ 	StaticText ""
+   	StaticText ""
+	StaticText "Persistent Spawn Options", "cyan"
+    StaticText  "Control whether replacements happen after a mapload.", "white"
+	Option "Persistent Spawns: ", "bio_persistent_spawning", "OnOff"
+	SafeCommand "Reset persi.  options", "resetcvar bio_persistent_spawning"
+ 	StaticText ""
+   	StaticText ""
+	StaticText "Reset Options", "cyan"
+	SafeCommand "Reset all options    ", "bio_reset_cvars"
+}
+
+
+
+OptionValue "SpawnBias"
+{
+	-1,    "Disabled"
+	 0,    "Replace All"
+	 2,    "1 in 3"
+	 4,    "1 in 5"
+	 9,    "1 in 10"
+	 14,   "1 in 15"
+	 19,   "1 in 20"
+	 24,   "1 in 25"
+	 49,   "1 in 50"
+	 99,   "1 in 100"
+	 149,  "1 in 150"
+	 199,  "1 in 200"
+}
+
+
+
+AddOptionMenu "HDestReEnforcements"
+{
+	StaticText ""
+	Submenu "Biomechanoids", "BioMechs"
+}

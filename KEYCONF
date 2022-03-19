@@ -1,6 +1,7 @@
+alias bio_reset_cvars "resetcvar bio_spawn_bias; resetcvar bio_major_spawn_bias; resetcvar bio_persistent_spawning;"
 alias squ_reset_cvars "resetcvar squ_regulars_spawn_bias; resetcvar squ_fireballers_spawn_bias; resetcvar squ_healers_spawn_bias; resetcvar squ_persistent_spawning;"
 alias brl_reset_cvars "resetcvar brl_barrel_spawn_bias; resetcvar  brl_barrel_bale_bias; resetcvar  brl_firecan_spawn_bias; resetcvar  brl_firecan_fire_bias; resetcvar brl_persistent_spawning; resetcvar brl_obviousness;"
 alias psz_reset_cvars "resetcvar psz_persistent_spawning; resetcvar psz_corpse_spawn_bias; resetcvar psz_corpse_spawn_bias; resetcvar psz_smgs_spawn_bias; resetcvar psz_semis_spawn_bias; resetcvar psz_autos_spawn_bias; resetcvar psz_autos_spawn_bias; resetcvar psz_firemode_chance_bias;"
 alias rvz_reset_cvars "resetcvar rvz_persistent_spawning; resetcvar rvz_corpse_spawn_bias; resetcvar rvz_corpse_spawn_bias; resetcvar rvz_smgs_spawn_bias; resetcvar rvz_semis_spawn_bias; resetcvar rvz_autos_spawn_bias; resetcvar rvz_355_chance_bias;"
 
-alias hdre_reset_cvars "squ_reset_cvars; brl_reset_cvars; psz_reset_cvars; rvz_reset_cvars;"
+alias hdre_reset_cvars "bio_reset_cvars; squ_reset_cvars; brl_reset_cvars; psz_reset_cvars; rvz_reset_cvars;"

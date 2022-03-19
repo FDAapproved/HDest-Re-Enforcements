@@ -31,3 +31,9 @@ server int  psz_smgs_spawn_bias      = 9;
 server int  psz_corpse_spawn_bias    = 9;
 server int  psz_firemode_chance_bias = 49;
 server bool psz_persistent_spawning  = false;
+
+// Biomechanoids.
+// L + PLASMA IN BIO
+server int  bio_spawn_bias          = 9;
+server int  bio_major_spawn_bias    = 9;
+server bool bio_persistent_spawning = false;

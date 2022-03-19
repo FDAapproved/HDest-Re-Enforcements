@@ -4,6 +4,7 @@ Version "4.6"
 #include "zscript/base_imps.zsc"
 #include "zscript/base_zombiemen.zsc"
 #include "zscript/base_zombiemen_revolver.zsc"
+#include "zscript/base_arachnotrons.zsc"
 
 // Revolver Zombies. 
 #include "zscript/rvz_mob_revolverzombieman.zsc"
@@ -22,3 +23,9 @@ Version "4.6"
 #include "zscript/squ_evnt_squires.zsc"
 #include "zscript/squ_proj_squirefire.zsc"
 #include "zscript/squ_mob_hellsquire.zsc"
+
+// Biomechanoids.
+#include "zscript/bio_proj_biomechanoidplasma.zsc"
+#include "zscript/bio_mob_biomechanoidminor.zsc"
+#include "zscript/bio_mob_biomechanoidmajor.zsc"
+#include "zscript/bio_evnt_biomechanoids.zsc"

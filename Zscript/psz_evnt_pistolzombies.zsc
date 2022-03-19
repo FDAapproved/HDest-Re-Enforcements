@@ -63,7 +63,7 @@ void trycreatecorpse(worldevent e, int chance)
 	{
 		if(giverandom(chance))
 		{
-			let zzz = PistolZombieman(e.thing.spawn("PistolZombiemanCorpse", e.thing.pos));
+			let zzz = PistolZombieman(e.thing.spawn("PistolZombiemanCorpse", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
 			
 			if(zzz)
 			{
@@ -89,7 +89,7 @@ void trycreatecorpse(worldevent e, int chance)
 		if(giverandom(chance))
 		{
 			
-			let zzz = PistolZombieman(e.thing.spawn("PistolZombieman", e.thing.pos));
+			let zzz = PistolZombieman(e.thing.spawn("PistolZombieman", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
 			
 			if(zzz)
 			{

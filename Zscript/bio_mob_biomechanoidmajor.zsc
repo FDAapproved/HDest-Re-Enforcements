@@ -1,0 +1,83 @@
+ class BiomechanoidMajor :  BiomechanoidMinor
+{
+	default
+	{
+		translation "128:143=60:79" , "192:207=210:223";
+		BiomechanoidMinor.Blast "BiomechanoidHeatBlast";
+		Obituary "%o suffered a death in see-major.";
+	}
+	bool firedgrenade;
+	override void postbeginplay()
+	{
+		super.postbeginplay();
+		firedgrenade = false;
+		scale=(scale.x*1.2,scale.y);
+	}
+	
+	states
+	{
+
+		See:
+			#### # 0
+			{
+				volley_i = random(2,3);
+			}
+			goto super::seeloop;
+		
+	
+		Missile:
+			#### # 0
+			{
+				windup_i = random(10, 13) + (500/invoker.health)/10;
+			}
+			// Windup.
+		MissileLoop:
+			BIOM E 0
+			{	
+				A_SetTics(random(5,7));
+				A_FaceTarget();
+				windup_i--;
+			}
+			#### # 0 A_JumpIf(windup_i>1, "MissileLoop");
+			goto super::missilefire;
+			
+			
+		differentshot:
+			goto super::shootleft;
+			
+		ShootBoth:
+			#### # 0
+			{
+				if(!random(0,3) || firedgrenade)
+				{
+					setstatelabel("DifferentShot");
+					return;
+				}
+			}
+			BIOM E 25
+			{
+				// You better start running. 
+				A_Vocalize(activesound);
+				volley_i--;
+				a_facetarget();
+			}
+			#### # 0
+			{
+				volley_i = random(2,3);
+			}
+			BIOM E 0
+			{
+				firedgrenade = true;
+				A_Vocalize(activesound);
+				a_custommissile("GyroGrenade",shootheight,-shootwidth,0);
+			}
+			BIOM E 3;
+			goto super::roam;
+	reloadend:
+		#### # 0
+		{
+			firedgrenade = false;
+		}
+		goto see;
+	}
+}

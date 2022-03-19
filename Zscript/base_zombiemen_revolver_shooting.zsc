@@ -8,6 +8,7 @@
 // s = spent. 
 //-------------//
 // Shooting:  Always cycles the chamber to be fired - 1 % size.
+//-------------//
 // 0 1 2 3 4 5 //
 // b b b b b b //
 // - - - - - ^ //

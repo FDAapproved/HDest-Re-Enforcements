@@ -6,4 +6,5 @@ GameInfo
 	AddEventHandlers = "RealKillerBarrelEvent"
 	AddEventHandlers = "PistolZombieEvent"
 	AddEventHandlers = "RevolverZombieEvent"
+	AddEventHandlers = "BioMechEvent"
 }

@@ -1,0 +1,68 @@
+class BiomechanoidPlasma : hdfireball
+{
+
+	default
+	{
+		Radius 13;
+		missileheight 10;
+		Speed 35;
+		Damage 1;
+		gravity 0;
+		Damagetype "electrical";
+		RenderStyle "translucent";
+		scale 0.4;
+		Alpha 0.75;
+		SeeSound "weapons/plasmaf";
+		activesound "weapons/plasmax";
+		obituary "%o was cooked to perfection.";
+	}
+	
+	States
+	{
+		Spawn:
+			PLSE AB 6 Bright;
+			Loop;
+		Death:
+			PLSE ABCDE 4 Bright
+			{
+				for(int i = 0; i < 3; i++)
+				{
+					A_StartSound("misc/arczap",volume:0.3,attenuation:2.);
+					A_CustomRailgun((random(1,4)),0,"","whiteblue",
+					RGF_SILENT|RGF_NOPIERCING|RGF_FULLbright|RGF_CENTERZ,
+					0,4000,"HDArcPuff",180,180,random(60,160),18,1.4,1.5
+					);
+				}
+				A_SprayDecal("BusterScorch",14);
+			}
+			Stop;
+	}
+}
+
+
+
+class BiomechanoidHeatBlast : BiomechanoidPlasma
+{
+
+	default
+	{
+		RenderStyle "add";
+		Alpha 0.9;
+		Speed 28;
+		missiletype "manjuicesmoke";
+		translation "128:143=60:79" , "192:207=210:223";
+		activesound "misc/firecrkl";
+		gravity 0;
+	}
+	
+	States
+	{
+		Death:
+			PLSE ABCDE 4 Bright
+			{
+				A_Immolate(master,target,1);
+				A_SprayDecal("BusterScorch",14);
+			}
+			Stop;
+	}
+}
