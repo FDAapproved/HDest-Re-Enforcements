@@ -4,6 +4,7 @@
 	{
 		translation "128:143=60:79" , "192:207=210:223";
 		BiomechanoidMinor.Blast "BiomechanoidHeatBlast";
+		tag "Biomech (Major)";
 		Obituary "%o suffered a death in see-major.";
 	}
 	bool firedgrenade;
