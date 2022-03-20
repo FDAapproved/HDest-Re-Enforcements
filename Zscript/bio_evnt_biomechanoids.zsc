@@ -55,7 +55,10 @@ class BioMechEvent : eventhandler
 
 void trycreatemech(worldevent e, int chance)
 	{
-		string tospawn;
+		if(!e.thing)
+			return;
+		
+		string tospawn = "Actor";
 		if(giverandom(majorSpawnBiasActual))
 		{
 			tospawn = "BiomechanoidMajor";
@@ -65,7 +68,7 @@ void trycreatemech(worldevent e, int chance)
 			tospawn = "BiomechanoidMinor";
 		}
 
-			
+		
 		let sss = BiomechanoidMinor(e.thing.spawn(tospawn, e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
 			
 		if(sss)
