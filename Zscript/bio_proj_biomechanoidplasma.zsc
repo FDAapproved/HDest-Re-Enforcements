@@ -3,8 +3,8 @@ class BiomechanoidPlasma : hdfireball
 
 	default
 	{
-		Radius 10;
-		missileheight 10;
+		Radius 5;
+		missileheight 5;
 		Speed 35;
 		Damage 1;
 		gravity 0;
