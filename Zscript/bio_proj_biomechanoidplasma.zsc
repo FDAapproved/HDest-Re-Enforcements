@@ -60,7 +60,11 @@ class BiomechanoidHeatBlast : BiomechanoidPlasma
 		Death:
 			PLSE ABCDE 4 Bright
 			{
-				A_Immolate(master,target,1);
+				A_HDBlast(
+				pushradius:16,pushamount:18,fullpushradius:6,
+				immolateradius:28,immolateamount:16,
+				immolatechance:100
+				);
 				A_SprayDecal("BusterScorch",14);
 			}
 			Stop;

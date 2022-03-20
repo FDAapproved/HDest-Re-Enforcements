@@ -49,7 +49,7 @@
 		ShootBoth:
 			#### # 0
 			{
-				if(!random(0,3) || firedgrenade)
+				if(random(0,3) || firedgrenade)
 				{
 					setstatelabel("DifferentShot");
 					return;
