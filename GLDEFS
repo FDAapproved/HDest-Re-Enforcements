@@ -1,3 +1,77 @@
+Object BiomechanoidMajor
+{
+	Frame BIOMF { Light MechHeatLight }
+	Frame BIOMG { Light MechHeatLight }
+	Frame BIOMH { Light MechHeatBoom1 }
+	Frame BIOMK { Light MechHeatBoom1 }
+}
+
+Object BiomechanoidMinor
+{
+	Frame BIOMF { Light MechPlasmaLight }
+	Frame BIOMG { Light MechPlasmaLight }
+	Frame BIOMH { Light MechPlasmaBoom1 }
+	Frame BIOMK { Light MechHeatBoom1   }
+}
+
+
+Object BiomechanoidHeatBlast
+{
+	Frame PLSEA { Light MechHeatLight }
+	Frame PLSEB { Light MechHeatLight }
+	Frame HHFXC { Light MechHeatBoom1 }
+	Frame HHFXD { Light MechHeatBoom1 }
+	Frame HHFXE { Light MechHeatBoom2 }
+}
+
+Pointlight MechHeatLight
+{
+	Color 0.9 0.5 0.1
+	Size 32
+}
+
+Pointlight MechHeatBoom1
+{
+	Color 0.9 0.5 0.1
+	Size 40
+}
+
+Pointlight MechHeatBoom2
+{
+	Color 0.9 0.5 0.1
+	Size 25
+}
+
+
+Object BiomechanoidPlasma
+{
+	Frame PLSEA { Light MechPlasmaLight }
+	Frame PLSEB { Light MechPlasmaLight }
+	Frame HHFXC { Light MechPlasmaBoom1 }
+	Frame HHFXD { Light MechPlasmaBoom1 }
+	Frame HHFXE { Light MechPlasmaBoom2 }
+}
+
+
+Pointlight MechPlasmaLight
+{
+	Color 0.1 0.1 0.9
+	Size 32
+}
+
+Pointlight MechPlasmaBoom1
+{
+	Color 0.2 0.2 0.8
+	Size 40
+}
+
+Pointlight MechPlasmaBoom2
+{
+	Color 0.1 0.1 0.9
+	Size 25
+}
+
+
 Object SquireFireBall
 {
 Frame HHFXA { Light SquireLight }
