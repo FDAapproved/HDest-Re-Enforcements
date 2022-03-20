@@ -80,5 +80,11 @@
 			firedgrenade = false;
 		}
 		goto see;
+	death:
+		#### # 0
+		{
+			A_Immolate(invoker, invoker, 10);
+		}
+		goto super::deathactual;
 	}
 }
