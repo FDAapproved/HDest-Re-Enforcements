@@ -5,6 +5,8 @@ class BiomechanoidMinor : HDREArachnotron
 	property blast : blast;
 	default
 	{
+		// For dead simple. 
+		+MAP07BOSS2;
 		Health 500;
 		Radius 24;
 		Height 64;
