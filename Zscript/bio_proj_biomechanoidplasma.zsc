@@ -21,11 +21,28 @@ class BiomechanoidPlasma : hdfireball
 	{
 		Spawn:
 			PLSE AB 6 Bright;
-			Loop;
+		Tryspark:
+			#### #  0 A_Jump(78, "Spark");
+			goto spawn;
+			
+		Spark:
+			#### # 0 Bright
+			{
+				for(int i = 0; i < 2; i++)
+				{
+					A_StartSound("misc/arczap",volume:0.3,attenuation:2.);
+					A_CustomRailgun((random(1,4)),0,"","whiteblue",
+					RGF_SILENT|RGF_NOPIERCING|RGF_FULLbright|RGF_CENTERZ,
+					0,4000,"HDArcPuff",180,180,random(60,160),18,1.4,1.5
+					);
+				}
+			}
+			goto Spawn;
+			
 		Death:
 			PLSE ABCDE 4 Bright
 			{
-				for(int i = 0; i < 3; i++)
+				for(int i = 0; i < 4; i++)
 				{
 					A_StartSound("misc/arczap",volume:0.3,attenuation:2.);
 					A_CustomRailgun((random(1,4)),0,"","whiteblue",
@@ -49,7 +66,7 @@ class BiomechanoidHeatBlast : BiomechanoidPlasma
 		RenderStyle "add";
 		Alpha 0.9;
 		Speed 28;
-		missiletype "manjuicesmoke";
+		missiletype "SquireFireBallTrail";
 		translation "128:143=60:79" , "192:207=210:223";
 		activesound "misc/firecrkl";
 		gravity 0;
@@ -57,6 +74,10 @@ class BiomechanoidHeatBlast : BiomechanoidPlasma
 	
 	States
 	{
+		Spawn:
+			PLSE AB 6 Bright;
+			loop;
+			
 		Death:
 			PLSE ABCDE 4 Bright
 			{
