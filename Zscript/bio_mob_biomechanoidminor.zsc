@@ -9,6 +9,7 @@ class BiomechanoidMinor : HDREArachnotron
 	bool bwason;
 	bool bflying;
 	bool cantfly;
+	bool statecantfly;
 	int  flycounter;
 	int  flyalternate;
 	
@@ -146,44 +147,47 @@ class BiomechanoidMinor : HDREArachnotron
 		super.tick();
 		if(isfrozen())return;
 		
-		if(!cantfly)
+		if(!statecantfly)
 		{
-			if(!bflying)
+			if(!cantfly)
 			{
-				if(target && (target.pos.z > pos.z + (shootheight * 3)))
+				if(!bflying)
 				{
-					if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
+					if(target && (target.pos.z > pos.z + (shootheight * 3)))
+					{
+						if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
 
-					if(hd_debug)console.printf("Mech Z Position: "..pos.z);
-					A_TryFly();
+						if(hd_debug)console.printf("Mech Z Position: "..pos.z);
+						A_TryFly();
+					}
+					else
+					{
+						bwason = false;
+					}
 				}
 				else
 				{
-					bwason = false;
-				}
-			}
-			else
-			{
-				if(target && (target.pos.z > pos.z + shootheight))
-				{
-					if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
+					if(target && (target.pos.z > pos.z + shootheight))
+					{
+						if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
 
-					if(hd_debug)console.printf("Mech Z Position: "..pos.z);
-					A_TryFly();
+						if(hd_debug)console.printf("Mech Z Position: "..pos.z);
+						A_TryFly();
+					}
+					else
+					{
+						bwason = false;
+					}
+				}
+				
+				if(pos.z > ceilingz - (shootheight * 6))
+				{
+					cantfly = true;
 				}
 				else
 				{
-					bwason = false;
+					cantfly = false;
 				}
-			}
-			
-			if(pos.z > ceilingz - (shootheight * 6))
-			{
-				cantfly = true;
-			}
-			else
-			{
-				cantfly = false;
 			}
 		}
 	}
@@ -218,10 +222,18 @@ class BiomechanoidMinor : HDREArachnotron
 				volley_i = random(4,7);
 			}
 		SeeLoop:
+			#### # 0
+			{
+				statecantfly=false;
+			}
 			#### # 0 A_Jump(78, "roam");
 			BIOM AABBCCDD 3 A_HDChase();
 			Loop;
 	roam:
+	    #### # 0
+		{
+			statecantfly=true;
+		}
 		BIOM AB 6 A_HDWander();
 		BIOM C 6 A_HDWander(CHF_LOOK);
 		---- A 0 A_Jump(48,"roamc");
@@ -254,6 +266,7 @@ class BiomechanoidMinor : HDREArachnotron
 		MissileLoop:
 			BIOM E 0
 			{	
+				statecantfly=false;
 				A_SetTics(random(2,3));
 				A_FaceTarget();
 				windup_i--;
@@ -335,6 +348,10 @@ class BiomechanoidMinor : HDREArachnotron
 			goto MissileLoop;
 
 	mustreload:
+		#### # 0
+		{
+			statecantfly=true;
+		}
 		BIOM E 10;
 	reload:
 		BIOM ABCDEE 4 A_HDChase(null,null,CHF_FLEE);
@@ -370,12 +387,20 @@ class BiomechanoidMinor : HDREArachnotron
 		Pain:
 			#### # 0
 			{
+				statecantfly=true;
+			}
+			#### # 0
+			{
 				volley_i = 0;
 			}
 			BIOM B 2;
 			BIOM B 2 A_Vocalize(painsound);
 			Goto See;
 	death:
+		#### # 0
+		{
+			statecantfly=true;
+		}
 	deathactual:
 		BIOM AAAAAAAA 0 A_SpawnItemEx("HugeWallChunk",frandom(-4,4),frandom(-4,4),frandom(28,34),frandom(-6,6),frandom(-6,6),frandom(-2,16),0,160,0);
 		BIOM AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BigWallChunk",frandom(-3,3),frandom(-3,3),frandom(28,34),frandom(-2,2),frandom(-2,2),frandom(2,14),0,160,0);
@@ -395,14 +420,26 @@ class BiomechanoidMinor : HDREArachnotron
 		BIOM L 7;
 		BIOM L -1 A_BossDeath();
 	xdeath:
+		#### # 0
+		{
+			statecantfly=true;
+		}
 		stop;
 	raise:
+		#### # 0
+		{
+			statecantfly=true;
+		}
 		BIOM LLLLLKJ 5;
 		BIOM I 8;
 		BIOM I 0 A_StartSound(seesound);
 		BIOM AAABB 3 A_Chase(null,null);
 		#### A 0 A_Jump(256,"see");
 	death.maxphdrain:
+		#### # 0
+		{
+			statecantfly=true;
+		}
 		---- AAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BigWallChunk",frandom(-3,3),frandom(-3,3),frandom(28,34),frandom(-2,2),frandom(-2,2),frandom(2,14),0,160,0);
 		BIOM J 10;
 		BIOM KL 7;
