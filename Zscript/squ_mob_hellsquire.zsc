@@ -2,41 +2,11 @@
 // Shielded Little Knightmares!
 // -----------------------------------------------------------------------------
 
-// Copy of PAINMONSTER
-class minipainmonster : HDREimp
-{
-	default
-	{
-		meleesound "baron/melee";
-		bloodcolor "44 99 22";
-		+hdmobbase.biped
-		species "BaronOfHell";
-	}
-	override void postbeginplay()
-	{
-		super.postbeginplay();
-		bsmallhead=bplayingid;
-
-		if(!bplayingid)
-		{
-			for(int i=0;i<MAXPLAYERS;i++){
-				let hdp=hdplayerpawn(players[i].mo);
-				if(hdp)CopyBloodColor(hdp);
-			}
-		}
-	}
-	override double bulletresistance(double hitangle)
-	{
-		return super.bulletresistance(hitangle);
-	}
-}
-
-
 // Wrapper for old name.
 class HDHellSquire : hellsquire
 {}
 
-class HellSquire : minipainmonster
+class HellSquire : painmonster
 {
 	int potentialthreshold;
 	
