@@ -3,6 +3,16 @@ class BiomechanoidMinor : HDREArachnotron
 	// Projectile to fire. 
 	class<actor> blast;
 	property blast : blast;
+	
+	// Flags that determine whether
+	// this actor is flying. 
+	bool bwason;
+	bool bflying;
+	bool cantfly;
+	int  flycounter;
+	int  flyalternate;
+	
+	
 	default
 	{
 		// For dead simple. 
@@ -36,6 +46,90 @@ class BiomechanoidMinor : HDREArachnotron
 	int windup_i;
 	int shootheight;
 	int shootwidth;
+	
+	
+	
+	virtual void A_TryFly()
+	{
+	
+		// They fly now!
+		if(!bwason)
+		{
+			A_StartSound("jetpack/on",CHAN_WEAPON);
+			bwason = true;
+		}
+	
+		// No flying. 
+		/*
+		if(battery<1)
+		{
+			// AAAAAAAAA-
+			bwason  = false;
+			bflying = false;
+			A_StartSound("jetpack/on",CHAN_WEAPON);
+			setstatelabel("pain");
+			return;
+		}
+		*/
+		
+		if(!bwason && !bflying)
+		{
+			return;
+		}
+		
+		// velocity. 
+		double rawthrust=0.00001*3;
+		double zzz=max(rawthrust,(16384+floorz-pos.z))*(rawthrust);
+		
+		// Everything else. 
+		if(vel.xy!=(0,0))
+		{
+			if(vel.x>0)vel.x-=min(0.1,vel.x);else vel.x-=max(-0.1,vel.x);
+			if(vel.y>0)vel.y-=min(0.1,vel.y);else vel.y-=max(-0.1,vel.y);
+		}
+		vel.z+=zzz;
+		
+		// VFX
+		int chn=(level.time&(1|2));
+		for(int i=0;i<1;i++)
+		{
+			A_StartSound(!chn?"jetpack/bang":"jetpack/fwoosh",chn,pitch:1+0.2*chn);
+			if(!chn)
+			{
+					let bbb=spawn("HDExplosion",(pos.xy,pos.z-20),ALLOW_REPLACE);
+					bbb.vel.z-=20;
+					bbb.vel.xy+=angletovector(angle+angle,6);
+					bbb.deathsound="jetpack/bang";
+			}
+		}
+
+		// Movement damage.
+		blockthingsiterator itt=blockthingsiterator.create(self,128);
+		while(itt.Next())
+		{
+				actor it=itt.thing;
+				if(
+					it.bdontthrust
+					||it==self
+					||(!it.bsolid&&!it.bshootable)
+					||!it.mass
+					||it.pos.z>pos.z
+				)continue;
+				double thrustamt=max(0,(1024+it.pos.z-pos.z)*rawthrust)*10/it.mass;
+				it.vel+=(it.pos-pos).unit()*thrustamt;
+				it.A_GiveInventory("Heat",int(thrustamt*frandom(1,30)));
+				if(!random(0,10))
+				{
+					HDActor.ArcZap(it);
+					it.damagemobj(it,self,int(thrustamt*frandom(10,40)),"electrical");
+				}
+				if(it)it.damagemobj(it,self,int(thrustamt*frandom(5,30)),"bashing");
+		}
+		
+	}
+	
+	
+	
 	override void postbeginplay()
 	{
 		super.postbeginplay();
@@ -45,6 +139,55 @@ class BiomechanoidMinor : HDREArachnotron
 		shootheight = height*0.60;
 		shootwidth  = radius*0.50;
 	}
+	
+	
+	override void tick()
+	{
+		super.tick();
+		if(isfrozen())return;
+		
+		if(!cantfly)
+		{
+			if(!bflying)
+			{
+				if(target && (target.pos.z > pos.z + (shootheight * 3)))
+				{
+					if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
+
+					if(hd_debug)console.printf("Mech Z Position: "..pos.z);
+					A_TryFly();
+				}
+				else
+				{
+					bwason = false;
+				}
+			}
+			else
+			{
+				if(target && (target.pos.z > pos.z + shootheight))
+				{
+					if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
+
+					if(hd_debug)console.printf("Mech Z Position: "..pos.z);
+					A_TryFly();
+				}
+				else
+				{
+					bwason = false;
+				}
+			}
+			
+			if(pos.z > ceilingz - (shootheight * 6))
+			{
+				cantfly = true;
+			}
+			else
+			{
+				cantfly = false;
+			}
+		}
+	}
+	
 	
 	States
 	{
