@@ -1,5 +1,8 @@
  class BiomechanoidMajor :  BiomechanoidMinor
 {
+	bool firedgrenade;
+	int grenadetimer;
+
 	default
 	{
 		translation "128:143=60:79" , "192:207=210:223";
@@ -7,11 +10,12 @@
 		tag "Biomech (Major)";
 		Obituary "%o suffered a death in see-major.";
 	}
-	bool firedgrenade;
+
 	override void postbeginplay()
 	{
 		super.postbeginplay();
 		firedgrenade = false;
+		grenadetimer = 25;
 		scale=(scale.x*1.2,scale.y);
 	}
 	
@@ -68,9 +72,17 @@
 			}
 			BIOM E 0
 			{
-				firedgrenade = true;
-				A_Vocalize(activesound);
-				a_custommissile("GyroGrenade",shootheight,-shootwidth,0);
+				if(grenadetimer > 0)
+				{
+					grenadetimer--;
+					setstatelabel("DifferentShot");
+				}
+				else
+				{
+					firedgrenade = true;
+					A_Vocalize(activesound);
+					a_custommissile("GyroGrenade",shootheight,-shootwidth,0);
+				}
 			}
 			BIOM E 3;
 			goto super::roam;

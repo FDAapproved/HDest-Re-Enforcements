@@ -1,8 +1,50 @@
 // -----------------------------------------------------------------------------
 // Inherits Technospider behaviors. 
 // -----------------------------------------------------------------------------
-class HDREArachnotron : TechnoSpider
+class HDREArachnotron : TechnoSpiderBase
 {
+}
+
+
+class TechnoSpiderBase : HDMobBase
+{
+
+	int battery;
+	bool alt;
+	
+	default
+	{
+		health 500;
+		height 52;
+		radius 32;
+		mass 600;
+		painchance 128;
+		+floorclip
+		+bossdeath
+		+lookallaround
+		+hdmobbase.headless
+		seesound "baby/sight";
+		painsound "baby/pain";
+		deathsound "baby/death";
+		activesound "baby/active";
+		tag "$cc_arach";
+		+dontharmspecies +missilemore
+		obituary "%o was fried by the Wrath of Krang.";
+		speed 16;
+		deathheight 18;
+		+noblooddecals bloodtype "NotQuiteBloodSplat";
+		hdmobbase.shields 500;
+		meleethreshold -128;
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		battery=20;
+		alt=random(0,1);
+		if(bplayingid)blookallaround=false;
+	}
+
+
+
 	override void deathdrop()
 	{
 		if(!bhasdropped)
@@ -15,5 +57,33 @@ class HDREArachnotron : TechnoSpider
 			}
 			if(!random(0,31))A_DropItem("Putto");
 		}
+	}
+
+
+	void A_ThunderZap(){
+		if(battery<1){
+			setstatelabel("mustreload");
+			return;
+		}
+		thunderbuster.thunderzap(self,32,alt,battery);
+		if(!random(0,(alt?3:15)))battery--;
+	}
+	override void A_HDChase(
+		statelabel meleestate,
+		statelabel missilestate,
+		int flags,
+		double speedmult
+	){
+		if(!bfloat)
+		{
+			if(!(flags&CHF_DONTMOVE)&&(frame==0||frame==2||frame==4))
+			A_StartSound("baby/walk",CHAN_BODY,CHANF_OVERLAP);
+		}
+		super.A_HDChase(meleestate,missilestate,flags,speedmult);
+	}
+	States
+	{
+		xdeath:
+			stop;
 	}
 }

@@ -6,13 +6,33 @@ class BiomechanoidMinor : HDREArachnotron
 	
 	// Flags that determine whether
 	// this actor is flying. 
-	bool bwason;
-	bool bflying;
-	bool cantfly;
-	bool statecantfly;
-	int  flycounter;
-	int  flyalternate;
 	
+	// Jetpack was on?
+	bool bwason;
+	
+	// Is flying?
+	bool bflying;
+	
+	// Lacks room to fly?
+	bool cantfly;
+	
+	// This state can/cannot fly. 
+	bool statecantfly;
+	
+	int batterybuffer;
+	
+
+	// Firing code. 
+	int volley_i;
+	
+	// Time to wait,
+	int windup_i;
+	
+	// Offsets for plasma.
+	int shootheight;
+	int shootwidth;
+
+
 	
 	default
 	{
@@ -43,53 +63,26 @@ class BiomechanoidMinor : HDREArachnotron
 		BiomechanoidMinor.Blast "biomechanoidPlasma";
 	}
 	
-	int volley_i;
-	int windup_i;
-	int shootheight;
-	int shootwidth;
+	override void A_HDChase(
+		statelabel meleestate,
+		statelabel missilestate,
+		int flags,
+		double speedmult
+	){
+		super.A_HDChase(meleestate,missilestate,flags,speedmult);
+	}
 	
+
 	
-	
-	virtual void A_TryFly()
+	virtual void A_FlightSideEffects()
 	{
 	
-		// They fly now!
-		if(!bwason)
-		{
-			A_StartSound("jetpack/on",CHAN_WEAPON);
-			bwason = true;
-		}
-	
-		// No flying. 
-		/*
-		if(battery<1)
-		{
-			// AAAAAAAAA-
-			bwason  = false;
-			bflying = false;
-			A_StartSound("jetpack/on",CHAN_WEAPON);
-			setstatelabel("pain");
-			return;
-		}
-		*/
 		
-		if(!bwason && !bflying)
-		{
-			return;
-		}
 		
 		// velocity. 
 		double rawthrust=0.00001*3;
 		double zzz=max(rawthrust,(16384+floorz-pos.z))*(rawthrust);
-		
-		// Everything else. 
-		if(vel.xy!=(0,0))
-		{
-			if(vel.x>0)vel.x-=min(0.1,vel.x);else vel.x-=max(-0.1,vel.x);
-			if(vel.y>0)vel.y-=min(0.1,vel.y);else vel.y-=max(-0.1,vel.y);
-		}
-		vel.z+=zzz;
-		
+	
 		// VFX
 		int chn=(level.time&(1|2));
 		for(int i=0;i<1;i++)
@@ -126,7 +119,61 @@ class BiomechanoidMinor : HDREArachnotron
 				}
 				if(it)it.damagemobj(it,self,int(thrustamt*frandom(5,30)),"bashing");
 		}
+	
+	}
+	
+	virtual void A_TryFly()
+	{
+	
+		// Ignition sounds. 
+		if(!bwason)
+		{
+			A_StartSound("jetpack/on",CHAN_WEAPON);
+			bwason = true;
+		}
+		else if(!bflying && bwason)
+		{
+			A_StartSound("jetpack/off",CHAN_WEAPON);
+			bwason = false;
+		}
+	
+		// No flying. 
+		/*
+		if(battery<1)
+		{
+			// AAAAAAAAA-
+			bwason  = false;
+			bflying = false;
+			A_StartSound("jetpack/on",CHAN_WEAPON);
+			setstatelabel("pain");
+			return;
+		}
+		*/
 		
+		// Prevents flying when bflying is disabled. 
+		if(!bwason && !bflying)
+		{
+			return;
+		}
+		
+		
+		// Movement while flying.
+		bfloat = true;
+		
+		
+		// velocity. 
+		double rawthrust=0.00001*3;
+		double zzz=max(rawthrust,(16384+floorz-pos.z))*(rawthrust);
+		
+		// Everything else. 
+		if(vel.xy!=(0,0))
+		{
+			if(vel.x>0)vel.x-=min(0.1,vel.x);else vel.x-=max(-0.1,vel.x);
+			if(vel.y>0)vel.y-=min(0.1,vel.y);else vel.y-=max(-0.1,vel.y);
+		}
+		vel.z+=zzz;
+		
+		A_FlightSideEffects();
 	}
 	
 	
@@ -139,54 +186,81 @@ class BiomechanoidMinor : HDREArachnotron
 		resize(0.65,0.80);
 		shootheight = height*0.60;
 		shootwidth  = radius*0.50;
+		batterybuffer = 65;
 	}
 	
 	
 	override void tick()
 	{
 		super.tick();
-		if(isfrozen())return;
+		if(isfrozen())return;		
 		
 		if(!statecantfly)
 		{
+			// Ceiling check. 
+			if(pos.z > ceilingz - shootheight * 3)
+			{
+				cantfly = true;
+			}
+			else
+			{
+				cantfly = false;
+			}
+
+			// Flying. 
 			if(!cantfly)
 			{
+			
+				// Start and end times for flying. 
 				if(!bflying)
 				{
-					if(target && (target.pos.z > pos.z + (shootheight * 3)))
+					if(target && (target.pos.z > pos.z + height))
 					{
+						bflying = true;
 						if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
-
 						if(hd_debug)console.printf("Mech Z Position: "..pos.z);
-						A_TryFly();
+
 					}
 					else
 					{
-						bwason = false;
+						bflying = false;
 					}
+					
+					if(bflying || bwason)A_TryFly();
 				}
 				else
 				{
-					if(target && (target.pos.z > pos.z + shootheight))
+					if(target && (target.pos.z > pos.z + height * 0.5))
 					{
+						bflying = true;
 						if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
-
 						if(hd_debug)console.printf("Mech Z Position: "..pos.z);
-						A_TryFly();
 					}
 					else
 					{
-						bwason = false;
+						bflying = false;
 					}
+					if(bflying || bwason)A_TryFly();
 				}
+			}
+			
+			if(bflying)
+			{
+				batterybuffer--;
+				if(batterybuffer<1)
+				{
+					batterybuffer = 65; battery--;
+				}
+			}
+			else
+			{
+				bfloat = false;
 				
-				if(pos.z > ceilingz - (shootheight * 6))
+				// Hover down.
+				if(vel.z < 0 && batterybuffer > 0)
 				{
-					cantfly = true;
-				}
-				else
-				{
-					cantfly = false;
+						A_FlightSideEffects();
+						batterybuffer--;
 				}
 			}
 		}
