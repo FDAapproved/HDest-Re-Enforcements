@@ -1,6 +1,6 @@
 // Utility functions and overrides for zombieman-replacing classes. 
 // Inheritance means that ACS SHOULD be able to recognize all of these as zombies.
-class HDREZombieman : ZombieStormtrooper
+class HDREZombieman : HDMobMan
 {
 
 	// 'ammo' themed accumulators and unload flags.

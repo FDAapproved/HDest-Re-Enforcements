@@ -1,9 +1,13 @@
 extend class HDREZombieman
 {
 	// Sets accumulators and other private variables.
+	
+	bool bdropspistols;
+	
 	override void postbeginplay()
 	{
 		Super.PostBeginPlay();
+		bdropspistols = true;
 		
 		__isFocused = false;
 		__isPained  = false;
@@ -43,8 +47,8 @@ extend class HDREZombieman
 		if(!bhasdropped)
 		{
 			// All enemies drop this. 
-			DropNewItem("HDHandgunRandomDrop");
-			//Super.deathdrop();
+			if(bdropspistols)DropNewItem("HDHandgunRandomDrop");
+			Super.deathdrop();
 			bhasdropped=true;
 		}
 		return;
