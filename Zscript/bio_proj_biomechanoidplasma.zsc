@@ -20,13 +20,13 @@ class BiomechanoidPlasma : hdfireball
 	States
 	{
 		Spawn:
-			PLSE AB 6 Bright;
+			PLSE A 6 Bright;
 		Tryspark:
 			#### #  0 A_Jump(78, "Spark");
 			goto spawn;
 			
 		Spark:
-			#### # 0 Bright
+			#### B 0 Bright
 			{
 				for(int i = 0; i < 2; i++)
 				{
@@ -42,7 +42,7 @@ class BiomechanoidPlasma : hdfireball
 		Death:
 			PLSE ABCDE 4 Bright
 			{
-				for(int i = 0; i < 4; i++)
+				for(int i = 0; i < 3; i++)
 				{
 					A_StartSound("misc/arczap",volume:0.3,attenuation:2.);
 					A_CustomRailgun((random(1,4)),0,"","whiteblue",
@@ -50,7 +50,7 @@ class BiomechanoidPlasma : hdfireball
 					0,4000,"HDArcPuff",180,180,random(60,160),18,1.4,1.5
 					);
 				}
-				A_SprayDecal("BusterScorch",14);
+				//A_SprayDecal("BusterScorch",14);
 			}
 			Stop;
 	}
@@ -61,6 +61,7 @@ class BiomechanoidPlasma : hdfireball
 class BiomechanoidHeatBlast : BiomechanoidPlasma
 {
 
+	actor lingerburner;
 	default
 	{
 		RenderStyle "add";
@@ -70,24 +71,82 @@ class BiomechanoidHeatBlast : BiomechanoidPlasma
 		translation "128:143=60:79" , "192:207=210:223";
 		activesound "misc/firecrkl";
 		gravity 0;
+		hdfireball.firefatigue int(HDCONST_MAXFIREFATIGUE*0.1);
 	}
 	
 	States
 	{
 		Spawn:
-			PLSE AB 6 Bright;
+			PLSE A 6 Bright;
 			loop;
 			
 		Death:
-			PLSE ABCDE 4 Bright
+			#### # 0
 			{
-				A_HDBlast(
-				pushradius:16,pushamount:18,fullpushradius:6,
-				immolateradius:28,immolateamount:16,
-				immolatechance:100
-				);
-				A_SprayDecal("BusterScorch",14);
+				vel.z+=0.5;
+				if(!blockingmobj)
+				{
+					tracer=null;
+					setstatelabel("burn");
+					lingerburner=spawn("BioMechHeatBurner",pos,ALLOW_REPLACE);
+					lingerburner.target=target;lingerburner.master=self;
+					return;
+				}
+				else if(target&&
+					blockingmobj.health>0&&target.health>0&&
+					blockingmobj.getspecies()==target.getspecies()&&
+					!(blockingmobj.ishostile(target))
+				)return;
+				else if(tracer&&blockingmobj==tracer)
+				{
+					vel.z=2;
+					tracer.damagemobj(self,target,10 + random(3,6),"hot");
+					alpha=1;scale*=1.2;
+					setstatelabel("burn");
+				}
 			}
+		Blam:
+			PLSE ABCDE 4 Bright;
 			Stop;
+	burn:
+		PLSE CDE 3
+		{
+			A_FadeOut(0.10);
+			frame=random(2,4);roll=random(0,360);
+			if(!tracer){
+				addz(0.1);
+				return;
+			}
+
+			if(tracer is "HDPlayerPawn"&&tracer.health<1&&HDPlayerPawn(tracer).playercorpse){
+				tracer=HDPlayerPawn(tracer).playercorpse;
+			}
+
+			double trad=tracer.radius;double tht=tracer.height;
+			setxyz(tracer.pos+(frandom(-trad,trad),frandom(-trad,trad),frandom(tht*0.5,tht)));
+
+			if(alpha>0.3)
+			{
+				tracer.damagemobj(self,target,random(1,3),"electrical");
+			}
+			else
+			{
+				tracer.damagemobj(self,target,random(4,6),"electrical");
+				A_SprayDecal("BrontoScorch",radius*2);
+				destroy();
+			}
+		}
+		wait;
+	}
+}
+
+
+
+class BioMechHeatBurner : PersistentDamager
+{
+	default
+	{
+		height 12;radius 20;stamina 1;
+		damagetype "hot";
 	}
 }

@@ -31,9 +31,9 @@ class BiomechanoidMinor : HDREArachnotron
 	// Offsets for plasma.
 	int shootheight;
 	int shootwidth;
+	double dodgedir;
 
-
-	
+	int panicflytimer;
 	default
 	{
 		// For dead simple. 
@@ -136,19 +136,6 @@ class BiomechanoidMinor : HDREArachnotron
 			A_StartSound("jetpack/off",CHAN_WEAPON);
 			bwason = false;
 		}
-	
-		// No flying. 
-		/*
-		if(battery<1)
-		{
-			// AAAAAAAAA-
-			bwason  = false;
-			bflying = false;
-			A_StartSound("jetpack/on",CHAN_WEAPON);
-			setstatelabel("pain");
-			return;
-		}
-		*/
 		
 		// Prevents flying when bflying is disabled. 
 		if(!bwason && !bflying)
@@ -195,10 +182,13 @@ class BiomechanoidMinor : HDREArachnotron
 		super.tick();
 		if(isfrozen())return;		
 		
+		
+		
 		if(!statecantfly)
 		{
-			// Ceiling check. 
-			if(pos.z > ceilingz - shootheight * 3)
+			// Ceiling check. Becomes more reckless the closer 
+			// to death the actor is. 
+			if(pos.z > ceilingz - shootheight * (3 * health/500))
 			{
 				cantfly = true;
 			}
@@ -257,9 +247,20 @@ class BiomechanoidMinor : HDREArachnotron
 				bfloat = false;
 				
 				// Hover down.
-				if(vel.z < 0 && batterybuffer > 0)
+				if(vel.z < -3 && batterybuffer > 0)
 				{
 						A_FlightSideEffects();
+						// velocity. 
+						double rawthrust=0.00001;
+						double zzz=max(rawthrust,(16384+floorz-pos.z))*(rawthrust);
+						
+						// Everything else. 
+						if(vel.xy!=(0,0))
+						{
+							if(vel.x>0)vel.x-=min(0.1,vel.x);else vel.x-=max(-0.1,vel.x);
+							if(vel.y>0)vel.y-=min(0.1,vel.y);else vel.y-=max(-0.1,vel.y);
+						}
+						vel.z+=zzz;
 						batterybuffer--;
 				}
 			}
@@ -334,6 +335,7 @@ class BiomechanoidMinor : HDREArachnotron
 		Missile:
 			#### # 0
 			{
+				dodgedir = frandom(-2,2);
 				windup_i = random(20, 23) + (500/invoker.health)/10;
 			}
 			// Windup.
@@ -344,6 +346,25 @@ class BiomechanoidMinor : HDREArachnotron
 				A_SetTics(random(2,3));
 				A_FaceTarget();
 				windup_i--;
+				
+				if(windup_i==1)
+				{
+					int multiplier = 0.25;
+					if(batterybuffer > 5)
+					{
+						multiplier = 2;
+						batterybuffer-=5;
+					}
+
+					double rl=angle+90;
+					vel.x+=cos(rl)*dodgedir * 4;
+					vel.y+=sin(rl)*dodgedir * 4;
+					A_FlightSideEffects();
+				}
+				else if(windup_i<1)
+				{
+					A_FlightSideEffects();
+				}
 			}
 			#### # 0 A_JumpIf(windup_i>1, "MissileLoop");
 		

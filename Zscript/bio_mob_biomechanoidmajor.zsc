@@ -15,7 +15,7 @@
 	{
 		super.postbeginplay();
 		firedgrenade = false;
-		grenadetimer = 25;
+		grenadetimer = random(3,4);
 		scale=(scale.x*1.2,scale.y);
 	}
 	
@@ -33,6 +33,8 @@
 		Missile:
 			#### # 0
 			{
+				dodgedir = frandom(-2,2);
+				if(!dodgedir)dodgedir = 3;
 				windup_i = random(10, 13) + (500/invoker.health)/10;
 			}
 			// Windup.
