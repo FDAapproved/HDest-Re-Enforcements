@@ -11,15 +11,7 @@ extend class HDRERevolver
 		__unloaded   = false;
 		__cocked     = false;
 	}
-	
-	
-	// For dropping an ammunition type. 
-	void A_DropAmmo(class<actor> ammoname, int mindrop, int maxdrop)
-	{
-		let aaa = HDRevolverAmmo(Actor.Spawn(ammoname, pos + (0,0,5)));
-		if(aaa)
-			aaa.amount += random(mindrop, maxdrop);
-	}
+
 	
 	override void deathdrop()
 	{

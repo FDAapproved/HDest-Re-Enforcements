@@ -29,3 +29,7 @@ Version "4.6"
 #include "zscript/bio_mob_biomechanoidminor.zsc"
 #include "zscript/bio_mob_biomechanoidmajor.zsc"
 #include "zscript/bio_evnt_biomechanoids.zsc"
+
+// Sawnoff Zombies.
+#include "zscript/swn_mob_halfboot.zsc"
+#include "zscript/swn_evnt_sawnoffzombies.zsc"

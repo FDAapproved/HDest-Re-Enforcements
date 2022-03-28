@@ -119,3 +119,34 @@ Pointlight SquireBoom5
 Color 0.3 0.15 0.0
 Size 16
 }
+
+//brightmaps
+BrightMap Sprite ZSDOF1
+{
+Map BMZSDOF1
+DisableFullBright
+}
+
+BrightMap Sprite ZSDOF2F8
+{
+Map BMZSDOF2
+DisableFullBright
+}
+
+BrightMap Sprite ZSDOF3F7
+{
+Map BMZSDOF3
+DisableFullBright
+}
+
+BrightMap Sprite ZSDOF4F6
+{
+Map BMZSDOF4
+DisableFullBright
+}
+
+BrightMap Sprite ZSDOF5
+{
+Map BMZSDOF5
+DisableFullBright
+}

@@ -1,0 +1,371 @@
+//------------------------------------------------------------------------------
+// He's jack the boot he used to be...
+//------------------------------------------------------------------------------
+
+class SawnoffZombiemanCorpse : SawnoffZombieman
+{
+	override void postbeginplay()
+	{
+		super.postbeginplay();
+		A_Die("spawndead");
+	}
+	states
+	{
+	death.spawndead:
+		ZSDO A 0;
+		goto dead;
+	}
+}
+
+class SawnoffZombieman : HDREZombieman
+{
+	default{
+		//$Category "Monsters/Hideous Destructor"
+		//$Title "Sawnoff Shotgun Guy"
+		//$Sprite "ZSDOA1"
+		seesound "shotguy/sight";
+		painsound "shotguy/pain";
+		deathsound "shotguy/death";
+		activesound "shotguy/active";
+		tag "Halfboot";
+
+		speed 11;
+		decal "BulletScratch";
+		meleesound "weapons/smack";
+		meleedamage 4;
+		maxtargetrange 2000;
+		painchance 200;
+		accuracy 2;
+		obituary "%o was shot up by the Tyrant's ill-shoed goons.";
+		hitobituary "%o wasn't groovy enough.";
+	}
+	int gunloaded;
+	int gunspent;
+	int wep;
+	int choke; //record here because the gun should only drop once
+	double shotspread; //related to aim, NOT choke. Sorry about shitty names
+	override void beginplay()
+	{
+		super.beginplay();
+		bhasdropped=0;
+		wep=1;
+	}
+	override void postbeginplay()
+	{
+		super.postbeginplay();
+		gunloaded=random(1,2);
+		choke=random(0,3) + random(0,3) * 8;
+		bnoincap=true;
+	}
+	override void deathdrop()
+	{
+			
+			if(!bhasdropped)
+			{
+				if(!random(0,4))A_DropAmmo("HDShellAmmo", 5, 8);
+				hdweapon wp=null;
+				int newchoke = choke;
+				string todrop = "Slayer";
+				for(int i=0;i<allactorclasses.size();i++)
+				{
+					// Peppergrinder
+					if(allactorclasses[i].getclassname() == "SawedSlayer" && !swn_ignore_peppergrinder)
+					{
+						todrop = "SawedSlayer";
+						i = allactorclasses.size();
+					}
+					// SawnOffSlayer
+					else if(allactorclasses[i].getclassname() == "SawnOffSlayer")
+					{
+						todrop = "SawnOffSlayer";
+						i = allactorclasses.size();
+					}
+				}
+					
+				wp=DropNewWeapon(todrop);
+				if(HDWeapon(wp))
+				{
+					if(gunloaded==2)
+						wp.weaponstatus[SLAYS_CHAMBER2]=2;
+					else if(gunspent==2)
+						wp.weaponstatus[SLAYS_CHAMBER2]=1;
+					if(gunloaded>0)
+						wp.weaponstatus[SLAYS_CHAMBER1]=2;
+					else if(gunspent>0)
+						wp.weaponstatus[SLAYS_CHAMBER1]=1;
+					
+					if(todrop == "SawnOffSlayer" || todrop == "Slayer")
+					{
+						wp.weaponstatus[SLAYS_CHOKE1]=(newchoke&(1|2|4));
+						wp.weaponstatus[SLAYS_CHOKE2]=(newchoke>>3);
+					}
+					if(todrop == "Slayer")
+					{
+						wp.weaponstatus[SHOTS_SIDESADDLE]=0;
+					}
+
+					gunloaded=2;
+				}
+			}
+			else
+			{
+				A_DropAmmo("HDShellAmmo", 5, 8);
+			}
+			super.deathdrop();
+			
+			bhasdropped=true;
+			gunspent=0;
+		
+	}
+	states{
+	spawn:
+		ZSDO A 0 nodelay A_JumpIf(wep>=0,"spawn2");
+	idle:
+	spawn2:
+		#### EEEEEE 1{
+			A_HDLook();
+			vel.xy-=(cos(angle),sin(angle))*frandom(-0.1,0.1);
+			A_SetTics(random(1,10));
+		}
+		#### B 0 A_Jump(132,2,5,5,5,5);
+		#### B 8{
+			if(!random(0,1)){
+				if(!random(0,4)){
+					setstatelabel("spawnstretch");
+				}else{
+					if(bambush)setstatelabel("spawnstill");
+					else setstatelabel("spawnwander");
+				}
+			}else vel.xy-=(cos(angle),sin(angle))*frandom(-0.2,0.2);
+		}loop;
+	spawnstretch:
+		#### G 1{
+			vel.xy-=(cos(angle),sin(angle))*frandom(-0.4,0.4);
+			A_SetTics(random(30,80));
+		}
+		#### A 0 A_Vocalize(activesound);
+		---- A 0 setstatelabel("spawn2");
+	spawnstill:
+		#### C 0{
+			A_HDLook();
+			vel.xy-=(cos(angle),sin(angle))*frandom(-0.4,0.4);
+		}
+		#### CD 5{angle+=random(-4,4);}
+		#### A 0{
+			A_HDLook();
+			if(!random(0,15))A_Vocalize(activesound);
+		}
+		#### AB 5{angle+=random(-4,4);}
+		#### B 1 A_SetTics(random(10,40));
+		---- A 0 setstatelabel("spawn2");
+	spawnwander:
+		#### CD 5 A_HDWander();
+		#### A 0 {
+			if(!random(0,15))A_Vocalize(activesound);
+			A_HDLook();
+		}
+		#### AB 5 A_HDWander();
+		#### A 0 A_Jump(64,"spawn2");
+		loop;
+
+	see:
+		#### A 0{
+			if(jammed)return;
+			else if(gunloaded<1)setstatelabel("reload");
+			else if(!wep&&gunspent>0)setstatelabel("chambersg");
+		}
+		#### ABCD 4 A_HDChase();
+		#### A 0 A_JumpIfTargetInLOS("see");
+		#### A 0 A_Jump(16,"roam");
+		loop;
+	roam:
+		#### A 0 A_Jump(60,"roam2");
+	roam1:
+		#### E 4{bmissileevenmore=true;}
+		#### EEEE 3 A_HDChase("melee","turnaround",CHF_DONTMOVE);
+		#### A 0{bmissileevenmore=false;}
+		#### A 0 A_Jump(60,"roam");
+	roam2:
+		#### A 0 A_Jump(8,"see");
+		#### ABCD 6 A_HDChase();
+		#### A 0 A_Jump(200,"Roam");
+		#### A 0 A_JumpIfTargetInLOS("see");
+		loop;
+	turnaround:
+		#### A 0 A_FaceTarget(15,0);
+		#### E 2 A_JumpIfTargetInLOS("missile2",40);
+		#### A 0 A_FaceTarget(15,0);
+		#### E 2 A_JumpIfTargetInLOS("missile2",40);
+		#### ABCD 3 A_HDChase();
+		---- A 0 setstatelabel("see");
+
+	missile:
+		#### A 0 A_JumpIfTargetInLOS(3,120);
+		#### CD 2 A_FaceTarget(90,90);
+		#### E 1 A_SetTics(random(4,10)); //when they just start to aim,not for followup shots!
+		#### A 0 A_JumpIf(!hdmobai.tryshoot(self,pradius:5,pheight:5),"see");
+	missile2:
+		#### A 0{
+			if(!target){
+				setstatelabel("see");
+				return;
+			}
+			double dist=distance3d(target);
+			if(dist<300){
+				turnamount=40;
+			}else if(dist<800){
+				turnamount=30;
+			}else{
+				turnamount=20;
+			}
+		}//fallthrough to turntoaim
+	turntoaim:
+		#### E 2 A_FaceTarget(turnamount,turnamount);
+		#### A 0 A_JumpIfTargetInLOS(2);
+		---- A 0 setstatelabel("see");
+		#### A 0 A_JumpIfTargetInLOS(1,10);
+		loop;
+		#### A 0 A_FaceTarget(turnamount,turnamount);
+		#### E 1 A_SetTics(random(1,100/clamp(1,turnamount,turnamount+1)+6));
+		#### E 0
+		{
+			shotspread=frandom(0.07,0.27)*turnamount;
+			setstatelabel("shoot");
+		}
+	shoot:
+		#### E 1;
+		#### E 0
+		{
+			shotspread*=0.8;
+			angle+=frandom(0,shotspread)-frandom(0,shotspread);
+			pitch+=frandom(0,shotspread)-frandom(0,shotspread);
+
+			pitch+=frandom(0,0.3);  //anticipate recoil
+			setstatelabel("shootssg");
+		}
+
+	shootssg:
+		#### F 1 bright light("SHOT"){
+			if(vel dot vel > 900){
+				setstatelabel("see");
+				return;
+			}
+
+			A_StartSound("weapons/slayersingle",CHAN_WEAPON);
+			if(gunloaded>1&&!random(0,5)){
+				//both barrels
+				A_StartSound("weapons/slayersingle",CHAN_WEAPON,CHANF_OVERLAP);
+				gunspent=2;
+				gunloaded=0;
+				Slayer.Fire(self,0,(choke&(1|2|4)));
+				Slayer.Fire(self,1,(choke>>3));
+			}else{
+				//single barrel
+				gunspent++;
+				gunloaded--;
+				if(gunspent)Slayer.Fire(self,1,(choke>>3));
+				else Slayer.Fire(self,0,(choke&(1|2|4)));
+			}
+		}
+		#### E 1 A_SetTics(random(2,4));
+		#### E 0 A_Jump(192,"see");
+		#### E 0 A_SpidRefire();
+		goto turntoaim;
+
+	reload:
+		#### A 0
+		{
+			setstatelabel("reloadssg");
+		}
+
+
+	reloadssg:
+		#### E 2;
+		#### E 2 A_StartSound("weapons/sshoto",8);
+		#### E 0{
+			while(gunspent>0){
+				gunspent--;
+				A_SpawnItemEx("HDSpentShell",
+					cos(pitch)*5,-1,height-7-sin(pitch)*5,
+					cos(pitch-45)*cos(angle)*random(1,4)+vel.x,
+					cos(pitch-45)*sin(angle)*random(1,4)+vel.y,
+					-sin(pitch-45)*random(1,4)+vel.z,0,
+					SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
+				);
+			}
+		}
+
+		#### ED 2 A_HDChase("melee",null,flags:CHF_FLEE);
+		#### DAAB 3 A_HDChase("melee",null,flags:CHF_FLEE,speedmult:0.5);
+		#### B 1 A_StartSound("weapons/sshotl",8);
+		#### CCD 6;
+		#### E 8{
+			A_StartSound("weapons/sshotc",8);
+			gunloaded=2;
+		}
+		---- A 0 setstatelabel("see");
+
+	// Dodge code from pistolzombies (undeadhomeboy). 
+	pain:
+		#### G 3 A_Jump(12,1);
+		#### G 3 A_Vocalize(painsound);
+		#### G 0{
+			A_ShoutAlert(0.1,SAF_SILENT);
+			if(
+				floorz==pos.z
+				&&target
+				&&(
+					!random(0,4)
+					||distance3d(target)<100
+				)
+			){
+				double ato=angleto(target)+randompick(-90,90);
+				vel+=((cos(ato),sin(ato))*speed,1.);
+				setstatelabel("missile");
+			}else bfrightened=true;
+		}
+		#### ABCD 2 A_HDChase();
+		#### G 0{bfrightened=false;}
+		---- A 0 setstatelabel("see");
+
+	death:
+		#### H 5 spawn("MegaBloodSplatter",pos+(0,0,height*0.75),ALLOW_REPLACE);
+		#### I 5 A_Vocalize(deathsound);
+		#### JKL 5;
+	dead:
+		#### M 3 canraise{if(abs(vel.z)<2.)frame++;}
+		#### N 5 canraise{if(abs(vel.z)>=2.)setstatelabel("dead");}
+		wait;
+	raise:
+		#### NM 4;
+		#### LK 6;
+		#### JIH 4 spawn("MegaBloodSplatter",pos+(0,0,height*0.75),ALLOW_REPLACE);
+		#### A 0 A_Jump(256,"see");
+		
+		
+	xdeath:
+		#### G 5;
+		#### H 5
+		{
+			spawn("MegaBloodSplatter",pos+(0,0,34),ALLOW_REPLACE);
+			A_XScream();
+		}
+		#### OP 5 spawn("MegaBloodSplatter",pos+(0,0,34),ALLOW_REPLACE);
+		#### QRSTU 5;
+		goto xdead;
+	xxxdeath:
+		#### P 5;
+		#### Q 5 A_XScream();
+		#### RSTU 5;
+	xdead:
+		#### V 3 canraise{if(abs(vel.z)<2.)frame++;}
+		#### W 5 canraise{if(abs(vel.z)>=2.)setstatelabel("xdead");}
+		wait;
+	ungib:
+		#### V     12;
+		#### U      8;
+		#### TSR    6;
+		#### QPJIHG 4;
+		#### A 0 A_Jump(256,"see");
+	}
+}

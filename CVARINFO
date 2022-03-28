@@ -37,3 +37,12 @@ server bool psz_persistent_spawning  = false;
 server int  bio_spawn_bias          = 9;
 server int  bio_major_spawn_bias    = 9;
 server bool bio_persistent_spawning = false;
+
+// Sawn-off Zombies.
+// swn dancer and/or hndbreaker.
+server bool swn_ignore_peppergrinder = false;
+server int  swn_marine_spawn_bias = 49;
+server int  swn_slayer_spawn_bias = 9;
+server int  swn_hunter_spawn_bias = 29;
+server int  swn_corpse_spawn_bias = 9;
+server bool swn_persistent_spawning  = false;

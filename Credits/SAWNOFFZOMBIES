@@ -1,0 +1,28 @@
+Sawn Off Zombies Credits
+--------------------------------------------------------------------------------
+ Zscript by FDA,
+ original idea by FDA on the HDDiscord,
+ original monster concept from Xim's Sawed Off Zombie on Realm 667. 
+ Based on code taken from:
+ - Hideous Destructor's mob_shotgunzombies.zs, mob_undeadhomeboy.zs.
+--------------------------------------------------------------------------------
+================================================================================
+Sprite Credits
+--------------------------------------------------------------------------------
+	Halfboots
+--------------------------------------------------------------------------------
+	ZSDO A...W:
+	- Id Software, Xim, MagicWazard (fixed offsets)
+	- unchanged.
+	- https://www.realm667.com/index.php/en/beastiary-mainmenu-136-69621/doom-style-mainmenu-105-73113/726-sawedoff-zombie
+--------------------------------------------------------------------------------
+================================================================================
+GLDEF Credits
+--------------------------------------------------------------------------------
+	Halfboots
+--------------------------------------------------------------------------------
+	ZSDO A...W:
+	- Xim, MagicWazard (brightmaps)
+	- redundant lights removed.
+	- https://www.realm667.com/index.php/en/beastiary-mainmenu-136-69621/doom-style-mainmenu-105-73113/726-sawedoff-zombie
+--------------------------------------------------------------------------------

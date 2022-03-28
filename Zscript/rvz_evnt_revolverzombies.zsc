@@ -20,8 +20,8 @@ class RevolverZombieEvent : eventhandler
 		cvarsAvailable = true;
 		spawnBiasActual       = rvz_autos_spawn_bias;
 		semisSpawnBiasActual  = rvz_semis_spawn_bias;
-		smgsSpawnBiasActual   = rvz_corpse_spawn_bias;
-		corpseSpawnBiasActual = rvz_smgs_spawn_bias;
+		smgsSpawnBiasActual   = rvz_smgs_spawn_bias;
+		corpseSpawnBiasActual = rvz_corpse_spawn_bias;
 		spawn355BiasActual    = rvz_355_chance_bias;
 		isPersistent          = rvz_persistent_spawning;
 	}

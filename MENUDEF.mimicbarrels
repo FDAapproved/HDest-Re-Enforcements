@@ -79,11 +79,3 @@ OptionValue "SpawnBias"
 	 149,  "1 in 150"
 	 199,  "1 in 200"
 }
-
-
-
-AddOptionMenu "HDestReEnforcements"
-{
-	StaticText ""
-	Submenu "Mimic Barrels", "RealKillerBarrels"
-}
