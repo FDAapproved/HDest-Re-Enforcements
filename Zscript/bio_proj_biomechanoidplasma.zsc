@@ -66,7 +66,7 @@ class BiomechanoidHeatBlast : BiomechanoidPlasma
 	{
 		RenderStyle "add";
 		Alpha 0.9;
-		Speed 28;
+		Speed 22;
 		missiletype "SquireFireBallTrail";
 		translation "128:143=60:79" , "192:207=210:223";
 		activesound "misc/firecrkl";
