@@ -59,7 +59,6 @@ class SawnoffZombieman : HDREZombieman
 	}
 	override void deathdrop()
 	{
-			
 			if(!bhasdropped)
 			{
 				if(!random(0,4))A_DropAmmo("HDShellAmmo", 5, 8);
@@ -112,8 +111,6 @@ class SawnoffZombieman : HDREZombieman
 				A_DropAmmo("HDShellAmmo", 5, 8);
 			}
 			super.deathdrop();
-			
-			bhasdropped=true;
 			gunspent=0;
 		
 	}

@@ -3,6 +3,7 @@ extend class HDREZombieman
 	// Sets accumulators and other private variables.
 	
 	bool bdropspistols;
+	bool bautodeathdrop;
 	
 	
 	// For dropping an ammunition type. 
@@ -26,6 +27,7 @@ extend class HDREZombieman
 		unload_p = false;
 		unload_s = false;
 		unload_b = false;
+		bautodeathdrop = true;
 		
 		BurstNumber = 0;
 		burst_i = 0;
@@ -52,13 +54,13 @@ extend class HDREZombieman
 	// Also preserves HD pistoldrop behavior. 
 	override void deathdrop()
 	{
+		Super.deathdrop();
 		A_NoBlocking();
 		if(!bhasdropped)
 		{
 			// All enemies drop this. 
 			if(bdropspistols)DropNewItem("HDHandgunRandomDrop");
-			Super.deathdrop();
-			bhasdropped=true;
+			if(bautodeathdrop)bhasdropped=true;
 		}
 		return;
 	}
