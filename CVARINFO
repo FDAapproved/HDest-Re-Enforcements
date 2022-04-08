@@ -1,15 +1,15 @@
 // Hell Squires
 // squ-suq-squat are you talking about???
 server int  squ_regulars_spawn_bias    = 49;
-server int  squ_fireballers_spawn_bias = 9;
-server int  squ_healers_spawn_bias     = 19;
+server int  squ_fireballers_spawn_bias = 4;
+server int  squ_healers_spawn_bias     = 9;
 server bool squ_persistent_spawning    = false;
 
 // Mimic Barrels
 // brl o fun that'll make you run. 
-server int  brl_barrel_spawn_bias  = 49;
+server int  brl_barrel_spawn_bias  = 19;
 server int  brl_barrel_bale_bias   = -2;
-server int  brl_firecan_spawn_bias = 49;
+server int  brl_firecan_spawn_bias =  9;
 server int  brl_firecan_fire_bias  = -2;
 server bool brl_persistent_spawning = false;
 server bool brl_obviousness         = false;
@@ -20,7 +20,7 @@ server int  rvz_autos_spawn_bias    = 9;
 server int  rvz_semis_spawn_bias    = 4;
 server int  rvz_smgs_spawn_bias     = 9;
 server int  rvz_corpse_spawn_bias   = 9;
-server int  rvz_355_chance_bias     = 49;
+server int  rvz_355_chance_bias     = 4;
 server bool rvz_persistent_spawning = false;
 
 // Pistol Zombies.
@@ -29,7 +29,7 @@ server int  psz_autos_spawn_bias     = 9;
 server int  psz_semis_spawn_bias     = 4;
 server int  psz_smgs_spawn_bias      = 9;
 server int  psz_corpse_spawn_bias    = 9;
-server int  psz_firemode_chance_bias = 49;
+server int  psz_firemode_chance_bias = 4;
 server bool psz_persistent_spawning  = false;
 
 // Biomechanoids.
@@ -43,6 +43,6 @@ server bool bio_persistent_spawning = false;
 server bool swn_ignore_peppergrinder = false;
 server int  swn_marine_spawn_bias = 49;
 server int  swn_slayer_spawn_bias = 9;
-server int  swn_hunter_spawn_bias = 29;
+server int  swn_hunter_spawn_bias = 9;
 server int  swn_corpse_spawn_bias = 9;
 server bool swn_persistent_spawning  = false;

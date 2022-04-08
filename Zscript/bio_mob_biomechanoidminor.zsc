@@ -207,8 +207,8 @@ class BiomechanoidMinor : HDREArachnotron
 					if(target && (target.pos.z > pos.z + height))
 					{
 						bflying = true;
-						if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
-						if(hd_debug)console.printf("Mech Z Position: "..pos.z);
+						if(hd_debug)console.printf("[HDRE] Target Z Position: "..target.pos.z);
+						if(hd_debug)console.printf("[HDRE] Mech Z Position: "..pos.z);
 
 					}
 					else
@@ -223,8 +223,8 @@ class BiomechanoidMinor : HDREArachnotron
 					if(target && (target.pos.z > pos.z + height * 0.5))
 					{
 						bflying = true;
-						if(hd_debug)console.printf("Target Z Position: "..target.pos.z);
-						if(hd_debug)console.printf("Mech Z Position: "..pos.z);
+						if(hd_debug)console.printf("[HDRE] Target Z Position: "..target.pos.z);
+						if(hd_debug)console.printf("[HDRE] Mech Z Position: "..pos.z);
 					}
 					else
 					{
