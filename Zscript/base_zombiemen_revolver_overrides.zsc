@@ -23,8 +23,12 @@ extend class HDRERevolver
 			int j = (__cylinder_i + 1) % (REV_SIZE);
 			if(www)
 			{
-				for(int i = 1; i < REV_SIZE + 1; i++)
+				for(int i = 1; i <= REV_SIZE; i++)
 				{
+				
+					if(i == REV_SIZE)
+						i = 0;
+						
 					// Assigns weapon status #'s (see wep_revolver in HD
 					// for details)
 					switch(__cylinder[j])
@@ -45,6 +49,10 @@ extend class HDRERevolver
 							www.weaponstatus[i] = 0;
 							break;
 					}
+					
+					if(i == 0)
+						i = REV_SIZE;
+					
 					
 					// Moves to next round.
 					if(j != REV_SIZE - 1)
