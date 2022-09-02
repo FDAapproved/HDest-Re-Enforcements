@@ -126,8 +126,8 @@ extend class HDRERevolver
 		// Prepare for a reload.
 		if(replace_i)
 		{
-			__reload_i = replace_i;
-			__cylinder_i = replace_i - 1;
+			__reload_i = replace_i + 1;
+			__cylinder_i = replace_i;
 		}
 		else
 		{
