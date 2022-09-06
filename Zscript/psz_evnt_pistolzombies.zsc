@@ -20,8 +20,8 @@ class PistolZombieEvent : eventhandler
 		cvarsAvailable = true;
 		spawnBiasActual         = psz_autos_spawn_bias;
 		semisSpawnBiasActual    = psz_semis_spawn_bias;
-		smgsSpawnBiasActual     = psz_corpse_spawn_bias;
-		corpseSpawnBiasActual   = psz_smgs_spawn_bias;
+		smgsSpawnBiasActual     = psz_smgs_spawn_bias;
+		corpseSpawnBiasActual   = psz_corpse_spawn_bias;
 		spawnFiremodeBiasActual = psz_firemode_chance_bias;
 		isPersistent            = psz_persistent_spawning;
 	}
