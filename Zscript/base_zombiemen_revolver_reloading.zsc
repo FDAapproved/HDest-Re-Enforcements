@@ -1,47 +1,22 @@
-// Diagram for loading:
-// Key:
-// # = chamber number,
-// ^ = next chamber to be fired,
-// v = next chamber to be loaded,
-// - = chamber waiting to be fired, 
-// b = bullet,
-// s = spent. 
-//-------------//
-//Reloading:  Always resets the chamber to 0 (shifts bullets to the beginning).
-//-------------//
-// 0 1 2 3 4 5 //
-// b b b b s s //
-// - - - ^ - - //
-//-------------//
-// 0 1 2 3 4 5 //
-// b b b b e e //
-// - - - ^ - - //
-//-------------//
-// 0 1 2 3 4 5 //
-// b b b b b e //
-// - - - - ^ - //
-//-------------//
-
 extend class HDRERevolver
 {
 
-	virtual void A_HDWRevolverLoadAmmo(bool use355)
-	{
-		// Cycles the cylinder.
+	virtual void A_HDWRevolverLoadAmmo(bool use355, bool playsound=true)
+	{	
+		// do a little spin
+		A_HDWRevolverCycle(false, playsound);
 		
-		if(!__cylinder[__reload_i])
-			{
+		// load the gun.
+		if(!(__cylinder[5]))
+		{
 				if(use355)
-					__cylinder[__reload_i] = REV_355;
+					__cylinder[5] = REV_355;
 				else
-					__cylinder[__reload_i] = REV_9MM;
+					__cylinder[5] = REV_9MM;
 				
-				A_StartSound("weapons/deinocyl",8);
 				A_StartSound("weapons/deinoload",8,CHANF_OVERLAP);
 				
-				__reload_i = (__reload_i + REV_CYCLE) % (REV_SIZE);
-				__cylinder_i = __reload_i - 1;
-			}
+		}
 	}
 	
 	
@@ -63,13 +38,13 @@ extend class HDRERevolver
 		
 		bool emptied    = false;
 		bool loosed     = true;
-		bool replaced   = false;
-		int  replace_i  = 0;
+
 		
 		// loose round actor pointer.
-		actor aaa;
+		actor  aaa;
 		double cosp;
-		// shoots some casings (a little). 
+		
+		// shoots some casings (a little).
 		for(int i = 0; i < REV_SIZE; i++)
 		{
 			// Empties rounds.
@@ -97,43 +72,16 @@ extend class HDRERevolver
 					break;
 			}
 			if(emptied)
-				{
-					__cylinder[i] = 0;
-					loosed = true;
-					emptied = false;
-				}
-			else
 			{
-				// Cycles bullets to the front. 
-				switch(__cylinder[i])
-				{
-					case REV_9MM:
-						__cylinder[replace_i] = REV_9MM;
-						replace_i++;
-						break;
-					case REV_355:
-						__cylinder[replace_i] = REV_355;
-						replace_i++;
-						break;
-					default:
-						__cylinder[i] = REV_EMPTY;
-						break;
-				}
+					__cylinder[i] = 0;
+					loosed        = true;
 			}
+
 		}
+		
 		if(loosed)
 			A_StartSound("weapons/deinoeject",8,CHANF_OVERLAP);
-		// Prepare for a reload.
-		if(replace_i)
-		{
-			__reload_i = replace_i + 1;
-			__cylinder_i = replace_i;
-		}
-		else
-		{
-			__reload_i = 0;
-			__cylinder_i = 0;
-		}
+		
 		__unloaded   = true;
 
 	}

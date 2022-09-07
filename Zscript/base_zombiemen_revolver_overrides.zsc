@@ -6,8 +6,6 @@ extend class HDRERevolver
 	override void postbeginplay()
 	{
 		super.postbeginplay();
-		__cylinder_i = 0;
-		__reload_i   = 0;
 		__unloaded   = false;
 		__cocked     = false;
 	}
@@ -20,41 +18,19 @@ extend class HDRERevolver
 		{
 			// Spawns a brand new revolver. 
 			let www=DropNewWeapon("HDRevolver");
-			int i = 6;
+			
+			// maps to the chambers (if they exist).
 			if(www)
 			{
-				// Populates the revolver array.
-				for(int j = 0; j < REV_SIZE; j++)
-				{
-					if(__cylinder_i-j >= 0)
-					{
-						switch(__cylinder[__cylinder_i-j])
-						{
-							case REV_9MM:
-								www.weaponstatus[i] = 2;
-								break;
-							case REV_355:
-								www.weaponstatus[i] = 4;
-								break;
-							case REV_9MM_SPENT:
-								www.weaponstatus[i] = 1;
-								break;
-							case REV_355_SPENT:
-								www.weaponstatus[i] = 3;
-								break;
-							default:
-								www.weaponstatus[i] = 0;
-								break;
-						
-						}
-					}
-					else
-					{
-						www.weaponstatus[i] = 0;
-					}
-					i--;
-				}
+				www.weaponstatus[1] = __cylinder[0];
+				www.weaponstatus[2] = __cylinder[1];
+				www.weaponstatus[3] = __cylinder[2];
+				www.weaponstatus[4] = __cylinder[3];
+				www.weaponstatus[5] = __cylinder[4];
+				www.weaponstatus[6] = __cylinder[5];
 			}
+			
+			
 			// Drops random ammo from freshly killed zombies. 
 			if(!random(0,6))
 			{

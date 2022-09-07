@@ -3,17 +3,17 @@
 enum FakeRevolverNumbers : int
 {
 	REV_EMPTY=0,
-	REV_9MM=1,
-	REV_355=2,
-	REV_9MM_SPENT=3,
-	REV_355_SPENT=4,
+	REV_9MM=2,
+	REV_355=4,
+	REV_9MM_SPENT=1,
+	REV_355_SPENT=3,
 }
 
 
 
 enum FakeRevolverMods : int
 {
-	REV_SPEND=2,
+	REV_SPEND=1,
 	REV_SIZE=6,
 	REV_CYCLE=1,
 }

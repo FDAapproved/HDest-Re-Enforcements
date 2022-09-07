@@ -1,27 +1,3 @@
-// Diagram for shooting:
-// Key:
-// # = chamber number,
-// ^ = next chamber to be fired,
-// v = next chamber to be loaded,
-// - = chamber waiting to be fired, 
-// b = bullet,
-// s = spent. 
-//-------------//
-// Shooting:  Always cycles the chamber to be fired - 1 % size.
-//-------------//
-// 0 1 2 3 4 5 //
-// b b b b b b //
-// - - - - - ^ //
-//-------------//
-// 0 1 2 3 4 5 //
-// b b b b b s //
-// - - - - ^ - //
-//-------------//
-// 0 1 2 3 4 5 //
-// b b b b s s //
-// - - - ^ - - //
-//-------------//
-
 extend class HDRERevolver
 {
 
@@ -36,51 +12,44 @@ extend class HDRERevolver
 	// Mimics firing a revolver. 
 	virtual void A_HDWRevolverTryFire()
 	{
+		// Whether or not a bullet was fired.
 		bool shot = false;
+		
+		
 		// shoots some bullets (a little). 
 		// forcibly cocks.
 		if(!__cocked)
 			A_HDWRevolverCockHammer();
 		
+		// Cycles forward (doubleaction).
+		A_HDWRevolverCycle(true);
+		
 			// Tries to find a valid bullet value.
 			// If it does, it fires. 
 			// Turns out 355's sound is just two sounds layered. Neat. 
-			switch(__cylinder[__cylinder_i])
+			switch(__cylinder[0])
 			{
 				case REV_9MM:
 					HDBulletActor.FireBullet(self,"HDB_9",zofs:35,spread:1.,speedfactor:frandom(0.99,1.01));
 					A_StartSound("weapons/deinoblast1",CHAN_WEAPON,CHANF_OVERLAP,0.5);
-					shot = true;
+					__cylinder[0] = REV_9MM_SPENT;
 					break;
 				case REV_355:
 					A_StartSound("weapons/deinoblast1",CHAN_WEAPON,CHANF_OVERLAP,0.5);
 					A_StartSound("weapons/deinoblast2",CHAN_WEAPON,CHANF_OVERLAP,0.4);
 					HDBulletActor.FireBullet(self,"HDB_355",zofs:35,spread:1.,speedfactor:frandom(0.99,1.01));
-					shot = true;
+					__cylinder[0] = REV_355_SPENT;
 					break;
+				
 				// Click sound goes here.
 				default:
 					A_StartSound("grunt/active", CHAN_AUTO);
 					break;
 			}
+
 			
 			// Uncocks the revolver. 
 			A_HDWRevolverCockHammer();
-		
-		
-		// Spends ammo, resets boolean. 
-		if(shot)
-		{
-			A_StartSound("weapons/deinocyl",8);
-			__cylinder[__cylinder_i] = __cylinder[__cylinder_i] + REV_SPEND;
-			shot = false;
-		}
-
-		// Cycles the cylinder.
-		if(__cylinder_i)
-			__cylinder_i = (__cylinder_i - REV_CYCLE);
-		else
-			__cylinder_i = REV_SIZE - 1;
 	}
 	
 }

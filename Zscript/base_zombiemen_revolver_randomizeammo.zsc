@@ -5,20 +5,12 @@ extend class HDRERevolver
 	// AUGH disjoint for loops. 
 	virtual void A_HDWRevolverRandomizeAmmo()
 	{
-		int i;
+
+		int rrr = random(1, 6);
 		
-		for(i = 0; i < random(1,REV_SIZE - 1); i++)
-		{
-			if(pref355)
-					__cylinder[i] = REV_355;
-			else
-					__cylinder[i] = REV_9MM;
-		}
-		// Sets the cylinder iterator to the last current round.
-		// make this bottom out at 0 if you change the code above. 
-		__cylinder_i = i - 1;
-		for(i = i; i < REV_SIZE - 1; i++)
-				__cylinder[i] = REV_EMPTY;
+		for(int i = 0; i < rrr; i++)
+			A_HDWRevolverLoadAmmo(pref355, false);
+		
 		return;
 	}
 	
