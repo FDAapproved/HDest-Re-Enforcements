@@ -83,7 +83,7 @@
 				{
 					firedgrenade = true;
 					A_Vocalize(activesound);
-					a_custommissile("GyroGrenade",shootheight,-shootwidth,0);
+					a_custommissile("RocketGrenade",shootheight,-shootwidth,0);
 				}
 			}
 			BIOM E 3;
