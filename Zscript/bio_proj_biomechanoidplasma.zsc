@@ -12,9 +12,30 @@ class BiomechanoidPlasma : hdfireball
 		RenderStyle "translucent";
 		scale 0.4;
 		Alpha 0.75;
-		SeeSound "weapons/plasmaf";
 		activesound "weapons/plasmax";
 		obituary "%o was cooked to perfection.";
+	}
+	
+	void make_sparks()
+	{
+		A_StartSound("misc/arczap",volume:0.3,attenuation:2.);
+	
+		A_CustomRailgun(
+		(random(1,4)),  // damage
+		0,              // spawnofs_xy
+		"",             // color1
+		0,              // color2
+		RGF_SILENT|RGF_NOPIERCING|RGF_FULLBRIGHT|RGF_CENTERZ, // flags
+		0,              // aim
+		4000,           // maxdiff
+		"HDArcPuff",    // pufftype
+		180,            // spread_xy
+		180,            // spread_z
+		random(60,160), // range
+		18,             // duration
+		1.4,            // sparsity
+		1.5             // driftspeed
+		);
 	}
 	
 	States
@@ -33,11 +54,7 @@ class BiomechanoidPlasma : hdfireball
 			{
 				for(int i = 0; i < 2; i++)
 				{
-					A_StartSound("misc/arczap",volume:0.3,attenuation:2.);
-					A_CustomRailgun((random(1,4)),0,"","whiteblue",
-					RGF_SILENT|RGF_NOPIERCING|RGF_FULLbright|RGF_CENTERZ,
-					0,4000,"HDArcPuff",180,180,random(60,160),18,1.4,1.5
-					);
+					invoker.make_sparks();
 				}
 				A_FBFloat(0.10);
 			}
@@ -48,13 +65,8 @@ class BiomechanoidPlasma : hdfireball
 			{
 				for(int i = 0; i < 3; i++)
 				{
-					A_StartSound("misc/arczap",volume:0.3,attenuation:2.);
-					A_CustomRailgun((random(1,4)),0,"","whiteblue",
-					RGF_SILENT|RGF_NOPIERCING|RGF_FULLbright|RGF_CENTERZ,
-					0,4000,"HDArcPuff",180,180,random(60,160),18,1.4,1.5
-					);
+					invoker.make_sparks();
 				}
-				//A_SprayDecal("BusterScorch",14);
 			}
 			Stop;
 	}

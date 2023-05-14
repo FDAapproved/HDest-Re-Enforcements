@@ -83,7 +83,7 @@
 				{
 					firedgrenade = true;
 					A_Vocalize(activesound);
-					a_custommissile("RocketGrenade",shootheight,-shootwidth,0);
+					A_SpawnProjectile("RocketGrenade",shootheight,-shootwidth,0);
 				}
 			}
 			BIOM E 3;
@@ -91,7 +91,12 @@
 	reloadend:
 		#### # 0
 		{
-			firedgrenade = false;
+			if(firedgrenade)
+			{
+				A_StartSound("weapons/rockopen2",8);
+				firedgrenade = false;
+				grenadetimer = random(3,4);
+			}
 		}
 		goto see;
 	death:

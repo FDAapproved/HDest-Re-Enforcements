@@ -1,3 +1,10 @@
+enum BiomechanoidConstants
+{
+	BIO_MECH_LEFT  = 0,
+	BIO_MECH_RIGHT = 1,
+	BIO_MECH_BOTH  = 2,
+};
+
 class BiomechanoidMinor : HDREArachnotron
 {
 	// Projectile to fire. 
@@ -72,6 +79,37 @@ class BiomechanoidMinor : HDREArachnotron
 		super.A_HDChase(meleestate,missilestate,flags,speedmult);
 	}
 	
+	
+	
+	virtual void A_FireProjectile(int type)
+	{
+					
+		volley_i--;
+		a_facetarget();
+		switch(type)
+		{
+		
+			case BIO_MECH_LEFT:
+				A_StartSound("weapons/plasmaf",CHAN_WEAPON,CHANF_OVERLAP,volume:1,attenuation:2.);
+				A_SpawnProjectile(Blast,shootheight,-shootwidth,0);
+				break;
+			
+			case BIO_MECH_RIGHT:
+				A_StartSound("weapons/plasmaf",CHAN_WEAPON,CHANF_OVERLAP,volume:1,attenuation:2.);
+				A_SpawnProjectile(Blast,shootheight,shootwidth,0);
+				break;
+				
+			case BIO_MECH_BOTH:
+				battery--;
+				volley_i--;
+				A_StartSound("weapons/plasmaf",CHAN_WEAPON,CHANF_OVERLAP,volume:1,attenuation:2.);
+				A_StartSound("weapons/plasmaf",CHAN_WEAPON,CHANF_OVERLAP,volume:1,attenuation:2.);
+				A_SpawnProjectile(Blast,shootheight,shootwidth,0);
+				A_SpawnProjectile(Blast,shootheight,-shootwidth,0);
+				// CMF_AIMDIRECTION,pitch=self.pitch
+				break;
+		}
+	}
 
 	
 	virtual void A_FlightSideEffects()
@@ -87,7 +125,7 @@ class BiomechanoidMinor : HDREArachnotron
 		int chn=(level.time&(1|2));
 		for(int i=0;i<1;i++)
 		{
-			A_StartSound(!chn?"jetpack/bang":"jetpack/fwoosh",chn,pitch:1+0.2*chn);
+			A_StartSound(!chn?"jetpack/bang":"jetpack/fwoosh",chn/2,pitch:1+0.2*chn);
 			if(!chn)
 			{
 					let bbb=spawn("HDExplosion",(pos.xy,pos.z-20),ALLOW_REPLACE);
@@ -349,7 +387,7 @@ class BiomechanoidMinor : HDREArachnotron
 				
 				if(windup_i==1)
 				{
-					int multiplier = 0.25;
+					float multiplier = 0.25;
 					if(batterybuffer > 5)
 					{
 						multiplier = 2;
@@ -416,30 +454,26 @@ class BiomechanoidMinor : HDREArachnotron
 		ShootLeft:
 			BIOM E 1
 			{
-				volley_i--;
 				a_facetarget();
 			}
-			BIOM H 3 a_custommissile(Blast,shootheight,-shootwidth,0);
+			BIOM H 3 {Invoker.A_FireProjectile(BIO_MECH_LEFT);}
 			goto MissileLoop;
 
 		ShootRight:
 			BIOM E 1
 			{
-				volley_i--;
 				a_facetarget();
 			}
-			BIOM G 3 a_custommissile(Blast,shootheight,shootwidth,0);
+			BIOM G 3 {Invoker.A_FireProjectile(BIO_MECH_RIGHT);}
 			goto MissileLoop;
 
 		ShootBoth:
 			BIOM E 1
 			{
-				battery--;
-				volley_i--;
 				a_facetarget();
 			}
-			BIOM F 0 a_custommissile(Blast,shootheight,-shootwidth,0);
-			BIOM F 3 a_custommissile(Blast,shootheight,shootwidth,0);
+			BIOM F 0;
+			BIOM F 3 {Invoker.A_FireProjectile(BIO_MECH_BOTH);}
 			goto MissileLoop;
 
 	mustreload:
@@ -473,7 +507,6 @@ class BiomechanoidMinor : HDREArachnotron
 		BIOM A 0
 		{
 			battery=20;
-			setstatelabel("see");
 		}
 	reloadend:
 		goto see;
