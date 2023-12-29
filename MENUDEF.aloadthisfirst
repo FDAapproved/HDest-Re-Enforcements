@@ -1,10 +1,15 @@
 OptionMenu HDestReEnforcements
 {
-	Title "HDest Re-Enforcements Options"
+	Title "$REENFORCEMENTS_MENU"
 	StaticText "Monster Module Options", "cyan"
 }
 
 AddOptionMenu "OptionsMenu"
 {
-	Submenu "HDest Re-Enforcements Options", "HDestReEnforcements"
+	Submenu "$REENFORCEMENTS_MENU", "HDestReEnforcements"
+}
+
+AddOptionMenu "HDAddonMenu"
+{
+	Submenu "$REENFORCEMENTS_MENU", "HDestReEnforcements"
 }
