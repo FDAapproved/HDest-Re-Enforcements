@@ -84,16 +84,27 @@ class HDRESpawnOrganizer play
 	// holds entries. 
 	array<HDRESpawnBucket> table;
 	
+	// What we're replacing. Used for a few comparisons. 
+	array<string>          replacing;
+	
 	// appends a new entry. 
 	virtual bool addReplacement(string replacer, string replacee, int threshold)
 	{
+		// We don't want to deal with values that aren't sanitized for this. 
+		replacer = replacer.makelower();
+		replacee = replacee.makelower();
+		
 		bool result   = true;
 		bool finished = false;
 		bool wrote    = false;
+		bool seen     = false;
 		HDRESpawnBucket ptr;
 		
 		int i = 0;
 		int j = table.Size();
+		int k = 0;
+		int l = replacing.Size();
+		
 		
 		// init the table if it doesn't exist yet. 
 		if(j == 0)
@@ -122,6 +133,27 @@ class HDRESpawnOrganizer play
 			result = result && ptr.addReplacement(replacer, replacee, threshold);
 			table.push(ptr);
 		}
+		
+		
+		// For caching what classes we should even pay attention to in replacedevent.
+		finished = false;
+		for(k = 0; ((k < l) && !finished); k++)
+		{
+			console.printf("["..k.."]["..replacer.."] '"..replacing[k].."'\n");
+			console.printf("["..k.."]["..replacer.."] Comparing '"..replacer.."' to '"..replacing[k].."'.\n");
+			if(replacing[k] == replacer)
+			{
+				console.printf("["..k.."]["..replacer.."] Name matched.\n");
+				finished = true;
+				seen = true;
+			}
+		}
+		if(seen == false)
+		{
+			console.printf("["..replacer.."] Appending '"..replacer.."' to replacing array.\n");
+			replacing.push(replacer);
+		}
+		
 		
 		// Return the status of the function and it's nested calls. 
 		return result;
@@ -170,6 +202,7 @@ class HDRESpawnOrganizer play
 	
 	virtual string handleSpawns(string replacee)
 	{
+		replacee = replacee.makelower();
 		string result = replacee;
 		int i = 0;
 		int j = table.Size();
@@ -191,13 +224,44 @@ class HDRESpawnOrganizer play
 	
 	virtual string getReplacee(string replacement, string replacee)
 	{
+		replacement = replacement.makelower();
+		replacee    = replacee.makelower();
+		
 		string result = replacee;
 		int i = 0;
 		int j = table.Size();
 		int k = 0;
-		int l = 0;
+		int l = replacing.Size();
 		
 		bool finished = false;
+		bool seen     = false;
+		
+		// Check to see if we should check this class at all. 
+		for(k = 0; ((k < l) && !finished); k++)
+		{
+			if(replacing[k] == replacement)
+			{
+				console.printf("Saw replacement.");
+				finished = true;
+				seen     = true;
+			}
+		}
+		
+		
+		k = 0;
+		l = 0;
+		
+		// Keep going if we saw the replacement. 
+		if(seen)
+		{
+			finished = false;
+		}
+		else
+		{
+			finished = true;
+		}
+		
+		
 		
 		// Go through each bucket.
 		for(i = 0; ((i < j) && !finished); i++)

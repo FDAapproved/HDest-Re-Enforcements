@@ -10,7 +10,8 @@ class HDREArachnotron : TechnoSpider
 	}
 }
 
-
+// Depreciated. Keeping this in case it'll ever be useful again. 
+/*
 class TechnoSpiderBase : HDMobBase
 {
 
@@ -94,3 +95,4 @@ class TechnoSpiderBase : HDMobBase
 			stop;
 	}
 }
+*/

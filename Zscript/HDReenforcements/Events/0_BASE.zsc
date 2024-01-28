@@ -21,10 +21,9 @@ class HDREEvent : eventhandler
 	{
 
 		cvarsAvailable = true;
-		spawnBiasActual         = bio_spawn_bias;
-		majorSpawnBiasActual    = bio_major_spawn_bias;
 		isPersistent            = bio_persistent_spawning;
 		DoomMaster = HDRESpawnOrganizer(new('HDRESpawnOrganizer'));
+		
 		DoomMaster.addReplacement("BiomechanoidMinor", "TechnoSpider", bio_spawn_bias);
 		DoomMaster.addReplacement("BiomechanoidMajor", "TechnoSpider", bio_major_spawn_bias);
 	}
@@ -35,7 +34,8 @@ class HDREEvent : eventhandler
 	override void WorldLoaded(WorldEvent e)
 	{
 		// always calls init.
-		init();
+		if(!cvarsAvailable)
+			init();
 		super.WorldLoaded(e);
 	}
 
