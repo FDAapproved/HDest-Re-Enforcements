@@ -1,0 +1,42 @@
+Version "4.6"
+
+// Base Classes.  
+#include "zscript/HDReenforcements/Base/0_INCLUDE.zsc"
+
+// Monsters
+#include "zscript/HDReenforcements/Monsters/0_INCLUDE.zsc"
+
+// Events
+#include "zscript/HDREenforcements/Events/0_INCLUDE.zsc"
+
+
+/*
+// Revolver Zombies. 
+#include"zscript/HDReenforcements/rvz_mob_revolverzombieman.zsc"
+#include"zscript/HDReenforcements/rvz_evnt_revolverzombies.zsc"
+
+
+// Pistol Zombies. 
+#include"zscript/HDReenforcements/psz_mob_pistolzombieman.zsc"
+#include"zscript/HDReenforcements/psz_evnt_pistolzombies.zsc"
+
+// Mimic Barrels. 
+#include"zscript/HDReenforcements/brl_mob_mimicbarrel.zsc"
+#include"zscript/HDReenforcements/brl_mob_mimiccan.zsc"
+#include"zscript/HDReenforcements/brl_evnt_barrelmimics.zsc"
+
+// Hell Squires. 
+#include"zscript/HDReenforcements/squ_evnt_squires.zsc"
+#include"zscript/HDReenforcements/squ_proj_squirefire.zsc"
+#include"zscript/HDReenforcements/squ_mob_hellsquire.zsc"
+
+// Biomechanoids.
+#include"zscript/HDReenforcements/bio_proj_biomechanoidplasma.zsc"
+#include"zscript/HDReenforcements/bio_mob_biomechanoidminor.zsc"
+#include"zscript/HDReenforcements/bio_mob_biomechanoidmajor.zsc"
+#include"zscript/HDReenforcements/bio_evnt_biomechanoids.zsc"
+
+// Sawnoff Zombies.
+#include"zscript/HDReenforcements/swn_mob_halfboot.zsc"
+#include"zscript/HDReenforcements/swn_evnt_sawnoffzombies.zsc"
+*/

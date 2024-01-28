@@ -1,0 +1,67 @@
+extend class HDREZombieman
+{
+	// Sets accumulators and other private variables.
+	
+	bool bdropspistols;
+	bool bautodeathdrop;
+	
+	
+	// For dropping an ammunition type. 
+	void A_DropAmmo(class<actor> ammoname, int mindrop, int maxdrop)
+	{
+		let aaa = HDAmmo(Actor.Spawn(ammoname, pos + (0,0,5)));
+		if(aaa)
+			aaa.amount += random(mindrop, maxdrop);
+	}
+	
+	override void postbeginplay()
+	{
+		Super.PostBeginPlay();
+		bdropspistols = true;
+		
+		__isFocused = false;
+		__isPained  = false;
+		ammo_p = 0;
+		ammo_s = 0;
+		ammo_b = 0;
+		unload_p = false;
+		unload_s = false;
+		unload_b = false;
+		bautodeathdrop = true;
+		
+		BurstNumber = 0;
+		burst_i = 0;
+		aim_i = 0;
+		A_SetTranslation("");
+		return;
+	}
+	
+	
+	
+	// Adds focus logic to an enemy when hurt. Originally was a weird function
+	// called in actor's pain-states. 
+	override int damagemobj(actor inflictor,actor source,int damage, name mod,int flags,double angle)
+	{
+		int result  = Super.DamageMobj(inflictor, source, damage, mod, flags, angle);
+		__isPained  = true;
+		__isFocused = !__isPained || !canFlinch; 
+		return result;
+	}
+
+
+
+	// For enemy drops. Only drops normal dropchance items once.
+	// Also preserves HD pistoldrop behavior. 
+	override void deathdrop()
+	{
+		Super.deathdrop();
+		A_NoBlocking();
+		if(!bhasdropped)
+		{
+			// All enemies drop this. 
+			if(bdropspistols)DropNewItem("HDHandgunRandomDrop");
+			if(bautodeathdrop)bhasdropped=true;
+		}
+		return;
+	}
+}

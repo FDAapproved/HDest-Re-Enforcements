@@ -1,0 +1,10 @@
+class HDREImp : Serpentipede
+{
+	// Uncolors sprites. 
+	override void postbeginplay()
+	{
+		Super.PostBeginPlay();
+		A_SetTranslation("");
+		return;
+	}
+}

@@ -1,0 +1,9 @@
+#include "zscript/HDReenforcements/Base/Zombiemen/Revolver/0_BASE.zsc"
+
+
+// Utilities/other abstracted out features. 
+#include "zscript/HDReenforcements/Base/Zombiemen/Revolver/overrides.zsc"
+#include "zscript/HDReenforcements/Base/Zombiemen/Revolver/randomizeammo.zsc"
+#include "zscript/HDReenforcements/Base/Zombiemen/Revolver/misc.zsc"
+#include "zscript/HDReenforcements/Base/Zombiemen/Revolver/shooting.zsc"
+#include "zscript/HDReenforcements/Base/Zombiemen/Revolver/reloading.zsc"

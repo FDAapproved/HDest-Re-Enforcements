@@ -1,0 +1,127 @@
+class SquireFireBall:hdfireball{
+	default{
+		scale 0.6;
+		missiletype "SquireFireBallTrail";
+		damagetype "electrical";
+		activesound "fireball/hit";
+		decal "BrontoScorch";
+		gravity 0;
+		speed 8;
+		hdfireball.firefatigue int(HDCONST_MAXFIREFATIGUE*0.2);
+	}
+	float screwspeed; 
+	int   screwangle;
+	bool isclockwise;
+	actor lingerburner;
+	override void postbeginplay()
+	{
+		super.postbeginplay();
+		screwspeed += frandom(1.1, 2);
+		isclockwise = bool(random(0,1));
+		switch(random(0,3))
+		{
+			case 2:
+				screwangle = 45;
+				break;
+			case 3:
+				screwangle = 55;
+				break;
+			default:
+				screwangle = 35;
+				break;
+				
+		}
+	}
+	override void ondestroy(){
+		if(lingerburner)lingerburner.destroy();
+		super.ondestroy();
+	}
+	states{
+	spawn:
+		HHFX A 0;
+		HHFX ABAB 3 A_FBTail();
+	spawn2:
+		HHFX AB 3
+		{
+			screwspeed += 0.05;
+			A_Corkscrew(screwspeed, isclockwise, screwangle);
+			
+			if(!A_FBSeek())A_FBFloat();
+		}loop;
+	death:
+		HHFX A 0{
+			vel.z+=0.5;
+			if(!blockingmobj){
+				tracer=null;
+				setstatelabel("burn");
+				lingerburner=spawn("SquireFireBallBurner",pos,ALLOW_REPLACE);
+				lingerburner.target=target;lingerburner.master=self;
+				return;
+			}else if(target&&
+				blockingmobj.health>0&&target.health>0&&
+				blockingmobj.getspecies()==target.getspecies()&&
+				!(blockingmobj.ishostile(target))
+			)return;
+			else if(tracer&&blockingmobj==tracer){
+				vel.z=2;
+				tracer.damagemobj(self,target,10 + random(3,6),"hot");
+				alpha=1;scale*=1.2;
+				setstatelabel("burn");
+			}
+		}
+	splat:
+		HHFX CDE 4;
+		stop;
+	burn:
+		HHFX CDE 3{
+			A_FadeOut(0.10);
+			frame=random(2,4);roll=random(0,360);
+			if(!tracer){
+				addz(0.1);
+				return;
+			}
+
+			if(tracer is "HDPlayerPawn"&&tracer.health<1&&HDPlayerPawn(tracer).playercorpse){
+				tracer=HDPlayerPawn(tracer).playercorpse;
+			}
+
+			double trad=tracer.radius;double tht=tracer.height;
+			setxyz(tracer.pos+(frandom(-trad,trad),frandom(-trad,trad),frandom(tht*0.5,tht)));
+
+			if(alpha>0.3)
+			{
+				tracer.damagemobj(self,target,random(1,3),"electrical");
+			}
+			else
+			{
+				tracer.damagemobj(self,target,random(4,6),"electrical");
+				A_SprayDecal("BrontoScorch",radius*2);
+				destroy();
+			}
+		}
+		wait;
+	}
+}
+class SquireFireBallBurner:PersistentDamager{
+	default
+	{
+		height 12;radius 20;stamina 1;
+		damagetype "hot";
+	}
+}
+
+class SquireFireBallTrail : HDFireballTail
+{
+	default
+	{
+		ALPHA 0.3;
+		Scale 0.5;
+	}
+	States
+	{
+		Spawn:
+		SMK1 J 3;
+		SMK1 ABCDEFGHI 2 Bright;
+		loop;
+	}
+}

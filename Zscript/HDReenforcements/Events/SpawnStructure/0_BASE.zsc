@@ -1,0 +1,33 @@
+// Generalized list item struct. 
+class HDRESpawnStructure play
+{
+	string replacer;    // ID by string
+	string replacee;
+	int    threshold;
+	virtual bool setReplacee(string replacee)
+	{
+	}
+	virtual bool setReplacer(string replacer)
+	{
+	}
+	virtual bool setThreshold(int threshold)
+	{
+	}
+}
+
+class HDRESpawnOrganizer play
+{
+	array<HDRESpawnStructure> table;
+	
+	virtual bool addReplacement(string replacer, string replacee, int threshold)
+	{
+		
+		HDRESpawnStructure ptr;
+		ptr.setreplacer();
+		ptr.setreplacee();
+		ptr.setthreshold();
+		
+		table.push(ptr);
+		return result;
+	}
+}

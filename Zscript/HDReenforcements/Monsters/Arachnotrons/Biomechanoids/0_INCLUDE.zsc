@@ -1,0 +1,4 @@
+// Monsters
+#include "zscript/HDReenforcements/Monsters/Arachnotrons/Biomechanoids/minor.zsc"
+#include "zscript/HDReenforcements/Monsters/Arachnotrons/Biomechanoids/major.zsc"
+#include "zscript/HDReenforcements/Monsters/Arachnotrons/Biomechanoids/plasma.zsc"
