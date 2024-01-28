@@ -43,8 +43,6 @@ class BiomechanoidMinor : HDREArachnotron
 	int panicflytimer;
 	default
 	{
-		// For dead simple. 
-		+MAP07BOSS2;
 		Health 500;
 		Radius 24;
 		Height 64;
@@ -523,7 +521,9 @@ class BiomechanoidMinor : HDREArachnotron
 			}
 			BIOM B 2;
 			BIOM B 2 A_Vocalize(painsound);
-			Goto See;
+		Goto See;
+		
+
 	death:
 		#### # 0
 		{
@@ -548,11 +548,8 @@ class BiomechanoidMinor : HDREArachnotron
 		BIOM L 7;
 		BIOM L -1 A_BossDeath();
 	xdeath:
-		#### # 0
-		{
-			statecantfly=true;
-		}
 		stop;
+		
 	raise:
 		#### # 0
 		{

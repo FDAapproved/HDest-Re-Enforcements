@@ -53,12 +53,10 @@ class BioMechEvent : eventhandler
 
 
 
-void trycreatemech(worldevent e, int chance)
+string trycreatemech(string fallback, int chance)
 	{
-		if(!e.thing)
-			return;
 		
-		string tospawn = "Actor";
+		string tospawn = fallback;
 		if(giverandom(majorSpawnBiasActual))
 		{
 			tospawn = "BiomechanoidMajor";
@@ -67,27 +65,18 @@ void trycreatemech(worldevent e, int chance)
 		{
 			tospawn = "BiomechanoidMinor";
 		}
-
-		
-		let sss = BiomechanoidMinor(e.thing.spawn(tospawn, e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
-			
-		if(sss)
-		{
-			// Remove the original mob. 
-			e.thing.destroy();
-		}
+		return tospawn;
 	}
 
-
-override void worldthingspawned(worldevent e)
-  {
+override void checkreplacement(replaceevent e)
+ {
 	// Makes sure the values are always loaded before
 	// taking in events.
 	if(!cvarsAvailable)
 		init();
 		
  	// in case it's not real. 
-	if(!e.Thing)
+	if(!e.Replacee)
 	{
 		return;
 	}
@@ -95,12 +84,25 @@ override void worldthingspawned(worldevent e)
 	// Don't spawn anything if the level has been loaded more than a tic. 
 	if (!(level.maptime > 1) || isPersistent)
 	{
-		switch(e.Thing.GetClassName())
+		switch(e.Replacee.GetClassName())
 		{
 			case 'TechnoSpider':
-				trycreatemech(e, spawnBiasActual);
+				e.replacement = trycreatemech("TechnoSpider", spawnBiasActual);
 				break;
 		}
 	}
+}
+
+
+override void checkreplacee(replacedevent e)
+{
+	switch(e.Replacement.GetClassName())
+	{
+		case 'BiomechanoidMinor':
+		case 'BiomechanoidMajor':
+			e.replacee = trycreatemech("TechnoSpider", spawnBiasActual);
+			break;
 	}
+}
+
 }
