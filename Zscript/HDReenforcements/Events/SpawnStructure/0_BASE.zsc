@@ -1,33 +1,218 @@
-// Generalized list item struct. 
+// Generalized spawntable entry.
 class HDRESpawnStructure play
 {
-	string replacer;    // ID by string
+	// Bare minimum spawn info. Mirrors replaceevent/replacedeevent
+	// with an extra entry for the %-chance to spawn something. 
+	string replacer;
 	string replacee;
 	int    threshold;
 	virtual bool setReplacee(string replacee)
 	{
+		bool result = false;
+		self.replacee = replacee;
+		if(self.replacee == replacee)
+		{
+			result = true;
+		}
+		return result;
 	}
 	virtual bool setReplacer(string replacer)
 	{
+		bool result = false;
+		self.replacer = replacer;
+		if(self.replacer == replacer)
+		{
+			result = true;
+		}
+		return result;
 	}
 	virtual bool setThreshold(int threshold)
 	{
+		bool result = false;
+		self.threshold = threshold;
+		if(self.threshold == threshold)
+		{
+			result = true;
+		}
+		return result;
+	}
+	
+	virtual string getReplacee()
+	{
+		return self.replacee;
+	}
+	virtual string getReplacer()
+	{
+		return self.replacer;
+	}
+	virtual int getThreshold()
+	{
+		return self.threshold;
 	}
 }
 
-class HDRESpawnOrganizer play
+
+
+class HDRESpawnBucket play
 {
+	string replacee;
 	array<HDRESpawnStructure> table;
 	
+	// appends a new entry. 
 	virtual bool addReplacement(string replacer, string replacee, int threshold)
 	{
+		bool result = true;
 		
-		HDRESpawnStructure ptr;
-		ptr.setreplacer();
-		ptr.setreplacee();
-		ptr.setthreshold();
+		// Set the head ptr. 
+		if(!self.replacee)
+		{
+			self.replacee = replacee;
+		}
 		
+		HDRESpawnStructure ptr = HDRESpawnStructure(new('HDRESpawnStructure'));
+		result = result && ptr.setreplacer(replacer);
+		result = result && ptr.setreplacee(replacee);
+		result = result && ptr.setthreshold(threshold);
 		table.push(ptr);
+		return result;
+	}
+}
+
+// Object for recovering spawntable entries.
+class HDRESpawnOrganizer play
+{
+	// holds entries. 
+	array<HDRESpawnBucket> table;
+	
+	// appends a new entry. 
+	virtual bool addReplacement(string replacer, string replacee, int threshold)
+	{
+		bool result   = true;
+		bool finished = false;
+		bool wrote    = false;
+		HDRESpawnBucket ptr;
+		
+		int i = 0;
+		int j = table.Size();
+		
+		// init the table if it doesn't exist yet. 
+		if(j == 0)
+		{
+			table.push(HDRESpawnBucket(new('HDRESpawnBucket')));
+			table[0].replacee = replacee;
+			j++;
+		}
+		
+		// loop through the addReplacement table to see what's there. 
+		for(i = 0; ((i < j) && !finished); i++)
+		{
+			// if we find the class name mentioned, add it. 
+			if(table[i].replacee == replacee)
+			{
+				result   = result && table[i].addReplacement(replacer, replacee, threshold);
+				wrote    = true;
+				finished = true;
+			}
+		}
+		
+		// If we didn't find the replacee, make a new category and append it. 
+		if(!wrote)
+		{
+			ptr = HDRESpawnBucket(new('HDRESpawnBucket'));
+			result = result && ptr.addReplacement(replacer, replacee, threshold);
+			table.push(ptr);
+		}
+		
+		// Return the status of the function and it's nested calls. 
+		return result;
+	}
+	
+	// Could break this up into boolean toggles + the value at some point. 
+	virtual bool couldSpawn(HDRESpawnStructure entry)
+	{
+		return entry.threshold != -1;
+	}
+	
+	virtual string trySpawnSingle(HDRESpawnStructure entry)
+	{
+		string result = entry.replacee;
+		
+		// temp storage for the random value. 
+		int chance = random[hdre](0, entry.threshold);
+		
+		if(chance == 0)
+		{
+			result = entry.replacer;
+		}
+		
+		return result;
+	}	
+	
+	virtual string trySpawnBucket(int index)
+	{
+		string result = table[index].replacee;
+		bool finished = false;
+		int i = 0;
+		int j = table[index].table.Size();
+		int lastweight;
+		
+		for(i = 0; i < j; i++)
+		{
+			if(couldSpawn(table[index].table[i]))
+			{
+				result = trySpawnSingle(table[index].table[i]);
+			}
+		}
+		return result;
+	}
+	
+
+	
+	virtual string handleSpawns(string replacee)
+	{
+		string result = replacee;
+		int i = 0;
+		int j = table.Size();
+		
+		bool finished = false;
+		
+		// Go through each bucket.
+		for(i = 0; ((i < j) && !finished); i++)
+		{
+			// Try to spawn the bucket's contents if the names match. 
+			if(table[i].replacee == replacee)
+			{
+				result = trySpawnBucket(i);
+				finished = true;
+			}
+		}
+		return result;
+	}
+	
+	virtual string getReplacee(string replacement, string replacee)
+	{
+		string result = replacee;
+		int i = 0;
+		int j = table.Size();
+		int k = 0;
+		int l = 0;
+		
+		bool finished = false;
+		
+		// Go through each bucket.
+		for(i = 0; ((i < j) && !finished); i++)
+		{
+			// Go through the contents of each bucket.
+			l = table[i].table.Size();
+			for(k = 0; ((k < l) && !finished); k++)
+			{
+				// Check to see if the class we're looking for exists. 
+				if(table[i].table[k].replacer == replacement)
+				{
+					result = table[i].table[k].replacee;
+				}			
+			}
+		}
 		return result;
 	}
 }

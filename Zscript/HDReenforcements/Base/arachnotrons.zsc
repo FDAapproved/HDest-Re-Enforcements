@@ -3,6 +3,11 @@
 // -----------------------------------------------------------------------------
 class HDREArachnotron : TechnoSpider
 {
+	default
+	{
+		// So that the replacedevent structure can handle this. 
+		-map07boss2;
+	}
 }
 
 

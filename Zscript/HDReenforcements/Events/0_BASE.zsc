@@ -1,6 +1,8 @@
 class HDREEvent : eventhandler
 {
 
+	HDRESpawnOrganizer DoomMaster;
+
 
 	private bool cvarsAvailable;
 
@@ -9,7 +11,7 @@ class HDREEvent : eventhandler
 	private int  majorSpawnBiasActual;
 	private bool isPersistent;
 	
-
+	
 	
 	
 	// Shoves cvar values into their non-cvar shaped holes.
@@ -17,10 +19,14 @@ class HDREEvent : eventhandler
 	// But, this works. So no complaints. 
 	void init()
 	{
+
 		cvarsAvailable = true;
 		spawnBiasActual         = bio_spawn_bias;
 		majorSpawnBiasActual    = bio_major_spawn_bias;
 		isPersistent            = bio_persistent_spawning;
+		DoomMaster = HDRESpawnOrganizer(new('HDRESpawnOrganizer'));
+		DoomMaster.addReplacement("BiomechanoidMinor", "TechnoSpider", bio_spawn_bias);
+		DoomMaster.addReplacement("BiomechanoidMajor", "TechnoSpider", bio_major_spawn_bias);
 	}
 	
 	
@@ -31,44 +37,6 @@ class HDREEvent : eventhandler
 		// always calls init.
 		init();
 		super.WorldLoaded(e);
-	}
-
-	bool giverandom(int chance)
-	{
-		bool result = false;
-		
-		// temp storage for the random value. 
-		int iii = random(0, chance);
-		
-		// force negative values to be 0. 
-		if(iii < 0)
-			iii = 0;
-			
-		
-		if (iii == 0)
-		{
-			if(chance > -1)
-				result = true;
-		}
-		
-		return result;
-	}
-
-
-
-string trycreatemech(string fallback, int chance)
-	{
-		
-		string tospawn = fallback;
-		if(giverandom(majorSpawnBiasActual))
-		{
-			tospawn = "BiomechanoidMajor";
-		}
-		else if(giverandom(chance))
-		{
-			tospawn = "BiomechanoidMinor";
-		}
-		return tospawn;
 	}
 
 override void checkreplacement(replaceevent e)
@@ -87,24 +55,24 @@ override void checkreplacement(replaceevent e)
 	// Don't spawn anything if the level has been loaded more than a tic. 
 	if (!(level.maptime > 1) || isPersistent)
 	{
-		switch(e.Replacee.GetClassName())
-		{
-			case 'TechnoSpider':
-				e.replacement = trycreatemech("TechnoSpider", spawnBiasActual);
-				break;
-		}
+		e.replacement = DoomMaster.handleSpawns(e.replacee.GetClassName());
 	}
 }
 
 
+// Definitely add a whitelist to this so it doesn't call nearly as often. 
 override void checkreplacee(replacedevent e)
 {
-	switch(e.Replacement.GetClassName())
+	if(e.replacee)
 	{
-		case 'BiomechanoidMinor':
-		case 'BiomechanoidMajor':
-			e.replacee = trycreatemech("TechnoSpider", spawnBiasActual);
-			break;
+		console.printf(e.replacee.GetClassName());
+		e.replacee = DoomMaster.getReplacee(e.replacement.GetClassName(), e.replacee.GetClassName());
+	}
+	// I guess if replacee doesn't exist we leave it nulled? Weird. 
+	else
+	{
+		console.printf("Checking unsigned replacedevent.");
+		e.replacee = DoomMaster.getReplacee(e.replacement.GetClassName(), "");
 	}
 }
 
