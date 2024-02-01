@@ -24,8 +24,8 @@ class HDREEvent : eventhandler
 		isPersistent            = bio_persistent_spawning;
 		DoomMaster = HDRESpawnOrganizer(new('HDRESpawnOrganizer'));
 		
-		DoomMaster.addReplacement("BiomechanoidMinor", "TechnoSpider", bio_spawn_bias);
-		DoomMaster.addReplacement("BiomechanoidMajor", "TechnoSpider", bio_major_spawn_bias);
+		DoomMaster.addReplacement("BiomechanoidMinor", "TechnoSpider", bio_spawn_bias,       bio_persistent_spawning);
+		DoomMaster.addReplacement("BiomechanoidMajor", "TechnoSpider", bio_major_spawn_bias, bio_persistent_spawning);
 	}
 	
 	
@@ -52,11 +52,8 @@ override void checkreplacement(replaceevent e)
 		return;
 	}
 	
-	// Don't spawn anything if the level has been loaded more than a tic. 
-	if (!(level.maptime > 1) || isPersistent)
-	{
-		e.replacement = DoomMaster.handleSpawns(e.replacee.GetClassName());
-	}
+	e.replacement = DoomMaster.handleSpawns(e.replacee.GetClassName());
+	
 }
 
 
@@ -65,13 +62,13 @@ override void checkreplacee(replacedevent e)
 {
 	if(e.replacee)
 	{
-		console.printf(e.replacee.GetClassName());
+		//console.printf(e.replacee.GetClassName());
 		e.replacee = DoomMaster.getReplacee(e.replacement.GetClassName(), e.replacee.GetClassName());
 	}
 	// I guess if replacee doesn't exist we leave it nulled? Weird. 
 	else
 	{
-		console.printf("Checking unsigned replacedevent.");
+		//console.printf("Checking unsigned replacedevent.");
 		e.replacee = DoomMaster.getReplacee(e.replacement.GetClassName(), "");
 	}
 }

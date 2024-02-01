@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
-// The warmest place to hide... is Frag. 
+// CAN you dig it? I SAID, CA- *BOOM*
 //------------------------------------------------------------------------------
 
 // For mappers. Uncomment and add thingids as needed.
 /*
-class InnocentMimicBarrel : HDMimicBarrel
+class InnocentMimicCan : MimicCan
 {
 	default
 	{
@@ -13,7 +13,7 @@ class InnocentMimicBarrel : HDMimicBarrel
 }
 
 
-class KillerMimicBarrel : HDMimicBarrel
+class KillerMimicCan : MimicCan
 {
 	default
 	{
@@ -24,124 +24,91 @@ class KillerMimicBarrel : HDMimicBarrel
 
 
 
-class MimicBarrel : HDBarrel
-{ 
+class MimicCan : MimicBarrel
+{
+	int fireticker;
+	default
+	{
+	
 //$Category "Monsters/Hideous Destructor"
-//$Title "Mimic Barrel"
-//$Sprite "BAR1A0"
-	  int timetowait;
-	  int time_i;
-	  int lastshouted;
-	  
-	  // For controlling disguises and wakeup.
-	  bool bisamogus;
-	  bool bhasawaken;
-	  
-	  // Inherited from cvars, control whether barrels are easy to spot. 
-	  bool bisobvious;
-	  
-	  default
-	  {
-			+solid +shootable
-			+activatemcross +canpass +nodropoff
-			+fixmapthingpos +dontgib
-			+hdmobbase.doesntbleed
-			-countkill
-			-ismonster
-			+hdmobbase.noshootablecorpse
-			+hdmobbase.climber
-			damagefactor "hot",1.2;
-			damagefactor "cold",1.2;
-			damagefactor "Balefire",0.1;
-			radius 11;height 34;
-			speed 12;
-			health 100;mass 200;gibhealth 200;
-			maxdropoffheight 48;
-			maxstepheight 4;
-			painchance 256;
-			pushfactor 0.1;
-			meleethreshold 20;
-			deathsound "world/barrelx";
-			translation "176:191=96:111","64:79=104:111";
-			painsound "bmimic/pain";
-			bloodcolor "ba ff 86";bloodtype "NotQuiteBloodSplat";
-			obituary "%o got cream of canned!";
-			
-			// Not evil at all :) I promise. 
-			tag "barrel";
-	   }
+//$Title "Flaming Mimic Barrel"
+//$Sprite "FCANA0"
+
+		+bright
+		health 100;
+		translation "176:191=96:111","64:79=104:111";
+		bloodcolor "ba ff 86";bloodtype "NotQuiteBloodSplat";
+		
+		// Could probably toggle between these? 
+		//obituary "%o should try again. It's a killer fire CAN, not a killer fire CAN'T!";
+		obituary "%o was cooked, canned and served.";
+		attacksound "vile/firestrt";
+		missiletype "BarrelFlame";
+		hdbarrel.lighttype "HDFireCanLight";
+		tag "burning barrel";
+	}
+	
+
+	override void A_BarrelAttack(){
+		A_FaceTarget(0,0);
+		pitch-=random(1,12);
+		if(
+			HDMobAI.TryShoot(self,32,128,9,9)
+		){
+			if(distance3d(target)<256){
+				setstatelabel("flamethrow");
+				return;
+			}else{
+				A_StartSound(attacksound);
+				A_SpawnProjectile("BarrelFlame",40,flags:CMF_AIMDIRECTION);
+			}
+		}
+		else if(!random(0,10)){
+			//move
+			A_FaceTarget();
+			angle+=random(-135,135);
+			A_StartSound("barrel/walk");
+			vel.xy+=(cos(angle),sin(angle))*5;
+		}
+		setstatelabel("inertjiggle");
+	}
+	override void tick()
+	{
+		super.tick();
+		if(isFrozen())return;
+		if(!bkilled){
+			fireticker++;
+			if(fireticker<6)return;
+			fireticker=0;
+			A_StartSound("misc/firecrkl",CHAN_BODY,CHANF_OVERLAP,volume:0.07);
+			A_StartSound("misc/fwoosh",CHAN_BODY,CHANF_OVERLAP,volume:0.04,attenuation:0.6);
+			actor a=spawn("HDSmoke",pos+(0,0,32),ALLOW_REPLACE);
+			a.vel=vel+(frandom(-1,1),frandom(-1,1),frandom(2,3));
+		}
+	}
+	override void A_BarrelBlast()
+	{
+		A_HDBlast(
+			random(128,256),random(64,128),0,"hot",
+			pushradius:256,pushamount:256,fullpushradius:0,pushmass:true,
+			immolateradius:256,immolateamount:random(3,12),immolatechance:56
+		);
+		A_BarrelFrags();
+	}
    
-   // Attaches a dynsmic light.
+   // Attaches a dynsmic light. 
    override void postbeginplay()
    {
 		super.postbeginplay();
 		bhasawaken = false;
    }
    
- 
-   override void tick()
-   {
-	super.tick();
-	if(isFrozen())return;
-
-    // Forces barrels to persue you.
-	bfrightened=false;
-	
-	
-	// Occasionally screams.
-	// Only ever is fully called whenever lastshouted is 0;
-	if(!lastshouted && health > 0 && vel != (0,0,0) && !(random(0, 150)))
-	{
-		A_StartSound("bmimic/pain",CHAN_BODY);
-		lastshouted = 106;
-	}
-	
-	// Resets lastshouted to 0 after 106-1 ticks. 
-	if(lastshouted)lastshouted = lastshouted-1;
-	
-   }
    
-   // In case this class ever needs it. 
-   	void A_MimicBarrelCheckCrowd()
-	{
-		int bcc=0;
-		barrelexplodemarker bpm;
-		thinkeriterator bexpm=ThinkerIterator.create("BarrelExplodeMarker");
-		while(bpm=barrelexplodemarker(bexpm.next(true))){
-			bcc++;
-			if(bcc>random(1,12)){
-				setstatelabel("waittoexplode");
-				break;
-			}
-		}
-	}
-
-
-
-	// Leaping and pouncing functions. 
- 	void A_MimicBarrelMove()
-	{
-		if(floorz!=pos.z)return;
-		A_FaceTarget();
-		angle+=random(-150,150);
-		A_StartSound("barrel/walk",CHAN_BODY);
-		vel+=(cos(angle),sin(angle), 0) * random(1,4);
-		vel+=(0,0, frandom(0, 1) * 2);
-		setstatelabel("Jumped");
-	}
- 	void A_MimicBarrelMoveKill()
-	{
-		if(floorz!=pos.z)return;
-		A_FaceTarget();
-		angle+=random(-15,15);
-		A_StartSound("barrel/walk",CHAN_BODY);
-		vel+=(cos(angle),sin(angle), 0) * 3;
-		vel+=(0,0,2);
-	}
-	
   States
   {
-	  // Seeming sus lately... 
+  
+  
+ 	  // Seeming sus lately... 
 	  Impostor:
 			#### # 0
 			{
@@ -153,22 +120,23 @@ class MimicBarrel : HDBarrel
 					}
 					if(!bisamogus)bisamogus=true;
 					if(bhasawaken)bhasawaken=false;
-			}
+			}  
 	  ImpostorIdle:
-			BALE AE 10;
-			BALE E 0
+			BALF AE random(1,3);
+			BALF E 0
 			{
-				if(!(random(0, 150)) && vel == (0,0,0))
+				if(!(random(0, 225)) && vel == (0,0,0))
 				{
 					A_MimicBarrelMove();
 				}
 			}
 			Loop;
 
-
+  
+  
 	  // Removed 'look' since if this could look, it'd see and then run at you. 
 	  Spawn:
-			BAR1 A 0 NODELAY;
+			FCAN A 0 NODELAY;
 			#### # 0
 			{
 				if(time_i != 0)setstatelabel("AwakenLoop");
@@ -176,10 +144,10 @@ class MimicBarrel : HDBarrel
 				if(bisamogus)setstatelabel("Impostor");
 			}
 	  SpawnIdle:
-			BAR1 AB 10;
-			BAR1 B 0
+			FCAN AB random(1,3);
+			FCAN A 0
 			{
-				if(!(random(0, 150)) && vel == (0,0,0))
+				if(!(random(0, 225)) && vel == (0,0,0))
 				{
 					A_MimicBarrelMove();
 				}
@@ -187,7 +155,7 @@ class MimicBarrel : HDBarrel
 			Loop;
 	  // Transitions the barrel into living (sicko) mode. 
 	  Awaken:
-			BALE A 0
+			BALF A 0
 			{
 				timetowait = (invoker.health/4);
 				timetowait = random(timetowait, timetowait*2);
@@ -195,27 +163,26 @@ class MimicBarrel : HDBarrel
 				A_Recoil(frandom(-0.80, 0.80));
 			}
 	 AwakenLoop:
-			BALE AE 4
+			BALF AE 4
 			{
 				time_i++;
 			}
-			BALE E 0 A_JumpIf(time_i < timetowait, "AwakenLoop");
-			BALE B 1
+			BALF E 0 A_JumpIf(time_i < timetowait, "AwakenLoop");
+			BALF B 1
 			{
 				bhasawaken = true;
 				A_HDLook();
 				if(!target)setstatelabel("Gaze");
 			}
 			goto See;
-	  
 	  Jumped:
-			BALE C 2
+			BALF C 2
 			{
 				invoker.frame+=random(-1,1);
 			}
 			goto impostor;
 	  See:
-		BALE BCD 3
+		BALF BCD 3
 		{
 
 			if(target)
@@ -237,14 +204,14 @@ class MimicBarrel : HDBarrel
 			}
 
 		}
-		BALE D 0 A_JumpIfTargetInLOS("see");
-		BALE D 0 A_Jump(110, "see");
-		BALE D 0 A_Jump(30, "spawn");
+		BALF D 0 A_JumpIfTargetInLOS("see");
+		BALF D 0 A_Jump(110, "see");
+		BALF D 0 A_Jump(30, "spawn");
 		goto gaze;
 		
 	 Gaze:
-		BALE BCD 3 A_HDLook();
-		BALE D   1
+		BALF BCD 3 A_HDLook();
+		BALF D   1
 		{
 			if(target)
 				setstatelabel("see");
@@ -254,8 +221,18 @@ class MimicBarrel : HDBarrel
 		loop;
 	 
 	  Explode:
-		BALE A 1 DamageThing(invoker.health,0);
+		BALF A 1 DamageThing(invoker.health,0);
 		goto death;
+		
+		Flamethrow:
+			FCAN ABABABAB 2 bright
+			{
+				A_StartSound("misc/firecrkl");
+				A_SpawnProjectile("BarrelFlame2",40,flags:CMF_AIMDIRECTION);
+			}
+			FCAN A 0 A_Jump(256,"spawn");
+
+
 	  Pain:
 		#### # 0
 		{
@@ -275,7 +252,7 @@ class MimicBarrel : HDBarrel
 				setstatelabel("Awaken");
 			}
 		}
-		BALE C 2
+		BALF C 2
 		{
 			invoker.frame+=random(-1,1);
 			
@@ -289,7 +266,7 @@ class MimicBarrel : HDBarrel
 				setstatelabel("Explode");
 			}
 		}
-		BALE C 2
+		BALF C 2
 		{
 			invoker.frame+=random(-1,1);
 		}
@@ -297,7 +274,7 @@ class MimicBarrel : HDBarrel
 		
 	// Death states from the normal barrel, minus the random explosion delay. 
 	death:
-		BALE A 0;
+		BALF A 0;
 		---- A 0 A_NoBlocking();
 		---- A 0 A_SetSize(-1,default.height);
 	waittoexplode:
@@ -364,13 +341,17 @@ class MimicBarrel : HDBarrel
 			bbright=false;
 		}
 	dying:
-		POB1 AAAAAAA 50{
-			A_Immolate(self,self.target,random(12,24));
-			if(!random(0,2)) A_SpawnChunks("HDSmokeChunk",1,2,12);
+		POB1 AAAAAAAAAAAAAAAAA 30{
+			A_Immolate(self,self.target,random(24,48));
+			if(!random(0,1))A_SpawnChunks("HDSmokeChunk",1,2,12);
 		}
 		POB1 A -1{
+			A_SetRenderstyle(1,Style_Normal);
 			A_StartSound("vile/firestrt",CHAN_AUTO,volume:0.4);
-			A_SpawnChunks("HDSmoke",8,0,3);
-		}stop;
+			if(!random(0,4))A_HDBlast(
+				random(12,128),random(2,4),64,"Balefire"
+			);
+			A_SpawnChunks("HDSmoke",8,4,12);
+		}
 	}
 }

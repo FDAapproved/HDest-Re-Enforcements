@@ -298,6 +298,10 @@ class BiomechanoidMinor : HDREArachnotron
 						}
 						vel.z+=zzz;
 						batterybuffer--;
+						if(batterybuffer<1)
+						{
+							batterybuffer = 65; battery--;
+						}
 				}
 			}
 		}
@@ -548,6 +552,10 @@ class BiomechanoidMinor : HDREArachnotron
 		BIOM L 7;
 		BIOM L -1 A_BossDeath();
 	xdeath:
+		#### # 0
+		{
+			statecantfly=true;
+		}
 		stop;
 		
 	raise:

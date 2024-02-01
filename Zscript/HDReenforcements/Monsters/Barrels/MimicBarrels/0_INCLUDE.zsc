@@ -1,0 +1,3 @@
+// Monsters
+#include "zscript/HDReenforcements/Monsters/Barrels/MimicBarrels/barrel.zsc"
+#include "zscript/HDReenforcements/Monsters/Barrels/MimicBarrels/can.zsc"

@@ -31,3 +31,4 @@ $random zocelot/death {zocelot/death1 zocelot/death2 zocelot/death3}
 
 // Mimic Barrel Sounds
 bmimic/pain dsbspact
+bmimic/death dsbspact

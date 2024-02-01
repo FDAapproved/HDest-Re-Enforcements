@@ -1,0 +1,43 @@
+class HDRESpawnBucket play
+{
+	string replacee;
+	array<HDRESpawnStructure> table;
+	
+	virtual bool setReplacee(string replacee)
+	{
+		bool result = false;
+		self.replacee = replacee;
+		if(self.replacee == replacee)
+		{
+			result = true;
+		}
+		return result;
+	}
+	
+	virtual string getReplacee()
+	{
+		return self.replacee;
+	}
+	
+	
+	
+	// appends a new entry. 
+	virtual bool addReplacement(string replacer, string replacee, int threshold, bool persistent)
+	{
+		bool result = true;
+		
+		// Set the head ptr. 
+		if(!self.replacee)
+		{
+			self.replacee = replacee;
+		}
+		
+		HDRESpawnStructure ptr = HDRESpawnStructure(new('HDRESpawnStructure'));
+		result = result && ptr.setreplacer(replacer);
+		result = result && ptr.setreplacee(replacee);
+		result = result && ptr.setthreshold(threshold);
+		result = result && ptr.setpersistent(persistent);
+		table.push(ptr);
+		return result;
+	}
+}

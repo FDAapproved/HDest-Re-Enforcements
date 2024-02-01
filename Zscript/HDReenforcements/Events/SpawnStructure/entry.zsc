@@ -1,0 +1,75 @@
+// Generalized spawntable entry.
+class HDRESpawnStructure play
+{
+	// Bare minimum spawn info. Mirrors replaceevent/replacedeevent
+	// with an extra entry for the %-chance to spawn something. 
+	string replacer;
+	string replacee;
+	int    threshold;
+	bool   persistent;
+	
+	// Whether or not something could be spawned. 
+	virtual bool couldSpawn()
+	{
+		return ((self.getThreshold() != -1) && self.getPersistent());
+	}
+	
+	
+	virtual bool setReplacee(string replacee)
+	{
+		bool result = false;
+		self.replacee = replacee;
+		if(self.replacee == replacee)
+		{
+			result = true;
+		}
+		return result;
+	}
+	virtual bool setReplacer(string replacer)
+	{
+		bool result = false;
+		self.replacer = replacer;
+		if(self.replacer == replacer)
+		{
+			result = true;
+		}
+		return result;
+	}
+	virtual bool setThreshold(int threshold)
+	{
+		bool result = false;
+		self.threshold = threshold;
+		if(self.threshold == threshold)
+		{
+			result = true;
+		}
+		return result;
+	}
+	virtual bool setPersistent(bool persistent)
+	{
+		bool result = false;
+		self.persistent = persistent;
+		if(self.persistent == persistent)
+		{
+			result = true;
+		}
+		return result;
+	}
+	
+	virtual string getReplacee()
+	{
+		return self.replacee;
+	}
+	virtual string getReplacer()
+	{
+		return self.replacer;
+	}
+	virtual int getThreshold()
+	{
+		return self.threshold;
+	}
+	virtual int getPersistent()
+	{
+		return self.threshold;
+	}
+}

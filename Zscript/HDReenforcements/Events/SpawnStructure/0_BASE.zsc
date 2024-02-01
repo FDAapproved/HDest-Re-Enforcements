@@ -1,83 +1,3 @@
-// Generalized spawntable entry.
-class HDRESpawnStructure play
-{
-	// Bare minimum spawn info. Mirrors replaceevent/replacedeevent
-	// with an extra entry for the %-chance to spawn something. 
-	string replacer;
-	string replacee;
-	int    threshold;
-	virtual bool setReplacee(string replacee)
-	{
-		bool result = false;
-		self.replacee = replacee;
-		if(self.replacee == replacee)
-		{
-			result = true;
-		}
-		return result;
-	}
-	virtual bool setReplacer(string replacer)
-	{
-		bool result = false;
-		self.replacer = replacer;
-		if(self.replacer == replacer)
-		{
-			result = true;
-		}
-		return result;
-	}
-	virtual bool setThreshold(int threshold)
-	{
-		bool result = false;
-		self.threshold = threshold;
-		if(self.threshold == threshold)
-		{
-			result = true;
-		}
-		return result;
-	}
-	
-	virtual string getReplacee()
-	{
-		return self.replacee;
-	}
-	virtual string getReplacer()
-	{
-		return self.replacer;
-	}
-	virtual int getThreshold()
-	{
-		return self.threshold;
-	}
-}
-
-
-
-class HDRESpawnBucket play
-{
-	string replacee;
-	array<HDRESpawnStructure> table;
-	
-	// appends a new entry. 
-	virtual bool addReplacement(string replacer, string replacee, int threshold)
-	{
-		bool result = true;
-		
-		// Set the head ptr. 
-		if(!self.replacee)
-		{
-			self.replacee = replacee;
-		}
-		
-		HDRESpawnStructure ptr = HDRESpawnStructure(new('HDRESpawnStructure'));
-		result = result && ptr.setreplacer(replacer);
-		result = result && ptr.setreplacee(replacee);
-		result = result && ptr.setthreshold(threshold);
-		table.push(ptr);
-		return result;
-	}
-}
-
 // Object for recovering spawntable entries.
 class HDRESpawnOrganizer play
 {
@@ -88,7 +8,7 @@ class HDRESpawnOrganizer play
 	array<string>          replacing;
 	
 	// appends a new entry. 
-	virtual bool addReplacement(string replacer, string replacee, int threshold)
+	virtual bool addReplacement(string replacer, string replacee, int threshold, bool persistent)
 	{
 		// We don't want to deal with values that aren't sanitized for this. 
 		replacer = replacer.makelower();
@@ -110,17 +30,19 @@ class HDRESpawnOrganizer play
 		if(j == 0)
 		{
 			table.push(HDRESpawnBucket(new('HDRESpawnBucket')));
-			table[0].replacee = replacee;
+			table[0].setReplacee(replacee);
 			j++;
 		}
+		
+		
 		
 		// loop through the addReplacement table to see what's there. 
 		for(i = 0; ((i < j) && !finished); i++)
 		{
 			// if we find the class name mentioned, add it. 
-			if(table[i].replacee == replacee)
+			if(table[i].getReplacee() == replacee)
 			{
-				result   = result && table[i].addReplacement(replacer, replacee, threshold);
+				result   = result && table[i].addReplacement(replacer, replacee, threshold, persistent);
 				wrote    = true;
 				finished = true;
 			}
@@ -130,51 +52,49 @@ class HDRESpawnOrganizer play
 		if(!wrote)
 		{
 			ptr = HDRESpawnBucket(new('HDRESpawnBucket'));
-			result = result && ptr.addReplacement(replacer, replacee, threshold);
+			result = result && ptr.addReplacement(replacer, replacee, threshold, persistent);
 			table.push(ptr);
 		}
 		
 		
-		// For caching what classes we should even pay attention to in replacedevent.
+		
+		// For caching what classes we should pay attention to for replacedevents.
 		finished = false;
 		for(k = 0; ((k < l) && !finished); k++)
 		{
-			console.printf("["..k.."]["..replacer.."] '"..replacing[k].."'\n");
-			console.printf("["..k.."]["..replacer.."] Comparing '"..replacer.."' to '"..replacing[k].."'.\n");
 			if(replacing[k] == replacer)
 			{
-				console.printf("["..k.."]["..replacer.."] Name matched.\n");
 				finished = true;
 				seen = true;
 			}
 		}
 		if(seen == false)
 		{
-			console.printf("["..replacer.."] Appending '"..replacer.."' to replacing array.\n");
 			replacing.push(replacer);
 		}
+		
 		
 		
 		// Return the status of the function and it's nested calls. 
 		return result;
 	}
 	
-	// Could break this up into boolean toggles + the value at some point. 
+	// Whether or not something could be spawned. 
 	virtual bool couldSpawn(HDRESpawnStructure entry)
 	{
-		return entry.threshold != -1;
+		return ((entry.getThreshold() != -1) && entry.getPersistent());
 	}
 	
 	virtual string trySpawnSingle(HDRESpawnStructure entry)
 	{
-		string result = entry.replacee;
+		string result = entry.getReplacee();
 		
 		// temp storage for the random value. 
-		int chance = random[hdre](0, entry.threshold);
+		int chance = random[hdre](0, entry.getThreshold());
 		
 		if(chance == 0)
 		{
-			result = entry.replacer;
+			result = entry.getReplacer();
 		}
 		
 		return result;
@@ -182,7 +102,7 @@ class HDRESpawnOrganizer play
 	
 	virtual string trySpawnBucket(int index)
 	{
-		string result = table[index].replacee;
+		string result = table[index].getReplacee();
 		bool finished = false;
 		int i = 0;
 		int j = table[index].table.Size();
@@ -190,7 +110,7 @@ class HDRESpawnOrganizer play
 		
 		for(i = 0; i < j; i++)
 		{
-			if(couldSpawn(table[index].table[i]))
+			if(table[index].table[i].couldSpawn())
 			{
 				result = trySpawnSingle(table[index].table[i]);
 			}
@@ -213,7 +133,7 @@ class HDRESpawnOrganizer play
 		for(i = 0; ((i < j) && !finished); i++)
 		{
 			// Try to spawn the bucket's contents if the names match. 
-			if(table[i].replacee == replacee)
+			if(table[i].getReplacee() == replacee)
 			{
 				result = trySpawnBucket(i);
 				finished = true;
@@ -241,7 +161,7 @@ class HDRESpawnOrganizer play
 		{
 			if(replacing[k] == replacement)
 			{
-				console.printf("Saw replacement.");
+				//console.printf("Saw replacement.");
 				finished = true;
 				seen     = true;
 			}
@@ -271,9 +191,9 @@ class HDRESpawnOrganizer play
 			for(k = 0; ((k < l) && !finished); k++)
 			{
 				// Check to see if the class we're looking for exists. 
-				if(table[i].table[k].replacer == replacement)
+				if(table[i].table[k].getReplacer() == replacement)
 				{
-					result = table[i].table[k].replacee;
+					result = table[i].table[k].getReplacee();
 				}			
 			}
 		}
