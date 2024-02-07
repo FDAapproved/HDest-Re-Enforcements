@@ -9,6 +9,8 @@ Version "4.6"
 // Events
 #include "zscript/HDREenforcements/Events/0_INCLUDE.zsc"
 
+// Utility
+#include "zscript/HDREenforcements/Utility/0_INCLUDE.zsc"
 
 /*
 // Revolver Zombies. 

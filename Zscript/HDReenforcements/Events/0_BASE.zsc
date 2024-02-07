@@ -1,15 +1,12 @@
 class HDREEvent : eventhandler
 {
 
+	// Welcome... to your doom. 
 	HDRESpawnOrganizer DoomMaster;
 
 
 	private bool cvarsAvailable;
-
-	// biomechanoids
-	private int  spawnBiasActual;
-	private int  majorSpawnBiasActual;
-	private bool isPersistent;
+	private bool isObvious;
 	
 	
 	
@@ -21,11 +18,15 @@ class HDREEvent : eventhandler
 	{
 
 		cvarsAvailable = true;
-		isPersistent            = bio_persistent_spawning;
 		DoomMaster = HDRESpawnOrganizer(new('HDRESpawnOrganizer'));
 		
+		// Biomechanoids. 
 		DoomMaster.addReplacement("BiomechanoidMinor", "TechnoSpider", bio_spawn_bias,       bio_persistent_spawning);
 		DoomMaster.addReplacement("BiomechanoidMajor", "TechnoSpider", bio_major_spawn_bias, bio_persistent_spawning);
+		
+		// Mimic Barrels and Cans
+		DoomMaster.addReplacement("MimicBarrel", "HDBarrel",  brl_barrel_spawn_bias,  brl_persistent_spawning);
+		DoomMaster.addReplacement("MimicCan",    "HDFireCan", brl_firecan_spawn_bias, brl_persistent_spawning);	
 	}
 	
 	
@@ -52,7 +53,7 @@ override void checkreplacement(replaceevent e)
 		return;
 	}
 	
-	e.replacement = DoomMaster.handleSpawns(e.replacee.GetClassName());
+	e.replacement = DoomMaster.getReplacement(e.replacee.GetClassName());
 	
 }
 

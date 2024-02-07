@@ -1,0 +1,17 @@
+// Object for misc. functions used by this mod. 
+class HDREUtility play
+{
+	static bool giveRandomBool(int threshold)
+	{
+		bool result = false;
+		int chance = random[hdre](0, threshold);
+		
+		if(chance == 0)
+		{
+			result = true;
+		}
+		
+		return result;
+	}
+}
+

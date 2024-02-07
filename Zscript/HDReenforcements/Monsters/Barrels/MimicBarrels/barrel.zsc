@@ -9,6 +9,7 @@ class InnocentMimicBarrel : HDMimicBarrel
 	default
 	{
 		hdbarrel.musthavegremlin -1;
+		mimicbarrel.tampered = 1;
 	}
 }
 
@@ -18,6 +19,7 @@ class KillerMimicBarrel : HDMimicBarrel
 	default
 	{
 		hdbarrel.musthavegremlin 1;
+		mimicbarrel.tampered = 1;
 	}
 }
 */
@@ -34,11 +36,16 @@ class MimicBarrel : HDBarrel
 	  int lastshouted;
 	  
 	  // For controlling disguises and wakeup.
-	  bool bisamogus;
-	  bool bhasawaken;
+	  bool isamogus;
+	  bool hasawaken;
 	  
 	  // Inherited from cvars, control whether barrels are easy to spot. 
-	  bool bisobvious;
+	  bool isobvious;
+	  bool tampered;
+	  
+	  // see above. 
+	  transient cvar c_balespawnbias;
+	  transient cvar c_isobvious;
 	  
 	  default
 	  {
@@ -70,27 +77,72 @@ class MimicBarrel : HDBarrel
 			// Not evil at all :) I promise. 
 			tag "barrel";
 	   }
+	  
+	// OR together any extra cvars for this check. We just want to know if it exists.
+	virtual bool has_cvars()
+	{
+		return c_isobvious;
+	}
+	  
+	virtual void get_cvars()
+	{
+		 c_isobvious = cvar.getcvar("brl_obviousness");
+		 isobvious = c_isobvious.getBool();
+	}
+
+	  
+	// So monsters have their own field for postbeginplay info
+	// SPECIFIC to them. This prevents inheritance from getting messy. 
+   virtual void pb_configure()
+   {
+   		if(!tampered)
+		{
+			c_balespawnbias = cvar.getcvar("brl_barrel_bale_bias");
+			int compare   = c_balespawnbias.getInt();
+			
+			if(HDREUtility.giveRandomBool(compare))
+			{
+				musthavegremlin = 1;
+			}
+			else if (compare == -1)
+			{
+				musthavegremlin = -1;
+			}
+			else if (compare != -2)
+			{
+				musthavegremlin = -1;
+			}
+		}
+   }
    
    // Attaches a dynsmic light.
    override void postbeginplay()
    {
 		super.postbeginplay();
-		bhasawaken = false;
+		hasawaken = false;
+		self.pb_configure();
    }
    
  
    override void tick()
    {
+	// Behavior Cvar loader. These values are shunted into other booleans. 
+	if(self.has_cvars() != true)
+		self.get_cvars();
+	
+	// Regular Tick()
 	super.tick();
+	
+	// Abort if time is frozen.
 	if(isFrozen())return;
-
+	
     // Forces barrels to persue you.
 	bfrightened=false;
 	
 	
 	// Occasionally screams.
 	// Only ever is fully called whenever lastshouted is 0;
-	if(!lastshouted && health > 0 && vel != (0,0,0) && !(random(0, 150)))
+	if(health > 0 && !lastshouted && vel != (0,0,0) && !(random(0, 150)))
 	{
 		A_StartSound("bmimic/pain",CHAN_BODY);
 		lastshouted = 106;
@@ -99,6 +151,36 @@ class MimicBarrel : HDBarrel
 	// Resets lastshouted to 0 after 106-1 ticks. 
 	if(lastshouted)lastshouted = lastshouted-1;
 	
+   }
+   
+   virtual void A_SusImpostor()
+   {  
+		if(!isobvious)
+		{
+			self.isamogus=false;
+			self.setstatelabel("Spawn");
+			return;
+		}
+		if(!isamogus)
+			self.isamogus=true;
+			
+		if(hasawaken)
+			self.hasawaken=false;
+   }
+   
+   virtual void A_TryTwitch(int chance)
+   {
+		if(!(random(0, chance)) && vel == (0,0,0))
+		{
+			self.A_MimicBarrelMove();
+			
+			// redisguise sometimes (tucks it's legs back in).
+			if(!isobvious && random(0,1))
+			{
+				self.isamogus = false;
+				self.setstatelabel("Impostor");
+			}
+		}
    }
    
    // In case this class ever needs it. 
@@ -145,23 +227,14 @@ class MimicBarrel : HDBarrel
 	  Impostor:
 			#### # 0
 			{
-					if(!bisobvious)
-					{
-						bisamogus=false;
-						setstatelabel("Spawn");
-						return;
-					}
-					if(!bisamogus)bisamogus=true;
-					if(bhasawaken)bhasawaken=false;
+				// Are you a monster??? 
+				invoker.A_SusImpostor();
 			}
 	  ImpostorIdle:
 			BALE AE 10;
 			BALE E 0
 			{
-				if(!(random(0, 150)) && vel == (0,0,0))
-				{
-					A_MimicBarrelMove();
-				}
+				invoker.A_TryTwitch(150);
 			}
 			Loop;
 
@@ -172,8 +245,10 @@ class MimicBarrel : HDBarrel
 			#### # 0
 			{
 				if(time_i != 0)setstatelabel("AwakenLoop");
-				if(bhasawaken)bhasawaken=false;
-				if(bisamogus)setstatelabel("Impostor");
+				if(hasawaken)hasawaken=false;
+				// If a barrel has been found out, it continues to be as such.
+				// There's a % chance this won't happen.
+				if(isobvious || isamogus)setstatelabel("Impostor");
 			}
 	  SpawnIdle:
 			BAR1 AB 10;
@@ -202,7 +277,7 @@ class MimicBarrel : HDBarrel
 			BALE E 0 A_JumpIf(time_i < timetowait, "AwakenLoop");
 			BALE B 1
 			{
-				bhasawaken = true;
+				hasawaken = true;
 				A_HDLook();
 				if(!target)setstatelabel("Gaze");
 			}
@@ -249,7 +324,7 @@ class MimicBarrel : HDBarrel
 			if(target)
 				setstatelabel("see");
 			else
-				A_Jump(110, "impostor");
+				A_Jump(110, "spawn");
 		}
 		loop;
 	 
@@ -260,7 +335,7 @@ class MimicBarrel : HDBarrel
 		#### # 0
 		{
 			A_Pain();
-			if(!bhasawaken)
+			if(!hasawaken)
 			{
 				if(target)
 				{

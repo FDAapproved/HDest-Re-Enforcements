@@ -120,7 +120,7 @@ class HDRESpawnOrganizer play
 	
 
 	
-	virtual string handleSpawns(string replacee)
+	virtual string getReplacement(string replacee)
 	{
 		replacee = replacee.makelower();
 		string result = replacee;

@@ -70,6 +70,6 @@ class HDRESpawnStructure play
 	}
 	virtual int getPersistent()
 	{
-		return self.threshold;
+		return self.persistent;
 	}
 }
