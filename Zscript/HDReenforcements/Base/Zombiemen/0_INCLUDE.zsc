@@ -1,11 +1,11 @@
 // Base File
-#include "zscript/HDReenforcements/base/zombiemen/0_BASE.zsc"
+#include "./0_BASE.zsc"
 // Other includes for specific functions/categories of class changes. 
-#include "zscript/HDReenforcements/base/zombiemen/overrides.zsc"
-#include "zscript/HDReenforcements/base/zombiemen/a_hdaim.zsc"
-#include "zscript/HDReenforcements/base/zombiemen/a_hdforget.zsc"
-#include "zscript/HDReenforcements/base/zombiemen/a_hdturn.zsc"
-#include "zscript/HDReenforcements/base/zombiemen/a_hddie.zsc"
+#include "./overrides.zsc"
+#include "./a_hdaim.zsc"
+#include "./a_hdforget.zsc"
+#include "./a_hdturn.zsc"
+#include "./a_hddie.zsc"
 
 // Subclasses
-#include "zscript/HDReenforcements/base/zombiemen/revolver/0_INCLUDE.zsc"
+#include "./revolver/0_INCLUDE.zsc"

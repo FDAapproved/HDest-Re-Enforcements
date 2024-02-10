@@ -1,3 +1,3 @@
-#include "zscript/HDREenforcements/Events/SpawnStructure/0_BASE.zsc"
-#include "zscript/HDREenforcements/Events/SpawnStructure/bucket.zsc"
-#include "zscript/HDREenforcements/Events/SpawnStructure/entry.zsc"
+#include "./0_BASE.zsc"
+#include "./bucket.zsc"
+#include "./entry.zsc"

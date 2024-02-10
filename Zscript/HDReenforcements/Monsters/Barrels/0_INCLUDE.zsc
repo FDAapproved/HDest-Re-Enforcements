@@ -1,2 +1,2 @@
 // Monsters
-#include "zscript/HDReenforcements/Monsters/Barrels/MimicBarrels/0_INCLUDE.zsc"
+#include "./MimicBarrels/0_INCLUDE.zsc"

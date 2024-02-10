@@ -1,5 +1,5 @@
 // Monsters
-#include "zscript/HDReenforcements/Monsters/Arachnotrons/0_INCLUDE.zsc"
-#include "zscript/HDReenforcements/Monsters/Barrels/0_INCLUDE.zsc"
+#include "./Arachnotrons/0_INCLUDE.zsc"
+#include "./Barrels/0_INCLUDE.zsc"
 //#include "zscript/HDReenforcements/Monsters/Imps/0_INCLUDE.zsc"
 //#include "zscript/HDReenforcements/Monsters/Zombies/0_INCLUDE.zsc"
