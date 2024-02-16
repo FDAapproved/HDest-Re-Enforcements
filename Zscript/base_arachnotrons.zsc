@@ -1,12 +1,12 @@
 // -----------------------------------------------------------------------------
-// Inherits Technospider behaviors. 
+// Inherits Manticore behaviors. 
 // -----------------------------------------------------------------------------
-class HDREArachnotron : TechnoSpider
+class HDREArachnotron : Manticore
 {
 }
 
 
-class TechnoSpiderBase : HDMobBase
+class ManticoreBase : HDMobBase
 {
 
 	int battery;
