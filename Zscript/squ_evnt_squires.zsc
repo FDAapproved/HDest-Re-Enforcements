@@ -87,13 +87,13 @@ override void worldthingspawned(worldevent e)
 	{
 		switch(e.Thing.GetClassName())
 		{
-			case 'Serpentipede':
+			case 'FighterImp':
 				trycreatesquire(e, spawnBiasActual);
 				break;
-			case 'Ardentipede':
+			case 'MageImp':
 				trycreatesquire(e, fireballersSpawnBiasActual);
 				break;
-			case 'Regentipede':
+			case 'HealerImp':
 				trycreatesquire(e, healersSpawnBiasActual);
 				break;
 			

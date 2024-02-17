@@ -1,4 +1,4 @@
-class HDREImp : Serpentipede
+class HDREImp : FighterImp
 {
 	// Uncolors sprites. 
 	override void postbeginplay()

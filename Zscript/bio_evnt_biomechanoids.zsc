@@ -86,8 +86,8 @@ override void checkreplacement(replaceevent e)
 	{
 		switch(e.Replacee.GetClassName())
 		{
-			case 'TechnoSpider':
-				e.replacement = trycreatemech("TechnoSpider", spawnBiasActual);
+			case 'Manticore':
+				e.replacement = trycreatemech("Manticore", spawnBiasActual);
 				break;
 		}
 	}
@@ -100,7 +100,7 @@ override void checkreplacee(replacedevent e)
 	{
 		case 'BiomechanoidMinor':
 		case 'BiomechanoidMajor':
-			e.replacee = trycreatemech("TechnoSpider", spawnBiasActual);
+			e.replacee = trycreatemech("Manticore", spawnBiasActual);
 			break;
 	}
 }
