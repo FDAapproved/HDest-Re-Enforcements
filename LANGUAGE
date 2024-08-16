@@ -1,3 +1,9 @@
 [en default]
 
 REENFORCEMENTS_MENU = "\c[Brown]Ⓡ\c- HDest Re-Enforcements";
+
+// Menu Option Values
+MENU_ENABLED = "Enabled";
+MENU_DISABLED = "Disabled";
+MENU_REPLACEALL = "Replace All";
+MENU_WITHALL = "With All";
