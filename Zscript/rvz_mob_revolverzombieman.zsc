@@ -457,22 +457,22 @@ class RevolverZombieman : HDRERevolver
 	
 	
 	// The living xdeath. Makes cover. 
-	XDeath:
+	Gib:
 		HARY M 5;
 		HARY N 5
 		{
-			A_SpawnItemEx("MegaBloodSplatter",0,0,height/2,0,ALLOW_REPLACE);
+			A_GibSplatter();
 			A_NoBlocking();
 			A_XScream();
 		}
-		HARY OP   5 A_SpawnItemEx("MegaBloodSplatter",0,0,height/2,0,ALLOW_REPLACE);
+		HARY OP   5 A_GibSplatter();
 		HARY QRST 5;
-		goto xdead;
+		goto gibbed;
 
 
 
-	// Falls down into Xdead. Doesn't make cover. 
-	XXXDeath:
+	// Falls down into Gibbed. Doesn't make cover. 
+	DeadGib:
 		HARY M 5;
 		HARY N 5
 		{	
@@ -483,9 +483,9 @@ class RevolverZombieman : HDRERevolver
 
 
 
-	XDead:
+	Gibbed:
 		HARY U 3 canraise A_JumpIf(abs(vel.z)<2.0, 1);
-		HARY V 5 canraise A_JumpIf(abs(vel.z)>=2.0, "xdead");
+		HARY V 5 canraise A_JumpIf(abs(vel.z)>=2.0, "gibbed");
 		wait;
 	
 

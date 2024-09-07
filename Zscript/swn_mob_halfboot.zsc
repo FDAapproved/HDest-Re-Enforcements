@@ -340,23 +340,23 @@ class SawnoffZombieman : HDREZombieman
 		#### A 0 A_Jump(256,"see");
 		
 		
-	xdeath:
+	gib:
 		#### G 5;
 		#### H 5
 		{
-			spawn("MegaBloodSplatter",pos+(0,0,34),ALLOW_REPLACE);
+			A_GibSplatter();
 			A_XScream();
 		}
-		#### OP 5 spawn("MegaBloodSplatter",pos+(0,0,34),ALLOW_REPLACE);
+		#### OP 5 A_GibSplatter();
 		#### QRSTU 5;
-		goto xdead;
-	xxxdeath:
+		goto gibbed;
+	deadgib:
 		#### P 5;
 		#### Q 5 A_XScream();
 		#### RSTU 5;
-	xdead:
+	gibbed:
 		#### V 3 canraise{if(abs(vel.z)<2.)frame++;}
-		#### W 5 canraise{if(abs(vel.z)>=2.)setstatelabel("xdead");}
+		#### W 5 canraise{if(abs(vel.z)>=2.)setstatelabel("gibbed");}
 		wait;
 	ungib:
 		#### V     12;
