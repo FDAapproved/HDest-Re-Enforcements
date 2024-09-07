@@ -18,22 +18,22 @@ OptionMenu SawnZombies
    	StaticText ""
 	StaticText "Marines", 1
     StaticText  "Control the replacement rate for ZM Marines.        ", "white"
-	Option "ZM Spawn Rate: ", "swn_marine_spawn_bias", "SpawnBias"
+	ScaleSlider "ZM Spawn Rate: ", "swn_marine_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset ZM.S options", "resetcvar swn_marine_spawn_bias"
 	StaticText ""
 	StaticText "Side-by-Side Jackboots", 1
     StaticText  "Control the replacement rate for SSG Zombies.       ", "white"
-	Option "SSG Spawn Rate: ", "swn_slayer_spawn_bias", "SpawnBias"
+	ScaleSlider "SSG Spawn Rate: ", "swn_slayer_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset SSG.S options", "resetcvar swn_slayer_spawn_bias"
 	StaticText ""
 	StaticText "Hunter Jackboots", 1
     StaticText  "Control the replacement rate for SG Zombies.        ", "white"
-	Option "SG Spawn Rate: ", "swn_hunter_spawn_bias", "SpawnBias"
+	ScaleSlider "SG Spawn Rate: ", "swn_hunter_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset SG.S options", "resetcvar swn_hunter_spawn_bias"
 	StaticText ""
 	StaticText "Corpses", 1
     StaticText  "Control the replacement rate for SG Corpses.        ", "white"
-	Option "Corpse Spawn Rate: ", "swn_corpse_spawn_bias", "SpawnBias"
+	ScaleSlider "Corpse Spawn Rate: ", "swn_corpse_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset corpse options", "resetcvar swn_corpse_spawn_bias"
  	StaticText ""
    	StaticText ""
@@ -46,25 +46,6 @@ OptionMenu SawnZombies
 	StaticText "Reset Options", "cyan"
 	SafeCommand "Reset all options    ", "swn_reset_cvars"
 }
-
-
-
-OptionValue "SpawnBias"
-{
-	-1,    "Disabled"
-	 0,    "Replace All"
-	 2,    "1 in 3"
-	 4,    "1 in 5"
-	 9,    "1 in 10"
-	 14,   "1 in 15"
-	 19,   "1 in 20"
-	 24,   "1 in 25"
-	 49,   "1 in 50"
-	 99,   "1 in 100"
-	 149,  "1 in 150"
-	 199,  "1 in 200"
-}
-
 
 AddOptionMenu "HDestReEnforcements"
 {

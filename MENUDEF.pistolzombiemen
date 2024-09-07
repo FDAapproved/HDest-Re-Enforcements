@@ -10,7 +10,7 @@ OptionMenu PistolZombies
 	StaticText "Pistol Zombie Options", "cyan"
 	StaticText "Firemode", 1
     StaticText  "Control the spawn rate of selectfire Pistol Zombies.     ", "white"
-	Option " P.Z.Fire Spawn Rate: ", "psz_firemode_chance_bias", "SpawnBias"
+	ScaleSlider " P.Z.Fire Spawn Rate: ", "psz_firemode_chance_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset pis.fire options", "resetcvar psz_firemode_chance_bias"
  	StaticText ""
    	StaticText ""
@@ -18,22 +18,22 @@ OptionMenu PistolZombies
    	StaticText ""
 	StaticText "Full-auto", 1
     StaticText  "Control the spawn rate of Pistol Zombies (auto).        ", "white"
-	Option " P.Z.Auto Spawn Rate: ", "psz_autos_spawn_bias", "SpawnBias"
+	ScaleSlider " P.Z.Auto Spawn Rate: ", "psz_autos_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset pis.auto options", "resetcvar psz_autos_spawn_bias"
 	StaticText ""
 	StaticText "Semi-auto", 1
     StaticText  "Control the spawn rate of Pistol Zombies (semi).        ", "white"
-	Option " P.Z.Semi Spawn Rate: ", "psz_semis_spawn_bias", "SpawnBias"
+	ScaleSlider " P.Z.Semi Spawn Rate: ", "psz_semis_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset pis.semi options", "resetcvar psz_semis_spawn_bias"
  	StaticText ""
 	StaticText "SMG", 1
     StaticText  "Control the spawn rate of Pistol Zombies (smg).         ", "white"
-	Option " P.Z.SMG  Spawn Rate: ", "psz_smgs_spawn_bias", "SpawnBias"
+	ScaleSlider " P.Z.SMG  Spawn Rate: ", "psz_smgs_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset pis.smg options", "resetcvar psz_smgs_spawn_bias"
  	StaticText ""
 	StaticText "Dead", 1
     StaticText  "Control the spawn rate of Pistol Zombies (corpses).    ", "white"
-	Option " P.Z.Dead Spawn Rate: ", "psz_corpse_spawn_bias", "SpawnBias"
+	ScaleSlider " P.Z.Dead Spawn Rate: ", "psz_corpse_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
 	SafeCommand "Reset pis.dead options", "resetcvar psz_corpse_spawn_bias"
  	StaticText ""
    	StaticText ""
@@ -45,22 +45,4 @@ OptionMenu PistolZombies
    	StaticText ""
 	StaticText "Reset Options", "cyan"
 	SafeCommand "Reset all options    ", "psz_reset_cvars"
-}
-
-
-
-OptionValue "SpawnBias"
-{
-	-1,    "Disabled"
-	 0,    "Replace All"
-	 2,    "1 in 3"
-	 4,    "1 in 5"
-	 9,    "1 in 10"
-	 14,   "1 in 15"
-	 19,   "1 in 20"
-	 24,   "1 in 25"
-	 49,   "1 in 50"
-	 99,   "1 in 100"
-	 149,  "1 in 150"
-	 199,  "1 in 200"
 }

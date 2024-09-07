@@ -85,7 +85,7 @@ class ManticoreBase : HDMobBase
 	}
 	States
 	{
-		xdeath:
+		gib:
 			stop;
 	}
 }
