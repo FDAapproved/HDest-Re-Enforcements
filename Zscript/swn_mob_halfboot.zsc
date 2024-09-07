@@ -238,7 +238,10 @@ class SawnoffZombieman : HDREZombieman
 			pitch+=frandom(0,shotspread)-frandom(0,shotspread);
 
 			pitch+=frandom(0,0.3);  //anticipate recoil
-			setstatelabel("shootssg");
+
+			// Force into Reload if 2 or more rounds spent or no rounds loaded
+			if (gunspent>1||gunloaded<1)setstatelabel("reload");
+			else setstatelabel("shootssg");
 		}
 
 	shootssg:
