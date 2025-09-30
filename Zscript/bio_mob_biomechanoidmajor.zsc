@@ -27,7 +27,7 @@
 			{
 				volley_i = random(2,3);
 			}
-			goto super::seeloop;
+			goto super::SeeLoop;
 		
 	
 		Missile:
@@ -46,11 +46,11 @@
 				windup_i--;
 			}
 			#### # 0 A_JumpIf(windup_i>1, "MissileLoop");
-			goto super::missilefire;
+			goto super::MissileFire;
 			
 			
-		differentshot:
-			goto super::shootleft;
+		DifferentShot:
+			goto super::ShootLeft;
 			
 		ShootBoth:
 			#### # 0
@@ -102,6 +102,7 @@
 	death:
 		#### # 0
 		{
+			statecantfly=true;
 			A_Immolate(invoker, invoker, 10);
 		}
 		goto super::deathactual;
