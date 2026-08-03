@@ -15,7 +15,7 @@ OptionMenu RealKillerBarrels
 	StaticText ""
 	StaticText "Barrel Spawn Options", "cyan"
     StaticText  "Control the spawn rate of Mimic Barrels.", "white"
-	ScaleSlider "Spawn Rate: ", "brl_barrel_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "Spawn Rate: ", "brl_barrel_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset b.spawn options", "resetcvar brl_barrel_spawn_bias"
    	StaticText ""
     StaticText  "Control the spawn rate of bale-firing mimic barrels.", "white"
@@ -25,7 +25,7 @@ OptionMenu RealKillerBarrels
 	StaticText ""
 	StaticText "Firecan Spawn Options", "cyan"
     StaticText  "Control the spawn rate of Mimic Firecans.", "white"
-	ScaleSlider "Spawn Rate: ", "brl_firecan_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "Spawn Rate: ", "brl_firecan_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset c.spawn options", "resetcvar brl_firecan_spawn_bias"
    	StaticText ""
     StaticText  "Control the spawn rate of fire-firing mimic firecans.", "white"

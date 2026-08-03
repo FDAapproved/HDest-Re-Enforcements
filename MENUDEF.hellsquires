@@ -8,15 +8,15 @@ OptionMenu HellSquires
    	StaticText ""
 	StaticText "Spawn Options", 1
     StaticText  "Control the spawn rate of Hell Squires (fireballers)", "white"
-	ScaleSlider " H.S.Fire Spawn Rate: ", "squ_fireballers_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " H.S.Fire Spawn Rate: ", "squ_fireballers_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset squ.ballers  options", "resetcvar squ_fireballers_spawn_bias"
  	StaticText ""
     StaticText  "Control the spawn rate of Hell Squires (healers)    ", "white"
-	ScaleSlider " H.S.Heal Spawn Rate: ", "squ_healers_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " H.S.Heal Spawn Rate: ", "squ_healers_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset squ.healers  options", "resetcvar squ_healers_spawn_bias"
  	StaticText ""
     StaticText  "Control the spawn rate of Hell Squires (regulars)   ", "white"
-	ScaleSlider " H.S.Imps Spawn Rate: ", "squ_regulars_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " H.S.Imps Spawn Rate: ", "squ_regulars_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset squ.regulars  options", "resetcvar squ_regulars_spawn_bias"
  	StaticText ""
     StaticText  "Control whether replacements happen after a mapload.", "white"

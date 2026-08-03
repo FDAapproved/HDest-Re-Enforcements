@@ -1,48 +1,48 @@
 // Hell Squires
 // squ-suq-squat are you talking about???
-server int  squ_regulars_spawn_bias    = 49;
-server int  squ_fireballers_spawn_bias = 4;
-server int  squ_healers_spawn_bias     = 9;
-server bool squ_persistent_spawning    = false;
+server float squ_regulars_spawn_bias    = 0.02;
+server float squ_fireballers_spawn_bias = 0.2;
+server float squ_healers_spawn_bias     = 0.1;
+server bool  squ_persistent_spawning    = false;
 
 // Mimic Barrels
 // brl o fun that'll make you run. 
-server int  brl_barrel_spawn_bias  = 19;
-server int  brl_barrel_bale_bias   = -2;
-server int  brl_firecan_spawn_bias =  9;
-server int  brl_firecan_fire_bias  = -2;
-server bool brl_persistent_spawning = false;
-server bool brl_obviousness         = false;
+server float brl_barrel_spawn_bias      = 0.05;
+server float brl_barrel_bale_bias       = 0.05;
+server float brl_firecan_spawn_bias     = 0.1;
+server float brl_firecan_fire_bias      = 0.05;
+server bool  brl_persistent_spawning    = false;
+server bool  brl_obviousness            = false;
 
 // Revolver Zombies.
 // I may... rvz... these names later.
-server int  rvz_autos_spawn_bias    = 9;
-server int  rvz_semis_spawn_bias    = 4;
-server int  rvz_smgs_spawn_bias     = 9;
-server int  rvz_corpse_spawn_bias   = 9;
-server int  rvz_355_chance_bias     = 4;
-server bool rvz_persistent_spawning = false;
+server float rvz_autos_spawn_bias       = 0.1;
+server float rvz_semis_spawn_bias       = 0.2;
+server float rvz_smgs_spawn_bias        = 0.1;
+server float rvz_corpse_spawn_bias      = 0.1;
+server float rvz_355_chance_bias        = 0.2;
+server bool  rvz_persistent_spawning    = false;
 
 // Pistol Zombies.
 // Pistol Zombies are a thing already? Aw, psz... 
-server int  psz_autos_spawn_bias     = 9;
-server int  psz_semis_spawn_bias     = 4;
-server int  psz_smgs_spawn_bias      = 9;
-server int  psz_corpse_spawn_bias    = 9;
-server int  psz_firemode_chance_bias = 4;
-server bool psz_persistent_spawning  = false;
+server float psz_autos_spawn_bias       = 0.1;
+server float psz_semis_spawn_bias       = 0.2;
+server float psz_smgs_spawn_bias        = 0.1;
+server float psz_corpse_spawn_bias      = 0.1;
+server float psz_firemode_chance_bias   = 0.2;
+server bool  psz_persistent_spawning    = false;
 
 // Biomechanoids.
 // L + PLASMA IN BIO
-server int  bio_spawn_bias          = 9;
-server int  bio_major_spawn_bias    = 9;
-server bool bio_persistent_spawning = false;
+server float bio_spawn_bias             = 0.1;
+server float bio_major_spawn_bias       = 0.1;
+server bool  bio_persistent_spawning    = false;
 
 // Sawn-off Zombies.
 // swn dancer and/or hndbreaker.
-server bool swn_ignore_peppergrinder = false;
-server int  swn_marine_spawn_bias = 49;
-server int  swn_slayer_spawn_bias = 9;
-server int  swn_hunter_spawn_bias = 9;
-server int  swn_corpse_spawn_bias = 9;
-server bool swn_persistent_spawning  = false;
+server bool  swn_ignore_peppergrinder   = false;
+server float swn_marine_spawn_bias      = 0.02;
+server float swn_slayer_spawn_bias      = 0.1;
+server float swn_hunter_spawn_bias      = 0.1;
+server float swn_corpse_spawn_bias      = 0.1;
+server bool  swn_persistent_spawning    = false;

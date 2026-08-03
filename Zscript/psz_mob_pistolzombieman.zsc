@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 
 // Dead corpse, because corpse variety is neat. 
-class PistolZombiemanCorpse: PistolZombieman
+class PistolZombiemanCorpse : PistolZombieman
 {
 	override void postbeginplay()
 	{
@@ -417,5 +417,19 @@ class PistolZombieman : HDREZombieman
 		#### SRQ 6;
 		#### PONM 4;
 		#### A 0 A_Jump(256,"see");
+	}
+}
+
+class PistolZombieFireSelect : PistolZombieman {
+	override void PostBeginPlay() {
+		A_setfiremode(true);
+		super.PostBeginPlay();
+	}
+}
+
+class PistolZombieSemi : PistolZombieman {
+	override void PostBeginPlay() {
+		A_setfiremode(false);
+		super.PostBeginPlay();
 	}
 }

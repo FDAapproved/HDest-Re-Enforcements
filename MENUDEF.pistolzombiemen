@@ -10,7 +10,7 @@ OptionMenu PistolZombies
 	StaticText "Pistol Zombie Options", "cyan"
 	StaticText "Firemode", 1
     StaticText  "Control the spawn rate of selectfire Pistol Zombies.     ", "white"
-	ScaleSlider " P.Z.Fire Spawn Rate: ", "psz_firemode_chance_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " P.Z.Fire Spawn Rate: ", "psz_firemode_chance_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset pis.fire options", "resetcvar psz_firemode_chance_bias"
  	StaticText ""
    	StaticText ""
@@ -18,22 +18,22 @@ OptionMenu PistolZombies
    	StaticText ""
 	StaticText "Full-auto", 1
     StaticText  "Control the spawn rate of Pistol Zombies (auto).        ", "white"
-	ScaleSlider " P.Z.Auto Spawn Rate: ", "psz_autos_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " P.Z.Auto Spawn Rate: ", "psz_autos_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset pis.auto options", "resetcvar psz_autos_spawn_bias"
 	StaticText ""
 	StaticText "Semi-auto", 1
     StaticText  "Control the spawn rate of Pistol Zombies (semi).        ", "white"
-	ScaleSlider " P.Z.Semi Spawn Rate: ", "psz_semis_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " P.Z.Semi Spawn Rate: ", "psz_semis_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset pis.semi options", "resetcvar psz_semis_spawn_bias"
  	StaticText ""
 	StaticText "SMG", 1
     StaticText  "Control the spawn rate of Pistol Zombies (smg).         ", "white"
-	ScaleSlider " P.Z.SMG  Spawn Rate: ", "psz_smgs_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " P.Z.SMG  Spawn Rate: ", "psz_smgs_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset pis.smg options", "resetcvar psz_smgs_spawn_bias"
  	StaticText ""
 	StaticText "Dead", 1
     StaticText  "Control the spawn rate of Pistol Zombies (corpses).    ", "white"
-	ScaleSlider " P.Z.Dead Spawn Rate: ", "psz_corpse_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " P.Z.Dead Spawn Rate: ", "psz_corpse_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset pis.dead options", "resetcvar psz_corpse_spawn_bias"
  	StaticText ""
    	StaticText ""

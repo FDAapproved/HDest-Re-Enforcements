@@ -11,12 +11,12 @@ OptionMenu BioMechs
    	StaticText ""
 	StaticText "Minor Biomechs", 1
     StaticText  "Control the spawn rate of Biomechs (minor).        ", "white"
-	ScaleSlider " Minor Spawn Rate: ", "bio_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " Minor Spawn Rate: ", "bio_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset minor  options", "resetcvar bio_spawn_bias"
 	StaticText ""
 	StaticText "Major Biomechs", 1
     StaticText  "Control the spawn rate of Biomechs (major).        ", "white"
-	ScaleSlider " Minor Spawn Rate: ", "bio_major_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " Minor Spawn Rate: ", "bio_major_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset major  options", "resetcvar bio_major_spawn_bias"
  	StaticText ""
    	StaticText ""

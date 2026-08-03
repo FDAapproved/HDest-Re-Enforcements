@@ -2,21 +2,19 @@
 // More than enough to kill anything that moves... and that you hit. With bulle-
 //------------------------------------------------------------------------------
 
-// For mappers. Uncomment these if you want to use them in a map, and 
+// For mappers. Uncomment thingids if you want to use them in a map, and 
 // tweak thingids accordingly.
-/*
-class RevolverZombieman9mm : RevolverZombieman 21222
+class RevolverZombieman9mm : RevolverZombieman /* 21222 */
 {
 	override void postbeginplay()
 	{
 		super.postbeginplay();
 		A_setpreference(false);
 		A_HDWRevolverRandomizeAmmo();
-
 	}	
 }
 
-class RevolverZombieman355 : RevolverZombieman 21223
+class RevolverZombieman355 : RevolverZombieman /* 21223 */
 {
 	override void postbeginplay()
 	{
@@ -25,7 +23,7 @@ class RevolverZombieman355 : RevolverZombieman 21223
 		A_HDWRevolverRandomizeAmmo();
 	}
 }
-*/
+
 
 // Where the magic happens. 
 class RevolverZombieman : HDRERevolver

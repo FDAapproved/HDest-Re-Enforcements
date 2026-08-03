@@ -1,12 +1,12 @@
 // -----------------------------------------------------------------------------
-// Inherits Manticore behaviors. 
+// Inherits Balor behaviors. 
 // -----------------------------------------------------------------------------
-class HDREArachnotron : Manticore
+class HDREArachnotron : Balor
 {
 }
 
 
-class ManticoreBase : HDMobBase
+class BalorBase : HDMobBase
 {
 
 	int battery;

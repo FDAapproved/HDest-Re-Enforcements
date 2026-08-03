@@ -1,0 +1,83 @@
+// Zombieman Spawn Tables
+newSpawnTable => { "spawnName": "ZombieSemiStormtrooper", "addOriginalThing": "true", "persists": "true" }
+newSpawnTable => { "spawnName": "ZombieSMGStormtrooper", "addOriginalThing": "true", "persists": "true" }
+newSpawnTable => { "spawnName": "ZombieAutoStormtrooper", "addOriginalThing": "true", "persists": "true" }
+
+// Shotgunner Spawn Tables
+newSpawnTable => { "spawnName": "UndeadJackbootman", "addOriginalThing": "true", "persists": "true" }
+newSpawnTable => { "spawnName": "JackAndJillboot", "addOriginalThing": "true", "persists": "true" }
+newSpawnTable => { "spawnName": "Jackboot", "addOriginalThing": "true", "persists": "true" }
+
+
+// Pistol Zombieman Spawn Entries
+// addSpawnTableNestedEntry => { "tableName": "ZombieManReplaces", "name": "HDRE.PistolZombieSpawns", "weight": "#psz_autos_spawn_bias", "persists": "#psz_persistent_spawning" }
+addSpawnTableNestedEntry => { "tableName": "ZombieSemiStormtrooper", "name": "HDRE.PistolZombieSpawns", "weight": "#psz_semis_spawn_bias", "persists": "#psz_persistent_spawning" }
+addSpawnTableNestedEntry => { "tableName": "ZombieSMGStormtrooper", "name": "HDRE.PistolZombieSpawns", "weight": "#psz_smgs_spawn_bias", "persists": "#psz_persistent_spawning" }
+addSpawnTableNestedEntry => { "tableName": "ZombieAutoStormtrooper", "name": "HDRE.PistolZombieSpawns", "weight": "#psz_autos_spawn_bias", "persists": "#psz_persistent_spawning" }
+
+addSpawnTableSingleEntry => { "tableName": "HDRE.PistolZombieSpawns", "name": "PistolZombieFireSelect", "weight": "#psz_firemode_chance_bias", "persists": "#psz_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDRE.PistolZombieSpawns", "name": "PistolZombieSemi", "weight": "1.0", "persists": "#psz_persistent_spawning" }
+
+addSpawnTableSingleEntry => { "tableName": "DeadZombieManReplaces", "name": "PistolZombiemanCorpse", "weight": "#psz_corpse_spawn_bias", "persists": "#psz_persistent_spawning" }
+
+
+// Revolver Zombieman Spawn Entries
+// addSpawnTableNestedEntry => { "tableName": "ZombieManReplaces", "name": "HDRE.RevolverZombieSpawns", "weight": "#rvz_autos_spawn_bias", "persists": "#rvz_persistent_spawning" }
+addSpawnTableNestedEntry => { "tableName": "ZombieSemiStormtrooper", "name": "HDRE.RevolverZombieSpawns", "weight": "#rvz_semis_spawn_bias", "persists": "#rvz_persistent_spawning" }
+addSpawnTableNestedEntry => { "tableName": "ZombieSMGStormtrooper", "name": "HDRE.RevolverZombieSpawns", "weight": "#rvz_smgs_spawn_bias", "persists": "#rvz_persistent_spawning" }
+addSpawnTableNestedEntry => { "tableName": "ZombieAutoStormtrooper", "name": "HDRE.RevolverZombieSpawns", "weight": "#rvz_autos_spawn_bias", "persists": "#rvz_persistent_spawning" }
+
+addSpawnTableSingleEntry => { "tableName": "HDRE.RevolverZombieSpawns", "name": "RevolverZombieman355", "weight": "#rvz_355_chance_bias", "persists": "#rvz_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDRE.RevolverZombieSpawns", "name": "RevolverZombieman9mm", "weight": "1.0", "persists": "#rvz_persistent_spawning" }
+
+addSpawnTableSingleEntry => { "tableName": "DeadZombieManReplaces", "name": "RevolverZombiemanCorpse", "weight": "#rvz_corpse_spawn_bias", "persists": "#rvz_persistent_spawning" }
+
+
+// Sawn-Off Zombie Spawn Entries
+// addSpawnTableNestedEntry => { "tableName": "ShotgunGuyReplaces", "name": "SawnoffZombieman", "weight": "#swn_autos_spawn_bias", "persists": "#swn_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "UndeadJackbootman", "name": "SawnoffZombieman", "weight": "#swn_marine_spawn_bias", "persists": "#swn_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "JackAndJillboot", "name": "SawnoffZombieman", "weight": "#swn_slayer_spawn_bias", "persists": "#swn_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "Jackboot", "name": "SawnoffZombieman", "weight": "#swn_hunter_spawn_bias", "persists": "#swn_persistent_spawning" }
+
+addSpawnTableSingleEntry => { "tableName": "DeadShotgunGuyReplaces", "name": "SawnoffZombiemanCorpse", "weight": "#swn_corpse_spawn_bias", "persists": "#swn_persistent_spawning" }
+
+
+// Hell Squire Spawn Entries
+newSpawnTable => { "spawnName": "FighterImp", "addOriginalThing": "true", "persists": "true" }
+addSpawnTableSingleEntry => { "tableName": "FighterImp", "name": "HDHellSquire", "weight": "#squ_regulars_spawn_bias", "persists": "#squ_persistent_spawning" }
+
+newSpawnTable => { "spawnName": "MageImp", "addOriginalThing": "true", "persists": "true" }
+addSpawnTableSingleEntry => { "tableName": "MageImp", "name": "HDHellSquire", "weight": "#squ_fireballers_spawn_bias", "persists": "#squ_persistent_spawning" }
+
+newSpawnTable => { "spawnName": "HealerImp", "addOriginalThing": "true", "persists": "true" }
+addSpawnTableSingleEntry => { "tableName": "HealerImp", "name": "HDHellSquire", "weight": "#squ_healers_spawn_bias", "persists": "#squ_persistent_spawning" }
+
+
+// Bio-Mechanoid Spawn Entries
+addSpawnTableNestedEntry => { "tableName": "ArachnotronReplaces", "name": "HDRE.BiomechanoidSpawns", "weight": "#bio_spawn_bias", "persists": "#bio_persistent_spawning" }
+
+addSpawnTableSingleEntry => { "tableName": "HDRE.BiomechanoidSpawns", "name": "BiomechanoidMajor", "weight": "#bio_major_spawn_bias", "persists": "#bio_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDRE.BiomechanoidSpawns", "name": "BiomechanoidMinor", "weight": "1.0", "persists": "#bio_persistent_spawning" }
+
+
+// Barrel Spawn Entries
+addSpawnTableNestedEntry => { "tableName": "ExplosiveBarrelReplaces", "name": "HDRE.MimicBarrelSpawns", "weight": "#brl_barrel_spawn_bias", "persists": "#brl_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDRE.MimicBarrelSpawns", "name": "KillerMimicBarrel", "weight": "#brl_barrel_bale_bias", "persists": "#brl_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDRE.MimicBarrelSpawns", "name": "InnocentMimicBarrel", "weight": "1.0", "persists": "#brl_persistent_spawning" }
+
+addSpawnTableNestedEntry => { "tableName": "BurningBarrelReplaces", "name": "HDRE.MimicCanSpawns", "weight": "#brl_firecan_spawn_bias", "persists": "#brl_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDRE.MimicCanSpawns", "name": "KillerMimicCan", "weight": "#brl_firecan_fire_bias", "persists": "#brl_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDRE.MimicCanSpawns", "name": "InnocentMimicCan", "weight": "1.0", "persists": "#brl_persistent_spawning" }
+
+
+// Bounty Targets
+newMerchantBountyTarget => { "name": "HDREZombieman", "value": "250" }
+newMerchantBountyTarget => { "name": "HDREImp", "value": "300" }
+newMerchantBountyTarget => { "name": "HDHellSquire", "value": "450" }
+newMerchantBountyTarget => { "name": "HDREArachnotron", "value": "700" }
+
+
+// UaS Flashlight Support
+addFlashlightHumanClass => { "name": "HDREZombieman" }
+addFlashlightOtherClass => { "name": "HDREArachnotron" }
+addFlashlightOtherClass => { "name": "BalorBase" }

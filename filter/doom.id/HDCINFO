@@ -1,0 +1,7 @@
+// Since HDest in id Doom doesn't have a Pistol Zombie,
+// Add UndeadHomeboy table in case it doesn't already exist,
+// remove HDest UndeadHomeboy in case it does,
+// and insert HDRE Pistol Zombie in its place
+newSpawnTable => { "spawnName": "UndeadHomeboy", "addOriginalThing": "false", "persists": "true" }
+removeSpawnTableEntry => { "tableName": "UndeadHomeboy", "name": "UndeadHomeboy" }
+addSpawnTableNestedEntry => { "tableName": "UndeadHomeboy", "name": "HDRE.PistolZombieSpawns", "weight": "1.0", "persists": "true" }

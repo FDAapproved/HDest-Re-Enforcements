@@ -10,7 +10,7 @@ OptionMenu RevolverZombies
 	StaticText "Revolver Zombie Options", "cyan"
 	StaticText "Caliber", 1
     StaticText  "Control the spawn rate of .355 Rev. Zombies.        ", "white"
-	ScaleSlider " R.Z.Fire Spawn Rate: ", "rvz_355_chance_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " R.Z.Fire Spawn Rate: ", "rvz_355_chance_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset rev.355  options", "resetcvar rvz_355_chance_bias"
  	StaticText ""
    	StaticText ""
@@ -18,22 +18,22 @@ OptionMenu RevolverZombies
    	StaticText ""
 	StaticText "Full-auto", 1
     StaticText  "Control the spawn rate of Rev. Zombies (auto)        ", "white"
-	ScaleSlider " R.Z.Auto Spawn Rate: ", "rvz_autos_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " R.Z.Auto Spawn Rate: ", "rvz_autos_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset rev.auto  options", "resetcvar rvz_autos_spawn_bias"
 	StaticText ""
 	StaticText "Semi-auto", 1
     StaticText  "Control the spawn rate of Rev. Zombies (semi)        ", "white"
-	ScaleSlider " R.Z.Semi Spawn Rate: ", "rvz_semis_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " R.Z.Semi Spawn Rate: ", "rvz_semis_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset rev.semi  options", "resetcvar rvz_semis_spawn_bias"
  	StaticText ""
 	StaticText "SMG", 1
     StaticText  "Control the spawn rate of Rev. Zombies (smg)         ", "white"
-	ScaleSlider " R.Z.SMG  Spawn Rate: ", "rvz_smgs_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " R.Z.SMG  Spawn Rate: ", "rvz_smgs_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset rev.smg   options", "resetcvar rvz_smgs_spawn_bias"
  	StaticText ""
 	StaticText "Dead", 1
     StaticText  "Control the spawn rate of Rev. Zombies (corpses)     ", "white"
-	ScaleSlider " R.Z.Dead Spawn Rate: ", "rvz_corpse_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider " R.Z.Dead Spawn Rate: ", "rvz_corpse_spawn_bias",  0.0, 1000, .01, 3
 	SafeCommand "Reset rev.dead  options", "resetcvar rvz_corpse_spawn_bias"
  	StaticText ""
    	StaticText ""
